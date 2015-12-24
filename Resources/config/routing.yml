@@ -1,0 +1,3 @@
+hg_settings_index:
+    pattern:  /list
+    defaults: { _controller: HGSettingsBundle:Default:index }

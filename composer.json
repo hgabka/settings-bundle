@@ -1,0 +1,36 @@
+{
+    "name": "hgabka/settings-bundle",
+    "type": "symfony-bundle",
+    "description": "hgabka SettingsBundle",
+    "keywords": ["Settings management"],
+    "homepage": "http://sfhungary.eu",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gabor Harmat",
+            "email": "hgabka@sfhungary.eu"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "~2.1",
+        "twig/twig": "~1.5",
+        "doctrine/doctrine-bundle": "*",
+        "knplabs/doctrine-behaviors": "*",
+        "sonata-project/admin-bundle": "*",
+        "a2lix/translation-form-bundle": "*",
+        "trsteel/ckeditor-bundle": "*",
+        "hgabka/filerepo-bundle": "*",
+        "hgabka/utils-bundle": "*",
+        "sonata-project/admin-bundle": "*"
+    },
+    "require-dev": {
+        "symfony/yaml": "~2.1",
+        "symfony/validator": "~2.1"
+    },
+    "autoload": {
+        "psr-0": { "HG\\SettingsBundle": "" }
+    },
+    "target-dir": "HG/SettingsBundle"
+}

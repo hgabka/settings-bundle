@@ -1,0 +1,23 @@
+<td>
+{{ setting.getName }}
+</td>
+<td>
+{{ setting.getDescription }}
+</td>
+<td>
+{{ form_row(form[setting.getId]) }}
+</td>
+{% if creator %}
+<td>
+    <a href="{{ admin.generateObjectUrl('edit', setting) }}" class="btn edit_link btn-small" title="{{ 'action_edit'|trans({}, 'SonataAdminBundle') }}">
+        <i class="icon-edit"></i>
+        {{ 'action_edit'|trans({}, 'SonataAdminBundle') }}
+    </a>
+
+    <a href="{{ admin.generateObjectUrl('delete', setting) }}" class="btn delete_link btn-small" title="{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}">
+        <i class="icon-remove"></i>
+        {{ 'action_delete'|trans({}, 'SonataAdminBundle') }}
+    </a>
+</td>
+{% endif %}
+

@@ -1,0 +1,10 @@
+{% block choice_widget %}
+{% spaceless %}
+    {% if expanded %}
+        {{ block('choice_widget_expanded') }}
+    {% else %}
+        {{ block('choice_widget_collapsed') }}
+    {% endif %}
+{% endspaceless %}
+<div style="clear:both"></div>
+{% endblock choice_widget %}

@@ -1,0 +1,59 @@
+{% extends 'SonataAdminBundle:CRUD:list.html.twig' %}
+{% form_theme form 'HGSettingsBundle:Form:fields.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('bundles/hgsettings/css/setting_list.css') }}" type="text/css" media="all"  />
+{% endblock %}
+
+{% block actions %}
+    <div class="sonata-actions btn-group">
+      {% if creator %}
+        {% include 'SonataAdminBundle:Core:create_button.html.twig' %}
+      {% endif %}
+    </div>
+
+{% endblock %}
+{% block list_table %}
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+
+            <table class="table table-bordered table-striped">
+                {% block table_header %}
+                    <thead>
+                        <tr class="sonata-ba-list-field-header">
+                                        <th class="sonata-ba-list-field-header-text">
+                                            {{ admin.trans('hg_settings_header_name') }}
+                                        </th>
+
+                                        <th class="sonata-ba-list-field-header-text">
+                                            {{ admin.trans('hg_settings_header_description') }}
+                                        </th>
+
+                                        <th class="sonata-ba-list-field-header-text">
+                                            {{ admin.trans('hg_settings_header_value') }}
+                                        </th>
+                              {% if creator %}
+                                        <th class="sonata-ba-list-field-header-text">
+                                            {{ admin.trans('hg_settings_header_actions') }}
+                                        </th>
+                              {% endif %}
+                        </tr>
+                    </thead>
+                {% endblock %}
+
+                {% block table_body %}
+                    <tbody>
+                        {% for setting in settings %}
+                            <tr>
+                                {{ include('HGSettingsBundle:SettingAdmin:list_row.html.twig', { 'setting': setting, 'form' :  form, 'creator' : creator }) }}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                {% endblock %}
+
+            </table>
+{{ form_end(form) }}
+
+{% endblock %}

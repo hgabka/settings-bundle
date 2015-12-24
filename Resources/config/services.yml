@@ -1,0 +1,33 @@
+parameters:
+#    hg_settings.example.class: HG\SettingsBundle\Example
+
+services:
+    hg_settings.cache:
+        class: %hg_settings.cache_class%
+        arguments: [%hg_settings.cache_dir%]
+        public: false
+
+    hg_settings.manager:
+        class: %hg_settings.manager_class%
+        arguments: [@hg_settings.cache, @service_container, @doctrine.orm.entity_manager]
+
+    hg_settings.form.type.settings:
+        class: %hg_settings.form_class%
+        arguments: [@hg_settings.manager, @doctrine.orm.entity_manager]
+        tags:
+            - { name: form.type, alias: settings }
+
+    hg_settings.subscriber:
+        class: HG\SettingsBundle\EventListener\SettingSubscriber
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    hg_settings.admin.settings:
+        class: HG\SettingsBundle\Admin\SettingAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: hg_settings, label: hg_settings.admin.label, label_catalogue: 'HGSettingsBundle' }
+        arguments: [null, HG\SettingsBundle\Entity\Setting, HGSettingsBundle:SettingAdmin]
+        calls:
+          - [setManager, ["@hg_settings.manager"]]
+          - [setSecurityContext, ["@security.context"]]

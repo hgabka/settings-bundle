@@ -1,0 +1,26 @@
+HG\SettingsBundle\Entity\Setting:
+    type: entity
+    table: hg_setting
+    repositoryClass: HG\SettingsBundle\Entity\SettingRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 40
+        type:
+            type: string
+            length: 40
+        options:
+            type: string
+            length: 255
+            notnull: false
+        culture_aware:
+            type: boolean
+            default: true
+            notnull: false
+        general_value:
+            type: text
+            notnull: false

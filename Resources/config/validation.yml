@@ -1,0 +1,4 @@
+HG\SettingsBundle\Entity\Setting:
+    properties:
+        name:
+          - NotBlank: { message: "setting.name.not.blank" }

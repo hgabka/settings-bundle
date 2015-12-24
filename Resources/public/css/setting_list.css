@@ -1,0 +1,9 @@
+.sonata-ba-list input[type="radio"] {
+   float:left;
+   margin-right: 5px;
+}
+
+.sonata-ba-list input[type="radio"] + label {
+   float:left;
+   margin-right: 10px;
+}
