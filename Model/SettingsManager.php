@@ -33,7 +33,7 @@ class SettingsManager
   {
     $this->cache = $cache;
     $this->container = $container;
-    $this->request = $container->get('request');
+    $this->request = $container->isScopeActive('request') ? $container->get('request') : null;
     $this->entityManager = $entityManager;
     $this->uploadPath = $container->getParameter('hg_settings.upload_dir');
     $this->locales = $container->getParameter('hg_utils.available_locales');
