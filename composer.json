@@ -29,7 +29,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Hgabka\\SettingmcsBundle\\Tests\\sBundle\\Tests\\": "tests"
+            "Hgabka\\SettingsBundle\\Tests\\": "tests"
         }
     },
     "scripts": {
