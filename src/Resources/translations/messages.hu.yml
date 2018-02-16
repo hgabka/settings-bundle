@@ -1,0 +1,12 @@
+hg_settings:
+    types:
+        str: Karakterlánc
+        int: Egész szám
+        bool: 'Igaz/hamis érték'
+        email: Email cím
+        float: Szám
+    header:
+        name: Név
+        description: Leírás
+        value: Érték
+        actions: Műveletek

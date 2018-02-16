@@ -1,88 +1,68 @@
 <?php
 
-namespace HG\SettingsBundle\Entity;
+namespace Hgabka\SettingsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model as ORMBehaviors;
-use HG\FileRepositoryBundle\File\FileRepositoryUploadRequestInterface;
-use HG\FileRepositoryBundle\Entity\HGFile;
+use Hgabka\SettingsBundle\Enum\SettingTypes;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Setting
+ * Setting.
+ *
+ * @ORM\Table(name="hg_settings_settings")
+ * @ORM\Entity(repositoryClass="Hgabka\SettingsBundle\Repository\SettingRepository")
  */
 class Setting
 {
-  use ORMBehaviors\Translatable\Translatable;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
     /**
-     * @var integer
+     * @ORM\Column(type="string", length=10, nullable=false)
      */
-    private $id;
+    protected $type;
 
     /**
-     * @var string
+     * @ORM\Column(type="string", nullable=false)
      */
-    private $name;
+    protected $name;
 
     /**
-     * @var string
+     * @ORM\Column(type="string", nullable=false)
      */
-    private $type;
+    protected $description;
 
     /**
-     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer", groups={"TypeInt"})
+     * @Assert\Type(type="string", groups={"TypeStr"})
+     * @Assert\Type(type="float", groups={"TypeFloat"})
+     * @Assert\Choice(choices={0,1}, groups={"TypeBool"})
+     * @Assert\Email(groups={"TypeEmail"})
      */
-    private $options;
+    protected $value;
 
-    /**
-     * @var boolean
-     */
-    private $culture_aware;
-
-    /**
-     * @var string
-     */
-    private $general_value;
-
-
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function __toString()
     {
-        return $this->id;
+        return $this->getName();
     }
 
     /**
-     * Set type
-     *
-     * @param string $type
-     * @return Setting
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
      * @return string
      */
-    public function getType()
+    public function getName()
     {
-        return $this->type;
+        return $this->name;
     }
 
     /**
-     * Set name
+     * @param mixed $name
      *
-     * @param string $name
      * @return Setting
      */
     public function setName($name)
@@ -93,191 +73,86 @@ class Setting
     }
 
     /**
-     * Get name
+     * @param mixed $value
      *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set options
-     *
-     * @param string $options
      * @return Setting
      */
-    public function setOptions($options)
+    public function setValue($value)
     {
-        $this->options = $options;
+        $this->value = $value;
 
         return $this;
     }
 
     /**
-     * Get options
-     *
      * @return string
      */
-    public function getOptions()
+    public function getDescription()
     {
-        return $this->options;
+        return $this->description;
     }
 
     /**
-     * Set culture_aware
+     * @param mixed $description
      *
-     * @param boolean $cultureAware
      * @return Setting
      */
-    public function setCultureAware($cultureAware)
+    public function setDescription($description)
     {
-        $this->culture_aware = $cultureAware;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get culture_aware
-     *
-     * @return boolean
+     * @return string
      */
-    public function getCultureAware()
+    public function getType()
     {
-        return $this->culture_aware;
+        return $this->type;
     }
 
     /**
-     * Set general_value
+     * @param mixed $type
      *
-     * @param string $generalValue
      * @return Setting
      */
-    public function setGeneralValue($generalValue)
+    public function setType($type)
     {
-        $this->general_value = $generalValue;
+        $this->type = $type;
 
         return $this;
     }
 
     /**
-     * Get general_value
+     * The converted value.
      *
-     * @return string
+     * @return mixed
      */
-    public function getGeneralValue()
+    public function getValue()
     {
-        return $this->general_value;
+        return $this->value;
     }
 
-
-  /**
-  * Beállítja a kapott paramétert a setting értékének
-  *
-  * @param mixed $value
-  * @param string|null $culture - ha nem nyelvfüggő, akkor a general_value-t állítja, egyébként ezen nyelvű i18n-es rekord value-ját
-  */
-  public function setSettingValue($value, $culture = null)
-  {
-    if ($this->getType() == 'file' && $value instanceof FileRepositoryUploadRequestInterface)
+    public function getValueConverted()
     {
-      $value = $value->process(true);
-      $value = $value instanceof HGFile ? $value->getFilId() : null;
+        $val = $this->getValue();
+        if (null !== $val) {
+            switch ($this->getType()) {
+                case SettingTypes::INT:
+                    $val = (int)$val;
+                    break;
+                case SettingTypes::BOOL:
+                    $val = (bool)$val;
+                    break;
+                case SettingTypes::FLOAT:
+                    $val = (float)$val;
+                    break;
+                default:
+                    $val = (string)$val;
+            }
+        }
+
+        return $val;
     }
-    
-    if ($this->getCultureAware())
-    {
-      $this->setValue($value, $culture);
-    }
-    else
-    {
-      $this->setGeneralValue($value);
-    }
-  }
-
-
-  /**
-  * Visszaadja a paraméterben kapott culture-höz tartozó értéket
-  * Ha checkbox típusú, akkor bool konverziót is végez
-  *
-  * @param string|null $culture - ha nem nyelvfüggő, akkor a general_value-t adja a paramétertől függetlenül, egyébként ezen nyelvű i18n-es rekord value-ját
-  * @return mixed - az érték
-  */
-  public function getValueByCulture($culture = null)
-  {
-    $value = $this->getCultureAware() ? $this->getValue($culture) : $this->getGeneralValue();
-
-    if (!is_null($value) && $this->getType() == 'checkbox')
-    {
-      return (bool)$value;
-    }
-
-    return $value;
-  }
-
-  /**
-  * A fileeditable widget opcióit adja tömbben a setting jelenlegi értéke és az átadott culture alapján
-  *
-  * @param string|null $culture - ha nem nyelvfüggő, akkor a general_value-t használja a paramétertől függetlenül, egyébként ezen nyelvű i18n-es rekord value-ját
-  *
-  * @return array
-  */
-  public function getListFileWidgetOptions($culture = null)
-  {
-    $context = sfContext::getInstance();
-    $downloadUrl = $context->getController()->genUrl('@download_setting_file?id='.$this->getId().($culture ? '&culture='.$culture : ''));
-    $downloadLabel = $context->getI18N()->__('sf_settings_download_file');
-    $repoId = $this->getValueByCulture($culture);
-    $template = $repoId ?
-      '%input%<br /><a href="'.$downloadUrl.'" target="_blank">'.$downloadLabel.'</a>%delete% %delete_label%' :
-      '%input%';
-
-    return array(
-            'file_src' => $repoId ? hgabkaFileRepository::getInstance()->getFilePathById($repoId, true) : '',
-            'delete_label' => 'sf_settings_remove_file',
-            'template' => $template
-            );
-  }
-
-  public function setValue($value, $culture)
-  {
-    $this->translate($culture)->setValue($value);
-  }
-
-  public function getValue($culture)
-  {
-    return $this->translate($culture)->getValue();
-  }
-
-  public function setValuesByCultures($values)
-  {
-    foreach ($values as $culture => $value)
-    {
-      $this->setSettingValue($value, $culture);
-    }
-  }
-
-
- /**
-  * Visszaadja, hogy a beállítás fájl típusú-e (akár publikus, akár védett)
-  *
-  * @return bool - fájl típusú-e
-  */
-  public function isFileType()
-  {
-    return in_array($this->getType(), array('file'));
-  }
-
-  public function getDefaultLocale()
-  {
-    return '';
-  }
-
-  public function getDescription($locale = null)
-  {
-    return $this->translate($locale)->getDescription();
-  }
-
-
 }

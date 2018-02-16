@@ -1,7 +1,9 @@
 <?php
 
-namespace HG\SettingsBundle\Controller;
+namespace Hgabka\SettingsBundle\Controller;
 
+use Hgabka\SettingsBundle\Entity\Setting;
+use Hgabka\SettingsBundle\Form\SettingsType;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -10,12 +12,12 @@ class SettingAdminController extends Controller
 {
   public function listAction(Request $request = null)
   {
-    if (!$this->get('security.context')->isGranted($this->container->getParameter('hg_settings.editor_role')))
+    if (!$this->admin->isGranted($this->getParameter('hg_settings.editor_role')))
     {
       throw new AccessDeniedException();
     }
 
-    $form = $this->createForm('settings');
+    $form = $this->createForm(SettingsType::class);
 
     $form->handleRequest($request);
 
@@ -23,7 +25,7 @@ class SettingAdminController extends Controller
     {
         foreach ($form->getData() as $settingId => $values)
         {
-          $setting = $this->getDoctrine()->getManager()->getRepository('HGSettingsBundle:Setting')->findOneBy(array('id' => $settingId));
+          $setting = $this->getDoctrine()->getManager()->getRepository(Setting::class)->findOneBy(array('id' => $settingId));
 
           if (!$setting->getId())
           {
@@ -57,7 +59,7 @@ class SettingAdminController extends Controller
     }
 
 
-    return $this->render('HGSettingsBundle:SettingAdmin:list.html.twig', array('settings' => $this->getDoctrine()->getRepository('HGSettingsBundle:Setting')->findAll(), 'form' => $form->createView(), 'action' => 'list', 'creator' => $this->get('security.context')->isGranted($this->container->getParameter('hg_settings.creator_role'))));
+    return $this->render('HgabkaSettingsBundle:SettingAdmin:list.html.twig', array('settings' => $this->getDoctrine()->getRepository(Setting::class)->findAll(), 'form' => $form->createView(), 'action' => 'list', 'creator' => $this->getParameter('hg_settings.creator_role')));
   }
 
 }

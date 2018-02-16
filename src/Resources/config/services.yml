@@ -1,33 +1,44 @@
 parameters:
-#    hg_settings.example.class: HG\SettingsBundle\Example
+    hg_settings.settings_manager.class: 'Hgabka\SettingsBundle\Helper\SettingsManager'
 
 services:
-    hg_settings.cache:
-        class: %hg_settings.cache_class%
-        arguments: [%hg_settings.cache_dir%]
+    hg_settings.settings_twig_extension:
+        class: Hgabka\SettingsBundle\Twig\HgabkaSettingsTwigExtension
+        arguments: ['@hg_settings.settings_manager']
         public: false
-
-    hg_settings.manager:
-        class: %hg_settings.manager_class%
-        arguments: [@hg_settings.cache, @service_container, @doctrine.orm.entity_manager]
-
-    hg_settings.form.type.settings:
-        class: %hg_settings.form_class%
-        arguments: [@hg_settings.manager, @doctrine.orm.entity_manager]
         tags:
-            - { name: form.type, alias: settings }
+            - { name: twig.extension }
 
-    hg_settings.subscriber:
-        class: HG\SettingsBundle\EventListener\SettingSubscriber
-        arguments: ["@service_container"]
+    hg_settings.setting_subscriber:
+        class: Hgabka\SettingsBundle\EventListener\SettingSubscriber
+        arguments: ['@hg_settings.settings_manager']
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 
     hg_settings.admin.settings:
-        class: HG\SettingsBundle\Admin\SettingAdmin
+        class: Hgabka\SettingsBundle\Admin\SettingAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: hg_settings, label: hg_settings.admin.label, label_catalogue: 'HGSettingsBundle' }
-        arguments: [null, HG\SettingsBundle\Entity\Setting, HGSettingsBundle:SettingAdmin]
+            - { name: sonata.admin, manager_type: orm, group: hg_settings, label: hg_settings.admin.label, label_catalogue: 'HgabkaSettingsBundle' }
+        arguments: [null, Hgabka\SettingsBundle\Entity\Setting, HgabkaSettingsBundle:SettingAdmin]
         calls:
-          - [setManager, ["@hg_settings.manager"]]
-          - [setSecurityContext, ["@security.context"]]
+          - [setManager, ["@hg_settings.settings_manager"]]
+
+    hg_settings.form.settings:
+        class: Hgabka\SettingsBundle\Form\SettingsType
+        tags:
+            - { name: form.type }
+        arguments: ['@hg_settings.settings_manager', '@doctrine']
+
+    hg_settings.settings_manager:
+        class: '%hg_settings.settings_manager.class%'
+        arguments: ["@doctrine", "%kernel.cache_dir%"]
+        public: true
+
+    hg_settings.setting_voter:
+        class:  Hgabka\SettingsBundle\Security\SettingVoter
+        arguments: ['@security.access.decision_manager', '', '']
+        tags:
+            - { name: security.voter }
+        public: false
+
+    Hgabka\SettingsBundle\Helper\SettingsManager: '@hg_settings.settings_manager'
