@@ -59,7 +59,7 @@ class SettingAdminController extends Controller
     }
 
 
-    return $this->render('HgabkaSettingsBundle:SettingAdmin:list.html.twig', array('settings' => $this->getDoctrine()->getRepository(Setting::class)->findAll(), 'form' => $form->createView(), 'action' => 'list', 'creator' => $this->getParameter('hg_settings.creator_role')));
+    return $this->render('HgabkaSettingsBundle:SettingAdmin:list.html.twig', array('settings' => $this->getDoctrine()->getRepository(Setting::class)->findAll(), 'form' => $form->createView(), 'action' => 'list', 'creator' => $this->admin->isGranted($this->getParameter('hg_settings.creator_role'))));
   }
 
 }

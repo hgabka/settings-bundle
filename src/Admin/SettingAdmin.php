@@ -2,6 +2,7 @@
 
 namespace Hgabka\SettingsBundle\Admin;
 
+use Hgabka\SettingsBundle\Enum\SettingTypes;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -32,7 +33,7 @@ class SettingAdmin extends AbstractAdmin
                 'choices'     => $this->manager->getTypeChoices(),
                 'constraints' => [
                     new Choice([
-                        'choices' => array_keys($this->manager->getTypeChoices()),
+                        'choices' => (new SettingTypes())->loadSonataChoices(),
                         'message' => 'setting.type.invalid',
                     ]),
                 ],

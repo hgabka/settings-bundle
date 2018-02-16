@@ -47,7 +47,7 @@
                     <tbody>
                         {% for setting in settings %}
                             <tr>
-                                {{ include('HGSettingsBundle:SettingAdmin:list_row.html.twig', { 'setting': setting, 'form' :  form, 'creator' : creator }) }}
+                                {{ include('@HgabkaSettings/SettingAdmin/list_row.html.twig', { 'setting': setting, 'form' :  form, 'creator' : creator }) }}
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -5,15 +5,24 @@ namespace Hgabka\SettingsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Hgabka\SettingsBundle\Enum\SettingTypes;
 use Symfony\Component\Validator\Constraints as Assert;
+use Prezent\Doctrine\Translatable\Annotation as Prezent;
+use Prezent\Doctrine\Translatable\TranslatableInterface;
+use Hgabka\UtilsBundle\Traits\TranslatableTrait;
+use Hgabka\SettingsBundle\Entity\SettingTranslation;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Setting.
  *
  * @ORM\Table(name="hg_settings_settings")
  * @ORM\Entity(repositoryClass="Hgabka\SettingsBundle\Repository\SettingRepository")
+ * @UniqueEntity(fields={"name"}, message="A megadott névvel már létezik beállítás", errorPath="name")
  */
-class Setting
+class Setting implements TranslatableInterface
 {
+    use TranslatableTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -22,19 +31,43 @@ class Setting
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=false)
-     */
-    protected $type;
-
-    /**
      * @ORM\Column(type="string", nullable=false)
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(name="culture_aware", type="boolean", nullable=false)
      */
-    protected $description;
+    protected $cultureAware;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=false)
+     */
+    protected $type;
+
+    /**
+     * @ORM\Column(name="general_value", type="text", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer", groups={"TypeInt"})
+     * @Assert\Type(type="string", groups={"TypeStr"})
+     * @Assert\Type(type="float", groups={"TypeFloat"})
+     * @Assert\Choice(choices={0,1}, groups={"TypeBool"})
+     * @Assert\Email(groups={"TypeEmail"})
+     */
+    protected $generalValue;
+
+    /**
+     * @Prezent\Translations(targetEntity="Hgabka\SettingsBundle\Entity\SettingTranslation")
+     */
+    private $translations;
+
+    /**
+     * constructor.
+     */
+    public function __construct()
+    {
+        $this->translations = new ArrayCollection();
+    }
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -154,5 +187,10 @@ class Setting
         }
 
         return $val;
+    }
+
+    public static function getTranslationEntityClass()
+    {
+        return SettingTranslation::class;
     }
 }

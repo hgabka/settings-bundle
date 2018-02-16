@@ -4,7 +4,7 @@ namespace Hgabka\SettingsBundle\Enum;
 
 use Hgabka\UtilsBundle\Enums\ConstantsChoiceLoader;
 
-class RefreshIntervalChoices extends ConstantsChoiceLoader
+class SettingTypes extends ConstantsChoiceLoader
 {
     const STR = 'str';
     const INT = 'int';
