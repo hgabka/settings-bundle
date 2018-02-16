@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Validator\Constraints\Choice;
 use Sonata\CoreBundle\Validator\ErrorElement;
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 
 class SettingAdmin extends AbstractAdmin
 {
@@ -38,9 +39,9 @@ class SettingAdmin extends AbstractAdmin
                     ]),
                 ],
             ])
-            ->add('translations', 'a2lix_translations', [
+            ->add('translations', TranslationsType::class, [
                 'label'    => false,
-                'locales'  => $this->manager->getLocales(),
+                'locales'  => ['hu'],
                 'required' => false,
                 'fields'   => [
                     'description' => [

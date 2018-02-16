@@ -5,6 +5,7 @@ namespace Hgabka\SettingsBundle\Helper;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Hgabka\SettingsBundle\Entity\Setting;
+use Hgabka\UtilsBundle\Helper\HgabkaUtils;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 use Doctrine\Common\Inflector\Inflector;
 
@@ -15,6 +16,9 @@ class SettingsManager
      * @var Registry
      */
     protected $doctrine;
+
+    /** @var HgabkaUtils */
+    protected $utils;
     /**
      * @var string
      */
@@ -34,10 +38,11 @@ class SettingsManager
      * @param Registry $doctrine
      * @param $cacheDir
      */
-    public function __construct(ManagerRegistry $doctrine, $cacheDir)
+    public function __construct(ManagerRegistry $doctrine, HgabkaUtils $utils, $cacheDir)
     {
         $this->doctrine = $doctrine;
         $this->cacheDir = $cacheDir;
+        $this->utils = $utils;
     }
 
     /**
@@ -142,5 +147,10 @@ class SettingsManager
         }
 
         return $this->cache;
+    }
+
+    public function getLocales()
+    {
+        return $this->utils->getAvailableLocales();
     }
 }

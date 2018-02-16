@@ -80,6 +80,26 @@ class Setting implements TranslatableInterface
      */
     protected $value;
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     * @return Setting
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+
     public function __toString()
     {
         return $this->getName();
@@ -192,5 +212,43 @@ class Setting implements TranslatableInterface
     public static function getTranslationEntityClass()
     {
         return SettingTranslation::class;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCultureAware()
+    {
+        return $this->cultureAware;
+    }
+
+    /**
+     * @param mixed $cultureAware
+     * @return Setting
+     */
+    public function setCultureAware($cultureAware)
+    {
+        $this->cultureAware = $cultureAware;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGeneralValue()
+    {
+        return $this->generalValue;
+    }
+
+    /**
+     * @param mixed $generalValue
+     * @return Setting
+     */
+    public function setGeneralValue($generalValue)
+    {
+        $this->generalValue = $generalValue;
+
+        return $this;
     }
 }

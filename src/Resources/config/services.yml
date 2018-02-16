@@ -31,7 +31,7 @@ services:
 
     hg_settings.settings_manager:
         class: '%hg_settings.settings_manager.class%'
-        arguments: ["@doctrine", "%kernel.cache_dir%"]
+        arguments: ["@doctrine", '@hgabka_utils.hgabka_utils', "%kernel.cache_dir%"]
         public: true
 
     hg_settings.setting_voter:
