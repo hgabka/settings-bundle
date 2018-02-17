@@ -7,3 +7,9 @@
    float:left;
    margin-right: 10px;
 }
+
+td.has-error ul {
+   list-style-type: none;
+   padding-left:0;
+   color:#dd4b39;
+}

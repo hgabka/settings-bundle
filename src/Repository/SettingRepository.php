@@ -24,4 +24,17 @@ class SettingRepository extends EntityRepository
             ->getResult(Query::HYDRATE_ARRAY)
         ;
     }
+
+    /**
+     * @return array
+     */
+    public function getVisibleSettings()
+    {
+        return $this
+            ->createQueryBuilder('s')
+            ->where('s.visible = 1')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

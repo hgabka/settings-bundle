@@ -19,7 +19,7 @@ class SettingValidator extends ConstraintValidator
     }
 
     /**
-     * @param mixed $value
+     * @param mixed              $value
      * @param Constraint|Setting $constraint
      *
      * @throws \Exception
@@ -31,14 +31,17 @@ class SettingValidator extends ConstraintValidator
             case '=':
             case 'EQUALS':
                 $check = $value === $val;
+
                 break;
             case '>':
             case 'GREATER':
                 $check = $value > $val;
+
                 break;
             case '<':
             case 'LESSER':
                 $check = $value < $val;
+
                 break;
             default:
                 throw new \Exception('Invalid comparator');

@@ -4,62 +4,59 @@ namespace Hgabka\SettingsBundle\Controller;
 
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Form\SettingsType;
+use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class SettingAdminController extends Controller
 {
-  public function listAction(Request $request = null)
-  {
-    if (!$this->admin->isGranted($this->getParameter('hg_settings.editor_role')))
+    public function listAction(Request $request = null)
     {
-      throw new AccessDeniedException();
-    }
+        if (!$this->isGranted($this->getParameter('hg_settings.editor_role'))) {
+            throw new AccessDeniedException();
+        }
+        $manager = $this->get(SettingsManager::class);
 
-    $form = $this->createForm(SettingsType::class);
+        $form = $this->createForm(SettingsType::class);
 
-    $form->handleRequest($request);
+        $form->handleRequest($request);
 
-    if ($form->isValid())
-    {
-        foreach ($form->getData() as $settingId => $values)
-        {
-          $setting = $this->getDoctrine()->getManager()->getRepository(Setting::class)->findOneBy(array('id' => $settingId));
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                foreach ($form->getData() as $settingId => $values) {
+                    $setting = $this->getDoctrine()->getManager()->getRepository(Setting::class)->findOneBy(['id' => $settingId]);
 
-          if (!$setting->getId())
-          {
-            continue;
-          }
+                    if (!$setting->getId()) {
+                        continue;
+                    }
+                    $type = $manager->getType($setting->getType());
 
-          if (!$setting->getCultureAware())
-          {
-            if (isset($values['general_value']))
-            {
-              $setting->setSettingValue($values['general_value']);
+                    if (!$setting->isCultureAware()) {
+                        if (isset($values['general_value'])) {
+                            $setting->setGeneralValue($type->transformValue($values['general_value']));
+                        }
+                    } else {
+                        $manager->setValuesByCultures($setting, $values);
+                    }
+
+                    $em = $this->getDoctrine()->getManager();
+
+                    $em->persist($setting);
+                    $em->flush();
+                }
+
+                $manager->clearCache();
+                $this->addFlash('sonata_flash_success', $this->get('translator')->trans('hg_settings.message.settings_saved'));
+
+                return $this->redirectToList();
             }
-          }
-          else
-          {
-            $setting->setValuesByCultures($values);
-          }
-
-          $em = $this->getDoctrine()->getManager();
-          $setting->mergeNewTranslations();
-
-          $em->persist($setting);
-          $em->flush();
-
+            $this->addFlash('sonata_flash_error', $this->get('translator')->trans('hg_settings.message.settings_save_failed'));
         }
 
-        $this->get('hg_settings.manager')->clearCache();
-        $this->addFlash('sonata_flash_success', $this->get('translator')->trans('hg_settings_settings_saved'));
-
-        return $this->redirect($this->generateUrl('admin_hg_settings_setting_list'));
+        return $this->render(
+            '@HgabkaSettings/SettingAdmin/list.html.twig',
+            ['settings' => $this->getDoctrine()->getRepository(Setting::class)->getVisibleSettings(), 'form' => $form->createView(), 'action' => 'list', 'creator' => $this->admin->isGranted($this->getParameter('hg_settings.creator_role'))]
+        );
     }
-
-
-    return $this->render('HgabkaSettingsBundle:SettingAdmin:list.html.twig', array('settings' => $this->getDoctrine()->getRepository(Setting::class)->findAll(), 'form' => $form->createView(), 'action' => 'list', 'creator' => $this->admin->isGranted($this->getParameter('hg_settings.creator_role'))));
-  }
-
 }

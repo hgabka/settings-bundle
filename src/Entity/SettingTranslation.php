@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Prezent\Doctrine\Translatable\Annotation as Prezent;
 use Prezent\Doctrine\Translatable\Entity\TranslationTrait;
 use Prezent\Doctrine\Translatable\TranslationInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="hg_settings_settings_translation")
@@ -17,14 +16,19 @@ class SettingTranslation implements TranslationInterface
     use TranslationTrait;
 
     /**
-     * @Prezent\Translatable(targetEntity="Hgabka\SettingsBundle\Entity\Setting")
-     */
-    private $translatable;
-
-    /**
      * @ORM\Column(type="string", nullable=false)
      */
     protected $description;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $value;
+
+    /**
+     * @Prezent\Translatable(targetEntity="Hgabka\SettingsBundle\Entity\Setting")
+     */
+    private $translatable;
 
     /**
      * @return mixed
@@ -35,18 +39,8 @@ class SettingTranslation implements TranslationInterface
     }
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer", groups={"TypeInt"})
-     * @Assert\Type(type="string", groups={"TypeStr"})
-     * @Assert\Type(type="float", groups={"TypeFloat"})
-     * @Assert\Choice(choices={0,1}, groups={"TypeBool"})
-     * @Assert\Email(groups={"TypeEmail"})
-     */
-    protected $value;
-
-    /**
      * @param mixed $name
+     *
      * @return SettingTranslation
      */
     public function setName($name)
@@ -66,11 +60,32 @@ class SettingTranslation implements TranslationInterface
 
     /**
      * @param mixed $description
+     *
      * @return SettingTranslation
      */
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return SettingTranslation
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
 
         return $this;
     }

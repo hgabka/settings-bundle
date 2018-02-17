@@ -27,6 +27,7 @@ class SettingVoter extends Voter
      * BannerVoter constructor.
      *
      * @param string $editorRole
+     * @param mixed  $creatorRole
      */
     public function __construct(AccessDecisionManagerInterface $decisionManager, $editorRole, $creatorRole)
     {
@@ -61,6 +62,7 @@ class SettingVoter extends Voter
             case self::DELETE:
                 return $this->canDelete($subject, $token);
         }
+
         throw new \LogicException('This code should not be reached!');
     }
 

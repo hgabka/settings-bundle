@@ -1,0 +1,4 @@
+hg_settings:
+    group:  Beállítások
+    admin:
+        model_name: Beállítás

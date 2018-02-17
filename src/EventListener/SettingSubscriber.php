@@ -4,8 +4,6 @@ namespace Hgabka\SettingsBundle\EventListener;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Events;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 
@@ -39,7 +37,7 @@ class SettingSubscriber implements EventSubscriber
         if (!$object instanceof Setting) {
             return;
         }
-        $this->settingsManager->addToCache($object->getName(), $object->getValue());
+        $this->settingsManager->addSettingToCache($object);
     }
 
     public function preRemove(LifecycleEventArgs $args)
@@ -57,6 +55,6 @@ class SettingSubscriber implements EventSubscriber
         if (!$object instanceof Setting) {
             return;
         }
-        $this->settingsManager->addToCache($object->getName(), $object->getValue());
+        $this->settingsManager->addSettingToCache($object);
     }
 }

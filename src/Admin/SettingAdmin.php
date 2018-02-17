@@ -2,15 +2,13 @@
 
 namespace Hgabka\SettingsBundle\Admin;
 
-use Hgabka\SettingsBundle\Enum\SettingTypes;
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Validator\Constraints\Choice;
 use Sonata\CoreBundle\Validator\ErrorElement;
-use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class SettingAdmin extends AbstractAdmin
 {
@@ -20,43 +18,6 @@ class SettingAdmin extends AbstractAdmin
     public function setManager($manager)
     {
         $this->manager = $manager;
-    }
-
-
-    protected function configureFormFields(FormMapper $formMapper)
-    {
-        $formMapper
-            ->add('name', null, ['label' => 'hg_settings_label_name'])
-            ->add('culture_aware', 'checkbox', ['required' => false, 'label' => 'hg_settings_label_culture_aware'])
-            ->add('options', 'textarea', ['required' => false, 'label' => 'hg_settings_label_options'])
-            ->add('type', 'choice', [
-                'label'       => 'hg_settings_label_type',
-                'choices'     => $this->manager->getTypeChoices(),
-                'constraints' => [
-                    new Choice([
-                        'choices' => (new SettingTypes())->loadSonataChoices(),
-                        'message' => 'setting.type.invalid',
-                    ]),
-                ],
-            ])
-            ->add('translations', TranslationsType::class, [
-                'label'    => false,
-                'locales'  => ['hu'],
-                'required' => false,
-                'fields'   => [
-                    'description' => [
-                        'label'      => 'hg_settings_label_description',
-                        'required'   => false,
-                        'field_type' => 'textarea',
-                    ],
-                    'value'       => [
-                        'field_type' => 'hidden',
-                        'required'   => false,
-                    ],
-
-                ],
-            ])
-        ;
     }
 
     public function validate(ErrorElement $errorElement, $object)
@@ -69,7 +30,6 @@ class SettingAdmin extends AbstractAdmin
     {
         return [];
     }
-
 
     public function postUpdate($object)
     {
@@ -86,4 +46,81 @@ class SettingAdmin extends AbstractAdmin
         $this->manager->clearCache();
     }
 
+    public function getModelName()
+    {
+        return 'hg_settings.admin.model_name';
+    }
+
+    /**
+     * Get the list of actions that can be accessed directly from the dashboard.
+     *
+     * @return array
+     */
+    public function getDashboardActions()
+    {
+        $actions = [];
+        $container = $this->getConfigurationPool()->getContainer();
+        $authChecker = $container->get('security.authorization_checker');
+
+        if ($authChecker->isGranted($container->getParameter('hg_settings.creator_role'))) {
+            $actions['create'] = [
+                'label' => 'link_add',
+                'translation_domain' => 'SonataAdminBundle',
+                'template' => $this->getTemplate('action_create'),
+                'url' => $this->generateUrl('create'),
+                'icon' => 'plus-circle',
+            ];
+        }
+
+        if ($authChecker->isGranted($container->getParameter('hg_settings.editor_role'))) {
+            $actions['list'] = [
+                'label' => 'link_list',
+                'translation_domain' => 'SonataAdminBundle',
+                'url' => $this->generateUrl('list'),
+                'icon' => 'list',
+            ];
+        }
+
+        return $actions;
+    }
+
+    protected function configureFormFields(FormMapper $formMapper)
+    {
+        $formMapper
+            ->add('name', null, ['label' => 'hg_settings.label.name'])
+            ->add('type', ChoiceType::class, [
+                'label' => 'hg_settings.label.type',
+                'choices' => $this->manager->getTypeChoices(),
+            ])
+            ->add('culture_aware', CheckboxType::class, ['required' => false, 'label' => 'hg_settings.label.culture_aware'])
+            ->add('required', CheckboxType::class, [
+                'required' => false,
+                'label' => 'hg_settings.label.required',
+            ])
+            ->add('editable', CheckboxType::class, [
+                'required' => false,
+                'label' => 'hg_settings.label.editable',
+            ])
+            ->add('visible', CheckboxType::class, [
+                'required' => false,
+                'label' => 'hg_settings.label.visible',
+            ])
+            ->add('translations', TranslationsType::class, [
+                'label' => false,
+                'locales' => $this->manager->getLocales(),
+                'required' => false,
+                'fields' => [
+                    'description' => [
+                        'label' => 'hg_settings.label.description',
+                        'required' => false,
+                        'field_type' => 'textarea',
+                    ],
+                    'value' => [
+                        'field_type' => 'hidden',
+                        'required' => false,
+                    ],
+                ],
+            ])
+        ;
+    }
 }

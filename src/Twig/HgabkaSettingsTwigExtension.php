@@ -10,6 +10,7 @@ class HgabkaSettingsTwigExtension extends \Twig_Extension
      * @var SettingsManager
      */
     protected $settingManager;
+
     /**
      * PublicTwigExtension constructor.
      *
@@ -19,6 +20,7 @@ class HgabkaSettingsTwigExtension extends \Twig_Extension
     {
         $this->settingManager = $settingsManager;
     }
+
     /**
      * @return array
      */
@@ -28,6 +30,7 @@ class HgabkaSettingsTwigExtension extends \Twig_Extension
             new \Twig_SimpleFunction('get_setting', [$this, 'getSetting']),
         ];
     }
+
     /**
      * @param $slug
      *
@@ -37,6 +40,7 @@ class HgabkaSettingsTwigExtension extends \Twig_Extension
     {
         return $this->settingManager->get($slug);
     }
+
     /**
      * {@inheritdoc}
      */

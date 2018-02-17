@@ -1,23 +1,48 @@
+{% if creator %}
+    <td>
+        {{ setting.getName }}
+    </td>
+{% endif %}
 <td>
-{{ setting.getName }}
+    {{ setting.getDescription }}
+
 </td>
-<td>
-{{ setting.getDescription }}
-</td>
-<td>
-{{ form_row(form[setting.getId]) }}
+{% if not setting.cultureAware %}
+    {% set hasError = form[setting.id]['general_value'].vars.errors|length > 0 %}
+{% else %}
+    {% set hasError = false %}
+        {% for child in form[setting.id] %}
+            {% if not hasError %}
+                {% set hasError = child.vars.errors|length > 0 %}
+            {% endif %}
+        {% endfor %}
+{% endif %}
+<td{% if hasError %} class="has-error"{% endif %}>
+    {% if not setting.cultureAware %}
+        {{ form_widget(form[setting.id]['general_value']) }}
+        {{ form_errors(form[setting.id]['general_value']) }}
+    {% else %}
+        {% for child in form[setting.id] %}
+            {{ form_label(child) }}
+            {{ form_widget(child) }}
+            {{ form_errors(child) }}
+        {% endfor %}
+    {% endif %}
 </td>
 {% if creator %}
-<td>
-    <a href="{{ admin.generateObjectUrl('edit', setting) }}" class="btn edit_link btn-small" title="{{ 'action_edit'|trans({}, 'SonataAdminBundle') }}">
-        <i class="icon-edit"></i>
-        {{ 'action_edit'|trans({}, 'SonataAdminBundle') }}
-    </a>
+    <td>
+        <div class="btn-group">
 
-    <a href="{{ admin.generateObjectUrl('delete', setting) }}" class="btn delete_link btn-small" title="{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}">
-        <i class="icon-remove"></i>
-        {{ 'action_delete'|trans({}, 'SonataAdminBundle') }}
-    </a>
-</td>
+            <a href="{{ admin.generateObjectUrl('edit', setting) }}" class="btn btn-sm btn-default edit_link" title="{{ 'action_edit'|trans({}, 'SonataAdminBundle') }}">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                {{ 'action_edit'|trans({}, 'SonataAdminBundle') }}
+            </a>
+
+            <a href="{{ admin.generateObjectUrl('delete', setting) }}" class="btn btn-sm btn-default delete_link" title="{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}">
+                <i class="fa fa-times" aria-hidden="true"></i>
+                {{ 'action_delete'|trans({}, 'SonataAdminBundle') }}
+            </a>
+        </div>
+    </td>
 {% endif %}
 

@@ -1,59 +1,71 @@
 {% extends 'SonataAdminBundle:CRUD:list.html.twig' %}
-{% form_theme form '@HgabkaSettings/Form/fields.html.twig' %}
+{% form_theme form '@HgabkaSettings/Form/fields.html.twig' '@SonataAdmin/Form/form_admin_fields.html.twig' %}
 
 {% block stylesheets %}
-{{ parent() }}
-<link rel="stylesheet" href="{{ asset('bundles/hgsettings/css/setting_list.css') }}" type="text/css" media="all"  />
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/hgabkasettings/css/setting_list.css') }}" type="text/css" media="all"/>
 {% endblock %}
-
+{% block title %}
+    {{ 'hg_settings.list.title'|trans }}
+{% endblock %}
 {% block actions %}
-    <div class="sonata-actions btn-group">
-      {% if creator %}
+
+    {% if creator %}
         {% include 'SonataAdminBundle:Core:create_button.html.twig' %}
-      {% endif %}
-    </div>
+    {% endif %}
 
 {% endblock %}
 {% block list_table %}
-{{ form_start(form) }}
-    {{ form_errors(form) }}
+    <div class="col-xs-12 col-md-12">
+        {{ form_start(form) }}
 
-
-            <table class="table table-bordered table-striped">
-                {% block table_header %}
-                    <thead>
+        <div class="box box-primary">
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-bordered table-striped sonata-ba-list">
+                    {% block table_header %}
+                        <thead>
                         <tr class="sonata-ba-list-field-header">
-                                        <th class="sonata-ba-list-field-header-text">
-                                            {{ admin.trans('hg_settings_header_name') }}
-                                        </th>
+                            {% if creator %}
+                                <th class="sonata-ba-list-field-header-text">
+                                    {{ admin.trans('hg_settings.header.name') }}
+                                </th>
+                            {% endif %}
+                            <th class="sonata-ba-list-field-header-text">
+                                {{ admin.trans('hg_settings.header.description') }}
+                            </th>
 
-                                        <th class="sonata-ba-list-field-header-text">
-                                            {{ admin.trans('hg_settings_header_description') }}
-                                        </th>
-
-                                        <th class="sonata-ba-list-field-header-text">
-                                            {{ admin.trans('hg_settings_header_value') }}
-                                        </th>
-                              {% if creator %}
-                                        <th class="sonata-ba-list-field-header-text">
-                                            {{ admin.trans('hg_settings_header_actions') }}
-                                        </th>
-                              {% endif %}
+                            <th class="sonata-ba-list-field-header-text">
+                                {{ admin.trans('hg_settings.header.value') }}
+                            </th>
+                            {% if creator %}
+                                <th class="sonata-ba-list-field-header-text">
+                                    {{ admin.trans('hg_settings.header.actions') }}
+                                </th>
+                            {% endif %}
                         </tr>
-                    </thead>
-                {% endblock %}
+                        </thead>
+                    {% endblock %}
 
-                {% block table_body %}
-                    <tbody>
+                    {% block table_body %}
+                        <tbody>
                         {% for setting in settings %}
                             <tr>
                                 {{ include('@HgabkaSettings/SettingAdmin/list_row.html.twig', { 'setting': setting, 'form' :  form, 'creator' : creator }) }}
                             </tr>
                         {% endfor %}
-                    </tbody>
-                {% endblock %}
+                        </tbody>
+                    {% endblock %}
 
-            </table>
-{{ form_end(form) }}
+                </table>
+            </div>
+        </div>
+        {% if settings|length %}
+        <div class="sonata-ba-form-actions well well-small form-actions stuck">
+            <button type="submit" class="btn btn-success" name="btn_update_and_edit"><i class="fa fa-save" aria-hidden="true"></i> {{ 'hg_settings.label.save'|trans }}</button>
+        </div>
+        {% endif %}
+        {{ form_end(form) }}
+
+    </div>
 
 {% endblock %}

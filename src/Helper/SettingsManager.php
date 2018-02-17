@@ -3,11 +3,12 @@
 namespace Hgabka\SettingsBundle\Helper;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Inflector\Inflector;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Hgabka\SettingsBundle\Entity\Setting;
+use Hgabka\SettingsBundle\Model\SettingTypeInterface;
 use Hgabka\UtilsBundle\Helper\HgabkaUtils;
 use Symfony\Component\Cache\Simple\FilesystemCache;
-use Doctrine\Common\Inflector\Inflector;
 
 class SettingsManager
 {
@@ -31,6 +32,8 @@ class SettingsManager
      * @var FilesystemCache
      */
     protected $cache;
+
+    protected $types = [];
 
     /**
      * SettingsManager constructor.
@@ -58,7 +61,7 @@ class SettingsManager
     public function __call($method, $arguments)
     {
         if ('get' !== ($verb = substr($method, 0, 3))) {
-            throw new \Exception('Ismeretlen, vagy nem elerheto metodus: ' . self::class . '::' . $method);
+            throw new \Exception('Ismeretlen, vagy nem elerheto metodus: '.self::class.'::'.$method);
         }
         $property = substr($method, 3);
         $setting = Inflector::tableize($property);
@@ -85,7 +88,7 @@ class SettingsManager
      * Kulcs-érték pár hozzáadása a cache-hez.
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return bool
      */
@@ -94,6 +97,23 @@ class SettingsManager
         $cache = $this->getCache();
         $data = $cache->get(self::CACHE_KEY, []);
         $data[$name] = $value;
+
+        return $cache->set(self::CACHE_KEY, $data);
+    }
+
+    /**
+     * Kulcs-érték pár hozzáadása a cache-hez.
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    public function addSettingToCache(Setting $setting)
+    {
+        $cache = $this->getCache();
+        $data = $cache->get(self::CACHE_KEY, []);
+        $data[$setting->getName()] = $this->convertToCache($setting);
 
         return $cache->set(self::CACHE_KEY, $data);
     }
@@ -118,39 +138,115 @@ class SettingsManager
         return true;
     }
 
-    public function regenerateCache()
+    public function clearCache()
     {
         $cache = $this->getCache();
         $cache->clear();
+    }
+
+    public function regenerateCache()
+    {
+        $this->clearCache();
         $data = [];
         foreach ($this->doctrine->getRepository(Setting::class)->findAll() as $setting) {
-            $data[$setting->getName()] = $setting->getValue();
+            $data[$setting->getName()] = $this->convertToCache($setting);
         }
-        $cache->set(self::CACHE_KEY, $data);
+        $this->getCache()->set(self::CACHE_KEY, $data);
 
         return $data;
     }
 
-    public function get($name, $defaultValue = null)
+    public function get($name, $locale = null, $defaultValue = null)
     {
         if (empty($this->settings)) {
             $this->settings = $this->getCacheData();
         }
 
-        return array_key_exists($name, $this->settings) ? $this->settings[$name] : $defaultValue;
-    }
+        if (array_key_exists($name, $this->settings)) {
+            $locale = $this->utils->getCurrentLocale($locale);
 
-    protected function getCache()
-    {
-        if (null === $this->cache) {
-            $this->cache = new FilesystemCache(self::CACHE_KEY, 0, $this->cacheDir . DIRECTORY_SEPARATOR . 'systemsetting');
+            return $this->settings[$name][$locale];
         }
 
-        return $this->cache;
+        return $defaultValue;
     }
 
     public function getLocales()
     {
         return $this->utils->getAvailableLocales();
+    }
+
+    public function addType(SettingTypeInterface $type, $alias)
+    {
+        $this->types[$alias] = $type;
+        usort($this->types, function ($type1, $type2) {
+            $p1 = null === $type1->getPriority() ? PHP_INT_MAX : $type1->getPriority();
+            $p2 = null === $type2->getPriority() ? PHP_INT_MAX : $type2->getPriority();
+
+            return $p1 <=> $p2;
+        });
+    }
+
+    public function getTypes()
+    {
+        return $this->types;
+    }
+
+    public function getTypeChoices()
+    {
+        $res = [];
+        foreach ($this->types as $type) {
+            $res[$type->getName()] = $type->getId();
+        }
+
+        return $res;
+    }
+
+    /**
+     * @param $typeId
+     *
+     * @return null|SettingTypeInterface
+     */
+    public function getType($typeId)
+    {
+        foreach ($this->types as $type) {
+            if ($type->getId() === $typeId) {
+                return $type;
+            }
+        }
+
+        return null;
+    }
+
+    public function setValuesByCultures(Setting $setting, $values)
+    {
+        $type = $this->getType($setting);
+        foreach ($this->getLocales() as $locale) {
+            $setting->translate($locale)->setValue($values[$locale] ? $type->transformValue($values[$locale]) : null);
+        }
+    }
+
+    protected function getCache()
+    {
+        if (null === $this->cache) {
+            $this->cache = new FilesystemCache(self::CACHE_KEY, 0, $this->cacheDir.DIRECTORY_SEPARATOR.'systemsetting');
+        }
+
+        return $this->cache;
+    }
+
+    protected function convertToCache(Setting $setting)
+    {
+        $res = [];
+        $type = $this->getType($setting->getType());
+        foreach ($this->getLocales() as $locale) {
+            if ($setting->isCultureAware()) {
+                $res[$locale] = $type->reverseTransformValue($setting->getValue($locale));
+            } else {
+                $res[$locale] = $type->reverseTransformValue($setting->getGeneralValue());
+            }
+        }
+
+        return $res;
     }
 }
