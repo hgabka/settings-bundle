@@ -24,6 +24,7 @@ hg_settings:
     types:
         string: Karakterlánc
         email: Email cím
+        bool: Igen/Nem választás
     group: Beállítások
     admin:
         model_name: Beállítás

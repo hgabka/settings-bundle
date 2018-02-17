@@ -53,4 +53,10 @@ services:
             - { name: hg_setting.setting_type }
         public: false
 
+    hg_settings.setting_type_bool:
+        class:  Hgabka\SettingsBundle\Model\BoolSettingType
+        tags:
+            - { name: hg_setting.setting_type }
+        public: false
+
     Hgabka\SettingsBundle\Helper\SettingsManager: '@hg_settings.settings_manager'
