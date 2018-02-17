@@ -46,9 +46,6 @@ class HgabkaSettingsExtension extends Extension implements CompilerPassInterface
     {
         // always first check if the primary service is defined
         if (!$container->has(SettingsManager::class)) {
-            var_dump(123);
-            die();
-
             return;
         }
 
