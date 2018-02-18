@@ -54,9 +54,12 @@ class SettingAdminController extends Controller
             $this->addFlash('sonata_flash_error', $this->get('translator')->trans('hg_settings.message.settings_save_failed'));
         }
 
-        return $this->render(
-            '@HgabkaSettings/SettingAdmin/list.html.twig',
-            ['settings' => $this->getDoctrine()->getRepository(Setting::class)->getVisibleSettings(), 'form' => $form->createView(), 'action' => 'list', 'creator' => $this->admin->isGranted($this->getParameter('hg_settings.creator_role'))]
-        );
+        return
+            $this->render('@HgabkaSettings/SettingAdmin/list.html.twig', [
+                'settings' => $this->getDoctrine()->getRepository(Setting::class)->getVisibleSettings(),
+                'form' => $form->createView(),
+                'action' => 'list',
+                'creator' => $this->isGranted($this->getParameter('hg_settings.creator_role')),
+            ]);
     }
 }
