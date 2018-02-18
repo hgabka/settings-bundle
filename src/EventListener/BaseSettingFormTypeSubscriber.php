@@ -12,7 +12,7 @@ abstract class BaseSettingFormTypeSubscriber implements EventSubscriberInterface
     protected $settingsManager;
 
     /**
-     * SpecialSettingFormTypeSubscriber constructor.
+     * BaseSettingFormTypeSubscriber constructor.
      *
      * @param SettingsManager $settingsManager
      */
@@ -21,11 +21,19 @@ abstract class BaseSettingFormTypeSubscriber implements EventSubscriberInterface
         $this->settingsManager = $settingsManager;
     }
 
-    protected function addOptions(FormBuilderInterface $builder, $options)
+    /**
+     * Replaces all children forms of the given builder
+     * with the given type and/or options
+     *
+     * @param FormBuilderInterface $builder
+     * @param                      $options
+     * @param null                 $newType
+     */
+    protected function replaceChildren(FormBuilderInterface $builder, $options, $newType = null)
     {
         foreach ($builder->all() as $name => $child) {
             $newOptions = array_merge($child->getOptions(), $options);
-            $builder->add($name, get_class($child->getType()->getInnerType()), $newOptions);
+            $builder->add($name, $newType ?: get_class($child->getType()->getInnerType()), $newOptions);
         }
     }
 }
