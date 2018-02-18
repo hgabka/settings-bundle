@@ -23,11 +23,11 @@ class BoolSettingType extends AbstractSettingType
 
     public function transformValue($value)
     {
-        return (bool)$value;
+        return (bool) $value;
     }
 
     public function reverseTransformValue($value)
     {
-        return (bool)$value;
+        return (bool) $value;
     }
 }

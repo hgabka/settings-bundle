@@ -61,7 +61,7 @@ services:
         public: false
 
     hg_settings.form_type_subscriber:
-        class: Hgabka\SettingsBundle\EventListener\BaseSettingFormTypeSubscriber
+        class: Hgabka\SettingsBundle\EventListener\GeneralSettingFormTypeSubscriber
         arguments: ['@hg_settings.settings_manager']
         tags:
             - { name: kernel.event_subscriber }

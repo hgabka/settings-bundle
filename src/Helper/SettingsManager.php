@@ -227,30 +227,6 @@ class SettingsManager
         }
     }
 
-    protected function getCache()
-    {
-        if (null === $this->cache) {
-            $this->cache = new FilesystemCache(self::CACHE_KEY, 0, $this->cacheDir.DIRECTORY_SEPARATOR.'systemsetting');
-        }
-
-        return $this->cache;
-    }
-
-    protected function convertToCache(Setting $setting)
-    {
-        $res = [];
-        $type = $this->getType($setting->getType());
-        foreach ($this->getLocales() as $locale) {
-            if ($setting->isCultureAware()) {
-                $res[$locale] = $type->reverseTransformValue($setting->getValue($locale));
-            } else {
-                $res[$locale] = $type->reverseTransformValue($setting->getGeneralValue());
-            }
-        }
-
-        return $res;
-    }
-
     public function addConstraints(array &$options, $constraints, $setUnique = true)
     {
         if (empty($constraints)) {
@@ -288,7 +264,29 @@ class SettingsManager
                 unset($options['constraints'][$k]);
             }
         }
+    }
 
-        return;
+    protected function getCache()
+    {
+        if (null === $this->cache) {
+            $this->cache = new FilesystemCache(self::CACHE_KEY, 0, $this->cacheDir.DIRECTORY_SEPARATOR.'systemsetting');
+        }
+
+        return $this->cache;
+    }
+
+    protected function convertToCache(Setting $setting)
+    {
+        $res = [];
+        $type = $this->getType($setting->getType());
+        foreach ($this->getLocales() as $locale) {
+            if ($setting->isCultureAware()) {
+                $res[$locale] = $type->reverseTransformValue($setting->getValue($locale));
+            } else {
+                $res[$locale] = $type->reverseTransformValue($setting->getGeneralValue());
+            }
+        }
+
+        return $res;
     }
 }

@@ -61,16 +61,16 @@ class Setting implements TranslatableInterface
      */
     protected $generalValue;
 
-    /**
-     * @Prezent\Translations(targetEntity="Hgabka\SettingsBundle\Entity\SettingTranslation")
-     */
-    private $translations;
-
     /** @var string */
     protected $formType;
 
     /** @var array */
     protected $formOptions;
+
+    /**
+     * @Prezent\Translations(targetEntity="Hgabka\SettingsBundle\Entity\SettingTranslation")
+     */
+    private $translations;
 
     /**
      * constructor.
@@ -286,6 +286,7 @@ class Setting implements TranslatableInterface
 
     /**
      * @param string $formType
+     *
      * @return Setting
      */
     public function setFormType($formType)
@@ -305,6 +306,7 @@ class Setting implements TranslatableInterface
 
     /**
      * @param array $formOptions
+     *
      * @return Setting
      */
     public function setFormOptions($formOptions)
@@ -313,5 +315,4 @@ class Setting implements TranslatableInterface
 
         return $this;
     }
-
 }
