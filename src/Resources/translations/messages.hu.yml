@@ -35,5 +35,5 @@ hg_settings:
         value: Érték
         actions: Műveletek
     message:
-        settings_saved: A beállítások mentése sikeresen megtörtént
-        settings_save_failed: A beállításokat nem sikerült menteni, mert az űrlap hibákat tartalmaz
+        settings_saved: A beállítások mentése sikeresen megtörtént.
+        settings_save_failed: A beállításokat nem sikerült menteni, mert az űrlap hibákat tartalmaz.

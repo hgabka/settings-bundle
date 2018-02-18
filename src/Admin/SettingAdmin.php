@@ -9,7 +9,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\CoreBundle\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class SettingAdmin extends AbstractAdmin
 {
@@ -114,13 +115,10 @@ class SettingAdmin extends AbstractAdmin
                     'description' => [
                         'label' => 'hg_settings.label.description',
                         'required' => false,
-                        'field_type' => 'textarea',
-                        'constraints' => [
-                            new NotBlank(),
-                        ],
+                        'field_type' => TextareaType::class,
                     ],
                     'value' => [
-                        'field_type' => 'hidden',
+                        'field_type' => HiddenType::class,
                         'required' => false,
                     ],
                 ],
