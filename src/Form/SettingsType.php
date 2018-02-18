@@ -11,12 +11,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Class SettingsType.
+ */
 class SettingsType extends AbstractType
 {
+    /**
+     * @var array|Setting[]
+     */
     private $settings;
 
+    /**
+     * @var array
+     */
     private $locales;
 
+    /**
+     * @var array
+     */
     private $types;
 
     /** @var SettingsManager $manager */
@@ -25,6 +37,13 @@ class SettingsType extends AbstractType
     /** @var EventDispatcherInterface $dispatcher */
     private $dispatcher;
 
+    /**
+     * SettingsType constructor.
+     *
+     * @param SettingsManager          $settingsManager
+     * @param ManagerRegistry          $entityManager
+     * @param EventDispatcherInterface $dispatcher
+     */
     public function __construct(SettingsManager $settingsManager, ManagerRegistry $entityManager, EventDispatcherInterface $dispatcher)
     {
         $this->settings = $entityManager->getRepository(Setting::class)->findAll();
@@ -34,6 +53,10 @@ class SettingsType extends AbstractType
         $this->dispatcher = $dispatcher;
     }
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         foreach ($this->settings as $setting) {
@@ -51,6 +74,9 @@ class SettingsType extends AbstractType
         }
     }
 
+    /**
+     * @return null|string
+     */
     public function getBlockPrefix()
     {
         return 'settings';

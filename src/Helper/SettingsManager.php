@@ -11,6 +11,9 @@ use Hgabka\UtilsBundle\Helper\HgabkaUtils;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * Class SettingsManager.
+ */
 class SettingsManager
 {
     const CACHE_KEY = 'systemsettings';
@@ -34,6 +37,9 @@ class SettingsManager
      */
     protected $cache;
 
+    /**
+     * @var array
+     */
     protected $types = [];
 
     /**
@@ -145,6 +151,9 @@ class SettingsManager
         $cache->clear();
     }
 
+    /**
+     * @return array
+     */
     public function regenerateCache()
     {
         $this->clearCache();
@@ -157,6 +166,13 @@ class SettingsManager
         return $data;
     }
 
+    /**
+     * @param      $name
+     * @param null $locale
+     * @param null $defaultValue
+     *
+     * @return null|mixed
+     */
     public function get($name, $locale = null, $defaultValue = null)
     {
         if (empty($this->settings)) {
@@ -175,11 +191,18 @@ class SettingsManager
         return $defaultValue;
     }
 
+    /**
+     * @return array
+     */
     public function getLocales()
     {
         return $this->utils->getAvailableLocales();
     }
 
+    /**
+     * @param SettingTypeInterface $type
+     * @param                      $alias
+     */
     public function addType(SettingTypeInterface $type, $alias)
     {
         $this->types[$alias] = $type;
@@ -191,11 +214,17 @@ class SettingsManager
         });
     }
 
+    /**
+     * @return array
+     */
     public function getTypes()
     {
         return $this->types;
     }
 
+    /**
+     * @return array
+     */
     public function getTypeChoices()
     {
         $res = [];
@@ -222,6 +251,10 @@ class SettingsManager
         return null;
     }
 
+    /**
+     * @param Setting $setting
+     * @param         $values
+     */
     public function setValuesByCultures(Setting $setting, $values)
     {
         $type = $this->getType($setting->getType());
@@ -230,6 +263,11 @@ class SettingsManager
         }
     }
 
+    /**
+     * @param array $options
+     * @param       $constraints
+     * @param bool  $setUnique
+     */
     public function addConstraints(array &$options, $constraints, $setUnique = true)
     {
         if (empty($constraints)) {
@@ -256,6 +294,10 @@ class SettingsManager
         }
     }
 
+    /**
+     * @param array      $options
+     * @param Constraint $constraint
+     */
     public function removeConstraint(array &$options, Constraint $constraint)
     {
         if (empty($options['costraints'])) {
@@ -269,6 +311,9 @@ class SettingsManager
         }
     }
 
+    /**
+     * @return FilesystemCache
+     */
     protected function getCache()
     {
         if (null === $this->cache) {
@@ -278,6 +323,11 @@ class SettingsManager
         return $this->cache;
     }
 
+    /**
+     * @param Setting $setting
+     *
+     * @return array
+     */
     protected function convertToCache(Setting $setting)
     {
         $res = ['value' => [], 'type' => $setting->getType()];

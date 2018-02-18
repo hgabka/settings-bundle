@@ -7,6 +7,9 @@ use Hgabka\UtilsBundle\Form\Type\StaticControlType;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Class GeneralSettingFormTypeSubscriber.
+ */
 class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
 {
     /** @var AuthorizationCheckerInterface $authChecker */
@@ -15,16 +18,25 @@ class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
     /** @var string $creatorRole */
     protected $creatorRole;
 
+    /**
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     */
     public function setAuthChecker(AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->authChecker = $authorizationChecker;
     }
 
+    /**
+     * @param $creatorRole
+     */
     public function setCreatorRole($creatorRole)
     {
         $this->creatorRole = $creatorRole;
     }
 
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return [
@@ -32,6 +44,9 @@ class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
         ];
     }
 
+    /**
+     * @param SettingFormTypeEvent $event
+     */
     public function onFormAdd(SettingFormTypeEvent $event)
     {
         $setting = $event->getSetting();

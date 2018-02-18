@@ -7,6 +7,9 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 
+/**
+ * Class SettingSubscriber.
+ */
 class SettingSubscriber implements EventSubscriber
 {
     /** @var SettingsManager $settingsManager */
@@ -22,6 +25,9 @@ class SettingSubscriber implements EventSubscriber
         $this->settingsManager = $settingsManager;
     }
 
+    /**
+     * @return array
+     */
     public function getSubscribedEvents()
     {
         return [
@@ -31,6 +37,9 @@ class SettingSubscriber implements EventSubscriber
         ];
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function postPersist(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
@@ -40,6 +49,9 @@ class SettingSubscriber implements EventSubscriber
         $this->settingsManager->addSettingToCache($object);
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function preRemove(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
@@ -49,6 +61,9 @@ class SettingSubscriber implements EventSubscriber
         $this->settingsManager->removeFromCache($object->getName());
     }
 
+    /**
+     * @param LifecycleEventArgs $args
+     */
     public function postUpdate(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
