@@ -27,7 +27,8 @@ services:
         class: Hgabka\SettingsBundle\Form\SettingsType
         tags:
             - { name: form.type }
-        arguments: ['@hg_settings.settings_manager', '@doctrine']
+        arguments: ['@hg_settings.settings_manager', '@doctrine', '@event_dispatcher']
+        public: true
 
     hg_settings.settings_manager:
         class: '%hg_settings.settings_manager.class%'
@@ -59,4 +60,11 @@ services:
             - { name: hg_setting.setting_type }
         public: false
 
+    hg_settings.form_type_subscriber:
+        class: Hgabka\SettingsBundle\EventListener\BaseSettingFormTypeSubscriber
+        arguments: ['@hg_settings.settings_manager']
+        tags:
+            - { name: kernel.event_subscriber }
+
     Hgabka\SettingsBundle\Helper\SettingsManager: '@hg_settings.settings_manager'
+    Hgabka\SettingsBundle\EventListener\BaseSettingFormTypeSubscriber: '@hg_settings.form_type_subscriber'

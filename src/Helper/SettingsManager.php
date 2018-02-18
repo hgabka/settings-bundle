@@ -9,6 +9,7 @@ use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Model\SettingTypeInterface;
 use Hgabka\UtilsBundle\Helper\HgabkaUtils;
 use Symfony\Component\Cache\Simple\FilesystemCache;
+use Symfony\Component\Validator\Constraint;
 
 class SettingsManager
 {
@@ -248,5 +249,46 @@ class SettingsManager
         }
 
         return $res;
+    }
+
+    public function addConstraints(array &$options, $constraints, $setUnique = true)
+    {
+        if (empty($constraints)) {
+            return;
+        }
+
+        if ($constraints instanceof Constraint) {
+            $constraints = [$constraints];
+        }
+
+        if (!isset($options['constraints'])) {
+            $options['constraints'] = [];
+        }
+
+        if (!$setUnique) {
+            $options['constraints'] = array_merge($options['constraints'], $constraints);
+
+            return;
+        }
+
+        foreach ($constraints as $constraint) {
+            $this->removeConstraint($options, $constraint);
+            $options['constraints'][] = $constraint;
+        }
+    }
+
+    public function removeConstraint(array &$options, Constraint $constraint)
+    {
+        if (empty($options['costraints'])) {
+            return;
+        }
+        $cc = get_class($constraint);
+        foreach ($options['constraints'] as $k => $c) {
+            if (get_class($c) === $cc) {
+                unset($options['constraints'][$k]);
+            }
+        }
+
+        return;
     }
 }

@@ -4,8 +4,10 @@ namespace Hgabka\SettingsBundle\Form;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Hgabka\SettingsBundle\Entity\Setting;
+use Hgabka\SettingsBundle\Event\SettingFormTypeEvent;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Hgabka\UtilsBundle\Form\Type\StaticControlType;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,14 +21,19 @@ class SettingsType extends AbstractType
 
     private $types;
 
+    /** @var SettingsManager $manager */
     private $manager;
 
-    public function __construct(SettingsManager $settingsManager, ManagerRegistry $entityManager)
+    /** @var EventDispatcherInterface $dispatcher */
+    private $dispatcher;
+
+    public function __construct(SettingsManager $settingsManager, ManagerRegistry $entityManager, EventDispatcherInterface $dispatcher)
     {
         $this->settings = $entityManager->getRepository(Setting::class)->findAll();
         $this->locales = $settingsManager->getLocales();
         $this->types = $settingsManager->getTypes();
         $this->manager = $settingsManager;
+        $this->dispatcher = $dispatcher;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -37,21 +44,15 @@ class SettingsType extends AbstractType
             }
 
             $type = $this->manager->getType($setting->getType());
-            $options = ['required' => false];
-            if (!$type) {
+
+            $event = new SettingFormTypeEvent($setting);
+            $this->dispatcher->dispatch(SettingFormTypeEvent::EVENT_FORM_ADD, $event);
+
+            $formType = $setting->getFormType();
+            if (empty($formType)) {
                 continue;
             }
-            $formType = $setting->isEditable() ? $type->getFormType() : StaticControlType::class;
-            $formTypeOptions = $type->getFormTypeOptions();
-            if (!$setting->isRequired()) {
-                unset($formTypeOptions['required']);
-                $options['required'] = false;
-            } else {
-                $options['constraints'] = $formTypeOptions['constraints'] ?? [];
-                $options['constraints'][] = new NotBlank();
-                $options['required'] = true;
-                unset($formTypeOptions['constraints']);
-            }
+            $options = $setting->getFormOptions();
 
             if (!$setting->isCultureAware()) {
                 $options['label'] = false;
@@ -62,7 +63,7 @@ class SettingsType extends AbstractType
                 }
                 $builder->add(
                     $builder->create($setting->getId(), FormType::class, ['label' => false])
-                            ->add('general_value', $formType, array_merge($formTypeOptions, $options))
+                            ->add('general_value', $formType, $options)
                 );
             } else {
                 $oneForm = $builder->create($setting->getId(), FormType::class, ['label' => false]);
@@ -74,7 +75,7 @@ class SettingsType extends AbstractType
                     }
 
                     $oneForm
-                            ->add($culture, $formType, array_merge($formTypeOptions, $options));
+                            ->add($culture, $formType, $options);
                 }
                 $builder->add($oneForm);
             }
