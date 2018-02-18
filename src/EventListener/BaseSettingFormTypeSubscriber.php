@@ -2,9 +2,9 @@
 
 namespace Hgabka\SettingsBundle\EventListener;
 
+use Hgabka\SettingsBundle\Event\SettingFormTypeEvent;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Form\FormBuilderInterface;
 
 abstract class BaseSettingFormTypeSubscriber implements EventSubscriberInterface
 {
@@ -22,18 +22,32 @@ abstract class BaseSettingFormTypeSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Replaces all children forms of the given builder
-     * with the given type and/or options.
-     *
-     * @param FormBuilderInterface $builder
-     * @param                      $options
-     * @param null                 $newType
+     * @param SettingFormTypeEvent $event
+     * @param string               $name
+     * @param array                $options
+     * @param null|string          $newType
      */
-    protected function replaceChildren(FormBuilderInterface $builder, $options, $newType = null)
+    protected function replaceChild(SettingFormTypeEvent $event, string $name, array $options, string $newType = null)
     {
-        foreach ($builder->all() as $name => $child) {
+        $builder = $event->getFormBuilder();
+        if (!empty($options) && is_array($options) && $builder && $builder->has($name)) {
             $newOptions = array_merge($child->getOptions(), $options);
             $builder->add($name, $newType ?: get_class($child->getType()->getInnerType()), $newOptions);
+        }
+    }
+
+    /**
+     * @param SettingFormTypeEvent $event
+     * @param array                $options
+     * @param null|string          $newType
+     */
+    protected function replaceChildren(SettingFormTypeEvent $event, array $options, string $newType = null)
+    {
+        $builder = $event->getFormBuilder();
+        if (!empty($options) && is_array($options) && $builder) {
+            foreach ($builder->all() as $name => $child) {
+                $this->replaceChild($event, $name, $options, $newType);
+            }
         }
     }
 }
