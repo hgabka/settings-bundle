@@ -50,8 +50,9 @@ class SettingAdminController extends Controller
                 $this->addFlash('sonata_flash_success', $this->get('translator')->trans('hg_settings.message.settings_saved'));
 
                 return $this->redirectToList();
+            } else {
+                $this->addFlash('sonata_flash_error', $this->get('translator')->trans('hg_settings.message.settings_save_failed'));
             }
-            $this->addFlash('sonata_flash_error', $this->get('translator')->trans('hg_settings.message.settings_save_failed'));
         }
 
         return $this->render(
