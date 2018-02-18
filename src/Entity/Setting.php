@@ -61,12 +61,6 @@ class Setting implements TranslatableInterface
      */
     protected $generalValue;
 
-    /** @var string */
-    protected $formType;
-
-    /** @var array */
-    protected $formOptions;
-
     /**
      * @Prezent\Translations(targetEntity="Hgabka\SettingsBundle\Entity\SettingTranslation")
      */
@@ -272,46 +266,6 @@ class Setting implements TranslatableInterface
     public function setRequired($required)
     {
         $this->required = $required;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFormType()
-    {
-        return $this->formType;
-    }
-
-    /**
-     * @param string $formType
-     *
-     * @return Setting
-     */
-    public function setFormType($formType)
-    {
-        $this->formType = $formType;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getFormOptions()
-    {
-        return $this->formOptions;
-    }
-
-    /**
-     * @param array $formOptions
-     *
-     * @return Setting
-     */
-    public function setFormOptions($formOptions)
-    {
-        $this->formOptions = $formOptions;
 
         return $this;
     }
