@@ -166,7 +166,10 @@ class SettingsManager
         if (array_key_exists($name, $this->settings)) {
             $locale = $this->utils->getCurrentLocale($locale);
 
-            return $this->settings[$name][$locale];
+            $data = $this->settings[$name];
+            $type = $this->getType($data['type']);
+
+            return $type->reverseTransformValue($data['value'][$locale]);
         }
 
         return $defaultValue;
@@ -277,13 +280,13 @@ class SettingsManager
 
     protected function convertToCache(Setting $setting)
     {
-        $res = [];
+        $res = ['value' => [], 'type' => $setting->getType()];
         $type = $this->getType($setting->getType());
         foreach ($this->getLocales() as $locale) {
             if ($setting->isCultureAware()) {
-                $res[$locale] = $type->reverseTransformValue($setting->getValue($locale));
+                $res['value'][$locale] = $setting->getValue($locale);
             } else {
-                $res[$locale] = $type->reverseTransformValue($setting->getGeneralValue());
+                $res['value'][$locale] = $setting->getGeneralValue();
             }
         }
 
