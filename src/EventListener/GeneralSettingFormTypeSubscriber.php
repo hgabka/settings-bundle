@@ -4,10 +4,27 @@ namespace Hgabka\SettingsBundle\EventListener;
 
 use Hgabka\SettingsBundle\Event\SettingFormTypeEvent;
 use Hgabka\UtilsBundle\Form\Type\StaticControlType;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
 {
+    /** @var  AuthorizationCheckerInterface $authChecker */
+    protected $authChecker;
+
+    /** @var string $creatorRole */
+    protected $creatorRole;
+
+    public function setAuthChecker(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authChecker = $authorizationChecker;
+    }
+
+    public function setCreatorRole($creatorRole)
+    {
+        $this->creatorRole = $creatorRole;
+    }
+
     public static function getSubscribedEvents()
     {
         return [
@@ -20,7 +37,7 @@ class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
         $setting = $event->getSetting();
         $type = $this->settingsManager->getType($setting->getType());
 
-        if (!$type || !$setting->isVisible()) {
+        if (!$type || (!$setting->isVisible() && !$this->authChecker->isGranted($this->creatorRole))) {
             $event->setFormBuilder(null);
             $event->stopPropagation();
 

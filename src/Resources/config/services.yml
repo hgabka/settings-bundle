@@ -63,6 +63,9 @@ services:
     hg_settings.form_type_subscriber:
         class: Hgabka\SettingsBundle\EventListener\GeneralSettingFormTypeSubscriber
         arguments: ['@hg_settings.settings_manager']
+        calls:
+          - [setAuthChecker, ["@security.authorization_checker"]]
+          - [setCreatorRole, ["%hg_settings.creator_role%"]]
         tags:
             - { name: kernel.event_subscriber }
 

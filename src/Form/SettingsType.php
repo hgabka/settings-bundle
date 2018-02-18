@@ -37,17 +37,11 @@ class SettingsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         foreach ($this->settings as $setting) {
-            if (!$setting->isVisible()) {
-                continue;
-            }
-
             $type = $this->manager->getType($setting->getType());
             $oneForm = $builder->create($setting->getId(), FormType::class, ['label' => false]);
 
             $event = new SettingFormTypeEvent($setting, $oneForm);
             $this->dispatcher->dispatch(SettingFormTypeEvent::EVENT_FORM_ADD, $event);
-
-            $oneForm = $event->getFormBuilder();
 
             if (empty($oneForm)) {
                 continue;
