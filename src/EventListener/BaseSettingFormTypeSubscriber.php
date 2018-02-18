@@ -23,7 +23,7 @@ abstract class BaseSettingFormTypeSubscriber implements EventSubscriberInterface
 
     /**
      * Replaces all children forms of the given builder
-     * with the given type and/or options
+     * with the given type and/or options.
      *
      * @param FormBuilderInterface $builder
      * @param                      $options

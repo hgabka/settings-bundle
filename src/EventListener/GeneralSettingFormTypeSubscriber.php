@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
 {
-    /** @var  AuthorizationCheckerInterface $authChecker */
+    /** @var AuthorizationCheckerInterface $authChecker */
     protected $authChecker;
 
     /** @var string $creatorRole */
