@@ -221,7 +221,7 @@ class SettingsManager
 
     public function setValuesByCultures(Setting $setting, $values)
     {
-        $type = $this->getType($setting);
+        $type = $this->getType($setting->getType());
         foreach ($this->getLocales() as $locale) {
             $setting->translate($locale)->setValue($values[$locale] ? $type->transformValue($values[$locale]) : null);
         }
