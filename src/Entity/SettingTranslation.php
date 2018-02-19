@@ -33,26 +33,6 @@ class SettingTranslation implements TranslationInterface
     /**
      * @return mixed
      */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param mixed $name
-     *
-     * @return SettingTranslation
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getDescription()
     {
         return $this->description;
