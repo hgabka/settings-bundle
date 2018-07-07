@@ -52,7 +52,7 @@ class Setting implements TranslatableInterface
     protected $cultureAware = false;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=false)
+     * @ORM\Column(type="string", length=50, nullable=false)
      */
     protected $type;
 

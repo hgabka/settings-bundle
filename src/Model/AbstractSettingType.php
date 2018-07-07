@@ -57,4 +57,14 @@ abstract class AbstractSettingType implements SettingTypeInterface
     {
         return $value;
     }
+
+    public function isEditable()
+    {
+        return true;
+    }
+
+    public function isVisible()
+    {
+        return true;
+    }
 }

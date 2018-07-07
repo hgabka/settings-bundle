@@ -52,4 +52,14 @@ interface SettingTypeInterface
      * @return mixed
      */
     public function getHtml($value);
+
+    /**
+     * @return bool
+     */
+    public function isEditable();
+
+    /**
+     * @return bool
+     */
+    public function isVisible();
 }

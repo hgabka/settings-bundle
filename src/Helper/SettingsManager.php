@@ -229,7 +229,9 @@ class SettingsManager
     {
         $res = [];
         foreach ($this->types as $type) {
-            $res[$type->getName()] = $type->getId();
+            if ($type->isVisible()) {
+                $res[$type->getName()] = $type->getId();
+            }
         }
 
         return $res;
@@ -317,7 +319,7 @@ class SettingsManager
     protected function getCache()
     {
         if (null === $this->cache) {
-            $this->cache = new FilesystemCache(self::CACHE_KEY, 0, $this->cacheDir.DIRECTORY_SEPARATOR.'systemsetting');
+            $this->cache = new FilesystemCache(self::CACHE_KEY, 0, $this->cacheDir.\DIRECTORY_SEPARATOR.'systemsetting');
         }
 
         return $this->cache;
