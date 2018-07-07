@@ -35,8 +35,9 @@ $config = PhpCsFixer\Config::create()
         'phpdoc_add_missing_param_annotation' => true,
         'phpdoc_order' => true,
         'phpdoc_types_order' => true,
+        'phpdoc_to_comment' => false,
         'semicolon_after_instruction' => true,
-        'single_line_comment_style' => true,
+        'single_line_comment_style' => ['comment_types' => ['hash']],
         'strict_comparison' => true,
         'strict_param' => true,
     ])
