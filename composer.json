@@ -16,7 +16,7 @@
     "require": {
         "php" : "~7.2",
         "hgabka/utils-bundle": "^4.0",
-        "a2lix/translation-form-bundle": "^2.1",
+        "a2lix/translation-form-bundle": "^3.0",
         "symfony/framework-bundle": "^4.1"
     },
     "require-dev": {
