@@ -305,9 +305,9 @@ class SettingsManager
         if (empty($options['costraints'])) {
             return;
         }
-        $cc = get_class($constraint);
+        $cc = \get_class($constraint);
         foreach ($options['constraints'] as $k => $c) {
-            if (get_class($c) === $cc) {
+            if (\get_class($c) === $cc) {
                 unset($options['constraints'][$k]);
             }
         }

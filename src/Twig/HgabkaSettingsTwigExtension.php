@@ -2,6 +2,7 @@
 
 namespace Hgabka\SettingsBundle\Twig;
 
+use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 
 class HgabkaSettingsTwigExtension extends \Twig_Extension
@@ -28,6 +29,7 @@ class HgabkaSettingsTwigExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('get_setting', [$this, 'getSetting']),
+            new \Twig_SimpleFunction('is_setting_visible', [$this, 'isSettingVisible']),
         ];
     }
 
@@ -39,6 +41,13 @@ class HgabkaSettingsTwigExtension extends \Twig_Extension
     public function getSetting($slug)
     {
         return $this->settingManager->get($slug);
+    }
+
+    public function isSettingVisible(Setting $setting)
+    {
+        $type = $this->settingManager->getType($setting->getType());
+
+        return $type && $type->isVisible();
     }
 
     /**
