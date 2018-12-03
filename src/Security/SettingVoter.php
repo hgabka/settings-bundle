@@ -38,7 +38,7 @@ class SettingVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        if (!in_array($attribute, [self::EDIT, self::CREATE, self::DELETE], true)) {
+        if (!\in_array($attribute, [self::EDIT, self::CREATE, self::DELETE], true)) {
             return false;
         }
         if (!$subject instanceof Setting) {

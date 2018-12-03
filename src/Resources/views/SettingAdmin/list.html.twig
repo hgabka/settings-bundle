@@ -49,9 +49,11 @@
                     {% block table_body %}
                         <tbody>
                         {% for setting in settings %}
-                            <tr>
-                                {{ include('@HgabkaSettings/SettingAdmin/list_row.html.twig', { 'setting': setting, 'form' :  form, 'creator' : creator }) }}
-                            </tr>
+                            {% if is_setting_visible(setting) %}
+                                <tr>
+                                    {{ include('@HgabkaSettings/SettingAdmin/list_row.html.twig', { 'setting': setting, 'form' :  form, 'creator' : creator }) }}
+                                </tr>
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     {% endblock %}
