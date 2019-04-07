@@ -69,5 +69,10 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    Hgabka\SettingsBundle\Helper\SettingsManager: '@hg_settings.settings_manager'
-    Hgabka\SettingsBundle\EventListener\BaseSettingFormTypeSubscriber: '@hg_settings.form_type_subscriber'
+    Hgabka\SettingsBundle\Helper\SettingsManager:
+        alias: 'hg_settings.settings_manager'
+        public: true
+
+    Hgabka\SettingsBundle\EventListener\BaseSettingFormTypeSubscriber:
+        alias: 'hg_settings.form_type_subscriber'
+        public: true
