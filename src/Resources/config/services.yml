@@ -33,6 +33,7 @@ services:
     hg_settings.settings_manager:
         class: '%hg_settings.settings_manager.class%'
         arguments: ["@doctrine", '@hgabka_utils.hgabka_utils', "%kernel.cache_dir%"]
+        alias: Hgabka\SettingsBundle\Helper\SettingsManager
         public: true
 
     hg_settings.setting_voter:
@@ -62,17 +63,10 @@ services:
 
     hg_settings.form_type_subscriber:
         class: Hgabka\SettingsBundle\EventListener\GeneralSettingFormTypeSubscriber
+        alias: Hgabka\SettingsBundle\EventListener\BaseSettingFormTypeSubscriber
         arguments: ['@hg_settings.settings_manager']
         calls:
           - [setAuthChecker, ["@security.authorization_checker"]]
           - [setCreatorRole, ["%hg_settings.creator_role%"]]
         tags:
             - { name: kernel.event_subscriber }
-
-    Hgabka\SettingsBundle\Helper\SettingsManager:
-        alias: 'hg_settings.settings_manager'
-        public: true
-
-    Hgabka\SettingsBundle\EventListener\BaseSettingFormTypeSubscriber:
-        alias: 'hg_settings.form_type_subscriber'
-        public: true
