@@ -33,7 +33,6 @@ services:
     hg_settings.settings_manager:
         class: '%hg_settings.settings_manager.class%'
         arguments: ["@doctrine", '@hgabka_utils.hgabka_utils', "%kernel.cache_dir%"]
-        alias: Hgabka\SettingsBundle\Helper\SettingsManager
         public: true
 
     hg_settings.setting_voter:
