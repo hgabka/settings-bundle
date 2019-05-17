@@ -244,13 +244,17 @@ class SettingsManager
      */
     public function getType($typeId)
     {
+        if (empty($typeId)) {
+            throw new \InvalidArgumentException('Empty setting type id');
+        }
+        
         foreach ($this->types as $type) {
             if ($type->getId() === $typeId) {
                 return $type;
             }
         }
 
-        return null;
+        throw new \InvalidArgumentException(sprintf('The setting type with id "%s" does not exist. To create the type create a class that implements %s with the getId method returning this id', $typeId, SettingTypeInterface::class));
     }
 
     /**
