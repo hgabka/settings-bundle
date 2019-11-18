@@ -35,6 +35,8 @@ class SettingAdminController extends Controller
                     if (!$setting->isCultureAware()) {
                         if (isset($values['general_value'])) {
                             $setting->setGeneralValue($type->transformValue($values['general_value']));
+                        } else {
+                            $setting->setGeneralValue(null);
                         }
                     } else {
                         $manager->setValuesByCultures($setting, $values);
