@@ -136,7 +136,7 @@ class SettingsManager
     {
         $cache = $this->getCache();
         $data = $cache->get(self::CACHE_KEY, []);
-        if (array_key_exists($name, $data)) {
+        if (\array_key_exists($name, $data)) {
             unset($data[$name]);
 
             return $cache->set(self::CACHE_KEY, $data);
@@ -179,7 +179,7 @@ class SettingsManager
             $this->settings = $this->getCacheData();
         }
 
-        if (array_key_exists($name, $this->settings)) {
+        if (\array_key_exists($name, $this->settings)) {
             $locale = $this->utils->getCurrentLocale($locale);
 
             $data = $this->settings[$name];
@@ -247,7 +247,7 @@ class SettingsManager
         if (empty($typeId)) {
             throw new \InvalidArgumentException('Empty setting type id');
         }
-        
+
         foreach ($this->types as $type) {
             if ($type->getId() === $typeId) {
                 return $type;
