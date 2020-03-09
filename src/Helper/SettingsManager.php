@@ -8,7 +8,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Model\SettingTypeInterface;
 use Hgabka\UtilsBundle\Helper\HgabkaUtils;
-use Symfony\Component\Cache\Simple\FilesystemCache;
+
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Validator\Constraint;
 
 /**
@@ -33,7 +34,7 @@ class SettingsManager
      */
     protected $settings;
     /**
-     * @var FilesystemCache
+     * @var FilesystemAdapter
      */
     protected $cache;
 
@@ -84,11 +85,11 @@ class SettingsManager
     public function getCacheData()
     {
         $cache = $this->getCache();
-        if (!$cache->has(self::CACHE_KEY)) {
+        if (!$cache->hasItem(self::CACHE_KEY)) {
             return $this->regenerateCache();
         }
 
-        return $cache->get(self::CACHE_KEY, []);
+        return $cache->getItem(self::CACHE_KEY)->get() ?? [];
     }
 
     /**
@@ -148,6 +149,7 @@ class SettingsManager
     public function clearCache()
     {
         $cache = $this->getCache();
+
         $cache->clear();
     }
 
@@ -161,7 +163,11 @@ class SettingsManager
         foreach ($this->doctrine->getRepository(Setting::class)->findAll() as $setting) {
             $data[$setting->getName()] = $this->convertToCache($setting);
         }
-        $this->getCache()->set(self::CACHE_KEY, $data);
+
+        $item = $this->getCache()->getItem(self::CACHE_KEY);
+        $item->set($data);
+
+        $this->getCache()->save($item);
 
         return $data;
     }
@@ -318,12 +324,12 @@ class SettingsManager
     }
 
     /**
-     * @return FilesystemCache
+     * @return FilesystemAdapter
      */
     protected function getCache()
     {
         if (null === $this->cache) {
-            $this->cache = new FilesystemCache(self::CACHE_KEY, 0, $this->cacheDir.\DIRECTORY_SEPARATOR.'systemsetting');
+            $this->cache = new FilesystemAdapter(self::CACHE_KEY, 0, $this->cacheDir);
         }
 
         return $this->cache;
