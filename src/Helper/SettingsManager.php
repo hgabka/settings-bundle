@@ -92,25 +92,9 @@ class SettingsManager
         return $cache->getItem(self::CACHE_KEY)->get() ?? [];
     }
 
-    /**
-     * Kulcs-érték pár hozzáadása a cache-hez.
-     *
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    public function addToCache($name, $value)
-    {
-        $cache = $this->getCache();
-        $data = $cache->get(self::CACHE_KEY, []);
-        $data[$name] = $value;
-
-        return $cache->set(self::CACHE_KEY, $data);
-    }
 
     /**
-     * Kulcs-érték pár hozzáadása a cache-hez.
+     * Beállítás hozzáadása a cache-hez.
      *
      * @param string $name
      * @param mixed  $value
@@ -120,10 +104,18 @@ class SettingsManager
     public function addSettingToCache(Setting $setting)
     {
         $cache = $this->getCache();
-        $data = $cache->get(self::CACHE_KEY, []);
-        $data[$setting->getName()] = $this->convertToCache($setting);
+        if ($cache->hasItem(self::CACHE_KEY)) {
+            $item = $cache->getItem(self::CACHE_KEY);
 
-        return $cache->set(self::CACHE_KEY, $data);
+            $data = $item->get() ?? [];
+            $data[$setting->getName()] = $this->convertToCache($setting);
+
+            $item->set($data);
+
+            return $cache->save($item);
+        }
+
+        return true;
     }
 
     /**
@@ -136,11 +128,15 @@ class SettingsManager
     public function removeFromCache($name)
     {
         $cache = $this->getCache();
-        $data = $cache->get(self::CACHE_KEY, []);
-        if (\array_key_exists($name, $data)) {
-            unset($data[$name]);
+        if ($cache->hasItem(self::CACHE_KEY)) {
+            $item = $cache->getItem(self::CACHE_KEY);
+            $data = $item->get() ?? [];
+            if (\array_key_exists($name, $data)) {
+                unset($data[$name]);
+            }
+            $item->set($data);
 
-            return $cache->set(self::CACHE_KEY, $data);
+            return $cache->save($item);
         }
 
         return true;
