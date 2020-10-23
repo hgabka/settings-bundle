@@ -3,9 +3,9 @@
 namespace Hgabka\SettingsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Prezent\Doctrine\Translatable\Annotation as Prezent;
-use Prezent\Doctrine\Translatable\Entity\TranslationTrait;
-use Prezent\Doctrine\Translatable\TranslationInterface;
+use Hgabka\Doctrine\Translatable\Annotation as Hgabka;
+use Hgabka\Doctrine\Translatable\Entity\TranslationTrait;
+use Hgabka\Doctrine\Translatable\TranslationInterface;
 
 /**
  * @ORM\Table(name="hg_settings_settings_translation")
@@ -26,7 +26,7 @@ class SettingTranslation implements TranslationInterface
     protected $value;
 
     /**
-     * @Prezent\Translatable(targetEntity="Hgabka\SettingsBundle\Entity\Setting")
+     * @Hgabka\Translatable(targetEntity="Hgabka\SettingsBundle\Entity\Setting")
      */
     private $translatable;
 

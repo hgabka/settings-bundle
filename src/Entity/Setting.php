@@ -5,8 +5,8 @@ namespace Hgabka\SettingsBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Hgabka\UtilsBundle\Traits\TranslatableTrait;
-use Prezent\Doctrine\Translatable\Annotation as Prezent;
-use Prezent\Doctrine\Translatable\TranslatableInterface;
+use Hgabka\Doctrine\Translatable\Annotation as Hgabka;
+use Hgabka\Doctrine\Translatable\TranslatableInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -62,7 +62,7 @@ class Setting implements TranslatableInterface
     protected $generalValue;
 
     /**
-     * @Prezent\Translations(targetEntity="Hgabka\SettingsBundle\Entity\SettingTranslation")
+     * @Hgabka\Translations(targetEntity="Hgabka\SettingsBundle\Entity\SettingTranslation")
      */
     private $translations;
 
