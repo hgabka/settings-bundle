@@ -8,7 +8,6 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Model\SettingTypeInterface;
 use Hgabka\UtilsBundle\Helper\HgabkaUtils;
-
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Validator\Constraint;
 
@@ -91,7 +90,6 @@ class SettingsManager
 
         return $cache->getItem(self::CACHE_KEY)->get() ?? [];
     }
-
 
     /**
      * Beállítás hozzáadása a cache-hez.
