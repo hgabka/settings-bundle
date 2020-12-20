@@ -42,5 +42,23 @@ class NumberSettingType extends AbstractSettingType
         ]];
     }
 
+    /**
+     * @param $value
+     *
+     * @return bool|mixed
+     */
+    public function transformValue($value)
+    {
+        return (double) $value;
+    }
 
+    /**
+     * @param $value
+     *
+     * @return bool|mixed
+     */
+    public function reverseTransformValue($value)
+    {
+        return (double) $value;
+    }
 }
