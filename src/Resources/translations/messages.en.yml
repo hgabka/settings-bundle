@@ -25,6 +25,8 @@ hg_settings:
         string: String
         email: Email address
         bool: Yes/No
+        integer: Whole number
+        number: Number
     group: Settings
     admin:
         model_name: Setting

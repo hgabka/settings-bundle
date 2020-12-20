@@ -25,6 +25,10 @@ hg_settings:
         string: Karakterlánc
         email: Email cím
         bool: Igen/Nem választás
+        integer: Egész szám
+        number: Szám
+        media: Média választó
+        simple_media: Média feltöltés
     group: Beállítások
     admin:
         model_name: Beállítás

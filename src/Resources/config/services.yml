@@ -48,6 +48,18 @@ services:
             - { name: hg_setting.setting_type }
         public: false
 
+    hg_settings.setting_type_integer:
+        class:  Hgabka\SettingsBundle\Model\IntegerSettingType
+        tags:
+            - { name: hg_setting.setting_type }
+        public: false
+
+    hg_settings.setting_type_number:
+        class:  Hgabka\SettingsBundle\Model\NumberSettingType
+        tags:
+            - { name: hg_setting.setting_type }
+        public: false
+
     hg_settings.setting_type_email:
         class:  Hgabka\SettingsBundle\Model\EmailSettingType
         tags:
