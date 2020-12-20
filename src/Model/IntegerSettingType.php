@@ -41,4 +41,24 @@ class IntegerSettingType extends AbstractSettingType
             'class' => 'form-control',
         ]];
     }
+
+    /**
+     * @param $value
+     *
+     * @return bool|mixed
+     */
+    public function transformValue($value)
+    {
+        return (int) $value;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return bool|mixed
+     */
+    public function reverseTransformValue($value)
+    {
+        return (int) $value;
+    }
 }
