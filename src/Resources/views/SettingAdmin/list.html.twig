@@ -113,11 +113,22 @@
                     var $trs = $('form[name="settings"] table tbody tr');
 
                     $trs.hide();
+                    
+                    var realIndex = 0;
+
                     $trs.each(function (index, element) {
                         var $element = $(element);
 
                         if ('all' === catId || $element.data('category') === catId) {
                             $element.show();
+                            if (0 === realIndex % 2) {
+                                $element.removeClass('not-striped');
+                                $element.addClass('striped');
+                            } else {
+                                $element.addClass('not-striped');
+                                $element.removeClass('striped');
+                            }
+                            ++realIndex;
                         }
                     });
                 }
