@@ -3,23 +3,35 @@
 namespace Hgabka\SettingsBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
+use Doctrine\Persistence\ManagerRegistry;
+use Hgabka\SettingsBundle\Entity\SettingCategory;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Validator\ErrorElement;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SettingAdmin extends AbstractAdmin
 {
     /** @var SettingsManager */
     private $manager;
 
-    public function setManager($manager)
+    /** @var ManagerRegistry */
+    private $doctrine;
+
+    public function setManager(SettingsManager $manager)
     {
         $this->manager = $manager;
+    }
+
+    public function setDoctrine(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
     }
 
     public function validate(ErrorElement $errorElement, $object)
@@ -90,6 +102,24 @@ class SettingAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('name', null, ['label' => 'hg_settings.label.name'])
+        ;
+        $categories = $this->doctrine->getRepository(SettingCategory::class)->findAll();
+
+        if (\count($categories)) {
+            $formMapper
+                ->add('category', EntityType::class, [
+                    'label' => 'hg_settings.label.category',
+                    'placeholder' => '',
+                    'required' => true,
+                    'constraints' => new NotBlank(),
+                    'class' => SettingCategory::class,
+                    'choice_label' => function ($category) {
+                        return $category->getName($this->getRequest()->getLocale());
+                    },
+                ])
+            ;
+        }
+        $formMapper
             ->add('type', ChoiceType::class, [
                 'label' => 'hg_settings.label.type',
                 'choices' => $this->manager->getTypeChoices(),

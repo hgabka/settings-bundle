@@ -21,6 +21,7 @@ hg_settings:
         required: Filling this field is mandatory
         visible: Visible
         editable: Editable
+        category: Category
     types:
         string: String
         email: Email address

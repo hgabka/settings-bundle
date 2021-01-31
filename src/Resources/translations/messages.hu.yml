@@ -21,6 +21,7 @@ hg_settings:
         required: Kötelező kitölteni
         visible: Látható
         editable: Értéke változtatható
+        category: Kategória
     types:
         string: Karakterlánc
         email: Email cím

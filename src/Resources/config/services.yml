@@ -22,6 +22,7 @@ services:
         arguments: [null, Hgabka\SettingsBundle\Entity\Setting, HgabkaSettingsBundle:SettingAdmin]
         calls:
           - [setManager, ["@hg_settings.settings_manager"]]
+          - [setDoctrine, ['@doctrine']]
 
     hg_settings.form.settings:
         class: Hgabka\SettingsBundle\Form\SettingsType
