@@ -14,8 +14,6 @@ class HgabkaSettingsTwigExtension extends \Twig_Extension
 
     /**
      * PublicTwigExtension constructor.
-     *
-     * @param SettingsManager $settingsManager
      */
     public function __construct(SettingsManager $settingsManager)
     {

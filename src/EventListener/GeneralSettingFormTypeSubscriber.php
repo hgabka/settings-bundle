@@ -12,15 +12,12 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
 {
-    /** @var AuthorizationCheckerInterface $authChecker */
+    /** @var AuthorizationCheckerInterface */
     protected $authChecker;
 
-    /** @var string $creatorRole */
+    /** @var string */
     protected $creatorRole;
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     */
     public function setAuthChecker(AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->authChecker = $authorizationChecker;
@@ -40,13 +37,10 @@ class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
     public static function getSubscribedEvents()
     {
         return [
-            SettingFormTypeEvent::EVENT_FORM_ADD => ['onFormAdd', PHP_INT_MAX],
+            SettingFormTypeEvent::EVENT_FORM_ADD => ['onFormAdd', \PHP_INT_MAX],
         ];
     }
 
-    /**
-     * @param SettingFormTypeEvent $event
-     */
     public function onFormAdd(SettingFormTypeEvent $event)
     {
         $setting = $event->getSetting();

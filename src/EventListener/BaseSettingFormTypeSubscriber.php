@@ -17,20 +17,12 @@ abstract class BaseSettingFormTypeSubscriber implements EventSubscriberInterface
 
     /**
      * BaseSettingFormTypeSubscriber constructor.
-     *
-     * @param SettingsManager $settingsManager
      */
     public function __construct(SettingsManager $settingsManager)
     {
         $this->settingsManager = $settingsManager;
     }
 
-    /**
-     * @param SettingFormTypeEvent $event
-     * @param string               $name
-     * @param array                $options
-     * @param null|string          $newType
-     */
     protected function replaceChild(SettingFormTypeEvent $event, string $name, array $options, string $newType = null)
     {
         $builder = $event->getFormBuilder();
@@ -40,11 +32,6 @@ abstract class BaseSettingFormTypeSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param SettingFormTypeEvent $event
-     * @param array                $options
-     * @param null|string          $newType
-     */
     protected function replaceChildren(SettingFormTypeEvent $event, array $options, string $newType = null)
     {
         $builder = $event->getFormBuilder();
@@ -56,9 +43,7 @@ abstract class BaseSettingFormTypeSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param SettingFormTypeEvent $event
-     * @param string               $name
-     * @param array|Constraint     $constraints
+     * @param array|Constraint $constraints
      */
     protected function addConstraintsToChild(SettingFormTypeEvent $event, string $name, $constraints)
     {
@@ -72,8 +57,7 @@ abstract class BaseSettingFormTypeSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param SettingFormTypeEvent $event
-     * @param array|Constraint     $constraints
+     * @param array|Constraint $constraints
      */
     protected function addConstraints(SettingFormTypeEvent $event, $constraints)
     {

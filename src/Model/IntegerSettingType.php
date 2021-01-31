@@ -2,9 +2,7 @@
 
 namespace Hgabka\SettingsBundle\Model;
 
-
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class IntegerSettingType extends AbstractSettingType
 {

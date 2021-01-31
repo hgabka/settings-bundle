@@ -200,15 +200,14 @@ class SettingsManager
     }
 
     /**
-     * @param SettingTypeInterface $type
-     * @param                      $alias
+     * @param $alias
      */
     public function addType(SettingTypeInterface $type, $alias)
     {
         $this->types[$alias] = $type;
         usort($this->types, function ($type1, $type2) {
-            $p1 = null === $type1->getPriority() ? PHP_INT_MAX : $type1->getPriority();
-            $p2 = null === $type2->getPriority() ? PHP_INT_MAX : $type2->getPriority();
+            $p1 = null === $type1->getPriority() ? \PHP_INT_MAX : $type1->getPriority();
+            $p2 = null === $type2->getPriority() ? \PHP_INT_MAX : $type2->getPriority();
 
             return $p1 <=> $p2;
         });
@@ -258,8 +257,7 @@ class SettingsManager
     }
 
     /**
-     * @param Setting $setting
-     * @param         $values
+     * @param $values
      */
     public function setValuesByCultures(Setting $setting, $values)
     {
@@ -270,9 +268,8 @@ class SettingsManager
     }
 
     /**
-     * @param array $options
-     * @param       $constraints
-     * @param bool  $setUnique
+     * @param      $constraints
+     * @param bool $setUnique
      */
     public function addConstraints(array &$options, $constraints, $setUnique = true)
     {
@@ -300,10 +297,6 @@ class SettingsManager
         }
     }
 
-    /**
-     * @param array      $options
-     * @param Constraint $constraint
-     */
     public function removeConstraint(array &$options, Constraint $constraint)
     {
         if (empty($options['costraints'])) {
@@ -330,8 +323,6 @@ class SettingsManager
     }
 
     /**
-     * @param Setting $setting
-     *
      * @return array
      */
     protected function convertToCache(Setting $setting)

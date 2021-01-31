@@ -2,8 +2,6 @@
 
 namespace Hgabka\SettingsBundle\Model;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class NumberSettingType extends AbstractSettingType
@@ -49,7 +47,7 @@ class NumberSettingType extends AbstractSettingType
      */
     public function transformValue($value)
     {
-        return (double) $value;
+        return (float) $value;
     }
 
     /**
@@ -59,6 +57,6 @@ class NumberSettingType extends AbstractSettingType
      */
     public function reverseTransformValue($value)
     {
-        return (double) $value;
+        return (float) $value;
     }
 }

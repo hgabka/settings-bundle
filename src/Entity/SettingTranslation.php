@@ -26,6 +26,8 @@ class SettingTranslation implements TranslationInterface
     protected $value;
 
     /**
+     * @var null|Setting
+     *
      * @Hgabka\Translatable(targetEntity="Hgabka\SettingsBundle\Entity\Setting")
      */
     private $translatable;
@@ -68,5 +70,10 @@ class SettingTranslation implements TranslationInterface
         $this->value = $value;
 
         return $this;
+    }
+
+    public function getTranslatable(): ?Setting
+    {
+        return $this->translatable;
     }
 }

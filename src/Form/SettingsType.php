@@ -31,18 +31,14 @@ class SettingsType extends AbstractType
      */
     private $types;
 
-    /** @var SettingsManager $manager */
+    /** @var SettingsManager */
     private $manager;
 
-    /** @var EventDispatcherInterface $dispatcher */
+    /** @var EventDispatcherInterface */
     private $dispatcher;
 
     /**
      * SettingsType constructor.
-     *
-     * @param SettingsManager          $settingsManager
-     * @param ManagerRegistry          $entityManager
-     * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(SettingsManager $settingsManager, ManagerRegistry $entityManager, EventDispatcherInterface $dispatcher)
     {
@@ -53,10 +49,6 @@ class SettingsType extends AbstractType
         $this->dispatcher = $dispatcher;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         foreach ($this->settings as $setting) {

@@ -28,6 +28,14 @@ class Setting implements TranslatableInterface
     protected $id;
 
     /**
+     * @var null|SettingCategory
+     *
+     * @ORM\ManyToOne(targetEntity=SettingCategory::class, inversedBy="settings")
+     * @ORM\JoinColumn(onDelete="SET NULL", nullable=true)
+     */
+    protected $category;
+
+    /**
      * @ORM\Column(type="string", nullable=false)
      */
     protected $name;
@@ -95,6 +103,18 @@ class Setting implements TranslatableInterface
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getCategory(): ?SettingCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?SettingCategory $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

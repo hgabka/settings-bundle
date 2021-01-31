@@ -18,8 +18,6 @@ class SettingFormTypeEvent extends Event
 
     /**
      * SettingFormTypeEvent constructor.
-     *
-     * @param Setting $setting
      */
     public function __construct(Setting $setting, FormBuilderInterface $formBuilder)
     {
@@ -27,9 +25,6 @@ class SettingFormTypeEvent extends Event
         $this->formBuilder = $formBuilder;
     }
 
-    /**
-     * @return Setting
-     */
     public function getSetting(): Setting
     {
         return $this->setting;

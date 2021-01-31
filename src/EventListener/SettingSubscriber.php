@@ -12,13 +12,11 @@ use Hgabka\SettingsBundle\Helper\SettingsManager;
  */
 class SettingSubscriber implements EventSubscriber
 {
-    /** @var SettingsManager $settingsManager */
+    /** @var SettingsManager */
     private $settingsManager;
 
     /**
      * SettingListener constructor.
-     *
-     * @param SettingsManager $settingsManager
      */
     public function __construct(SettingsManager $settingsManager)
     {
@@ -37,9 +35,6 @@ class SettingSubscriber implements EventSubscriber
         ];
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     */
     public function postPersist(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
@@ -49,9 +44,6 @@ class SettingSubscriber implements EventSubscriber
         $this->settingsManager->addSettingToCache($object);
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     */
     public function preRemove(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
@@ -61,9 +53,6 @@ class SettingSubscriber implements EventSubscriber
         $this->settingsManager->removeFromCache($object->getName());
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     */
     public function postUpdate(LifecycleEventArgs $args)
     {
         $object = $args->getObject();
