@@ -22,6 +22,7 @@ hg_settings:
         visible: Visible
         editable: Editable
         category: Category
+        all_category: All settings
     types:
         string: String
         email: Email address
