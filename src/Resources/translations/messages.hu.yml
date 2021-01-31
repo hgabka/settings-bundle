@@ -22,6 +22,7 @@ hg_settings:
         visible: Látható
         editable: Értéke változtatható
         category: Kategória
+        all_category: Összes beállítás
     types:
         string: Karakterlánc
         email: Email cím
