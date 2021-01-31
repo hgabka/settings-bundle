@@ -3,11 +3,13 @@
 namespace Hgabka\SettingsBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 use Hgabka\SettingsBundle\Entity\SettingCategory;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\Form\Validator\ErrorElement;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -18,6 +20,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SettingAdmin extends AbstractAdmin
 {
+    const CATEGORY_SESSION_KEY = 'hg_settings.category';
+
+    /** @var null|ArrayCollection|SettingCategory[] */
+    protected $categories;
+
     /** @var SettingsManager */
     private $manager;
 
@@ -98,14 +105,66 @@ class SettingAdmin extends AbstractAdmin
         return $actions;
     }
 
+    public function getCategories()
+    {
+        if (null === $this->categories) {
+            $this->categories =
+                $this
+                    ->doctrine
+                    ->getRepository(SettingCategory::class)
+                    ->createQueryBuilder('c')
+                    ->orderBy('c.position')
+                    ->getQuery()
+                    ->getResult()
+            ;
+        }
+
+        return $this->categories;
+    }
+
+    public function useCategories()
+    {
+        return \count($this->getCategories()) > 0;
+    }
+
+    public function getActiveCategoryId()
+    {
+        if (!$this->useCategories()) {
+            return null;
+        }
+
+        $key = static::CATEGORY_SESSION_KEY;
+
+        $session = $this->getRequest()->getSession();
+
+        return $session->get($key, null);
+    }
+
+    public function setCategoryId($categoryId)
+    {
+        $key = static::CATEGORY_SESSION_KEY;
+
+        $session = $this->getRequest()->getSession();
+
+        if ('all' === $categoryId || null === $categoryId) {
+            $session->remove($key);
+        } else {
+            $session->set($key, $categoryId);
+        }
+    }
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('saveCategory', '/saveCategory');
+    }
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
             ->add('name', null, ['label' => 'hg_settings.label.name'])
         ;
-        $categories = $this->doctrine->getRepository(SettingCategory::class)->findAll();
 
-        if (\count($categories)) {
+        if ($this->useCategories()) {
             $formMapper
                 ->add('category', EntityType::class, [
                     'label' => 'hg_settings.label.category',

@@ -2,11 +2,13 @@
 
 namespace Hgabka\SettingsBundle\Controller;
 
+use Hgabka\SettingsBundle\Admin\SettingAdmin;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Form\SettingsType;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class SettingAdminController extends Controller
@@ -67,5 +69,19 @@ class SettingAdminController extends Controller
                 'action' => 'list',
                 'creator' => $creator,
             ]);
+    }
+
+    public function saveCategoryAction()
+    {
+        if ($this->admin->hasAccess('list')) {
+            $session = $this->getRequest()->getSession();
+
+            $key = SettingAdmin::CATEGORY_SESSION_KEY;
+
+            $queryCategory = $this->getRequest()->query->get('category');
+            $this->admin->setCategoryId($queryCategory);
+        }
+
+        return new Response();
     }
 }
