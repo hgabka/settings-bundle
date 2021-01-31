@@ -13,3 +13,15 @@ td.has-error ul {
    padding-left:0;
    color:#dd4b39;
 }
+
+
+form[name="settings"] .table td {
+    vertical-align: middle;
+}
+
+form[name="settings"] .table-striped > tbody > tr.striped {
+	background-color: #f9f9f9;
+}
+form[name="settings"] .table-striped > tbody > tr.not-striped {
+	background-color: transparent;
+}
