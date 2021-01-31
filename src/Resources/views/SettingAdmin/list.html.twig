@@ -22,7 +22,7 @@
             <ul class="nav nav-tabs settings-category-nav-tabs" role="tablist">
                 <li class="{% if categoryId is empty or categoryId == 'all' %} active{% endif %}">
                     <a href="" class="category-tab" data-id="all">
-                        <i class="fa fa-exclamation-circle has-errors hide" aria-hidden="true"></i> Összes
+                        <i class="fa fa-exclamation-circle has-errors hide" aria-hidden="true"></i> {{ 'hg_settings.label.all_category'|trans }}
                     </a>
                 </li>
                 {% for category in admin.categories %}
@@ -145,7 +145,6 @@
                 setErrorsOnTabs();
 
                 $('.btn.btn-success').click(function () {
-                    console.log(9);
                     if (!$('form[name="settings"]')[0].checkValidity()) {
                         $.get('{{ admin.generateUrl('saveCategory') }}', {category: 'all'});
                         $('.settings-category-nav-tabs li').removeClass('active');
