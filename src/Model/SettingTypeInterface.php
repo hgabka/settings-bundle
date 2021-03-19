@@ -2,6 +2,8 @@
 
 namespace Hgabka\SettingsBundle\Model;
 
+use Symfony\Component\Form\DataTransformerInterface;
+
 /**
  * Interface SettingTypeInterface.
  */
@@ -62,4 +64,9 @@ interface SettingTypeInterface
      * @return bool
      */
     public function isVisible();
+    
+    /**
+     * @return DataTransformerInterface|null
+     */
+    public function getFormTransformer(): ?DataTransformerInterface;
 }
