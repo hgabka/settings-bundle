@@ -80,6 +80,9 @@ class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
                 $options['html'] = $type->getHtml($options['data']);
             }
             $oneForm->add('general_value', $formType, $options);
+            if (!empty($type->getFormTransformer())) {
+                $oneForm->get('general_value')->addModelTransformer($type->getFormTransformer());
+            }
         } else {
             foreach ($this->settingsManager->getLocales() as $culture) {
                 $options['label'] = 'hg_settings.label.'.$culture;
@@ -89,6 +92,9 @@ class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
                 }
 
                 $oneForm->add($culture, $formType, $options);
+                if (!empty($type->getFormTransformer())) {
+                    $oneForm->get($culture)->addModelTransformer($type->getFormTransformer());
+                }                
             }
         }
     }
