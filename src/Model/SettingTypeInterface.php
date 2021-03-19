@@ -64,9 +64,6 @@ interface SettingTypeInterface
      * @return bool
      */
     public function isVisible();
-    
-    /**
-     * @return DataTransformerInterface|null
-     */
+
     public function getFormTransformer(): ?DataTransformerInterface;
 }

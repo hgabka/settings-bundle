@@ -69,7 +69,7 @@ abstract class AbstractSettingType implements SettingTypeInterface
     {
         return true;
     }
-    
+
     public function getFormTransformer(): ?DataTransformerInterface
     {
         return null;

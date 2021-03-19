@@ -94,7 +94,7 @@ class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
                 $oneForm->add($culture, $formType, $options);
                 if (!empty($type->getFormTransformer())) {
                     $oneForm->get($culture)->addModelTransformer($type->getFormTransformer());
-                }                
+                }
             }
         }
     }
