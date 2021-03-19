@@ -2,6 +2,8 @@
 
 namespace Hgabka\SettingsBundle\Model;
 
+use Symfony\Component\Form\DataTransformerInterface;
+
 /**
  * Class AbstractSettingType.
  */
@@ -66,5 +68,10 @@ abstract class AbstractSettingType implements SettingTypeInterface
     public function isVisible()
     {
         return true;
+    }
+    
+    public function getFormTransformer(): ?DataTransformerInterface
+    {
+        return null;
     }
 }
