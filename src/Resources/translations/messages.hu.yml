@@ -31,6 +31,8 @@ hg_settings:
         number: Szám
         media: Média választó
         simple_media: Média feltöltés
+        text: Többsoros szöveg
+        wysiwyg: HTML szöveg
     group: Beállítások
     admin:
         model_name: Beállítás
