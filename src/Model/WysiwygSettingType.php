@@ -3,9 +3,8 @@
 namespace Hgabka\SettingsBundle\Model;
 
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class TextSettingType extends AbstractSettingType
+class WysiwygSettingType extends AbstractSettingType
 {
     /**
      * @return mixed|string
