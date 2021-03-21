@@ -11,7 +11,7 @@ class WysiwygSettingType extends AbstractSettingType
      */
     public function getId()
     {
-        return 'text';
+        return 'wysiwyg';
     }
 
     /**
