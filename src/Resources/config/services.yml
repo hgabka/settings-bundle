@@ -73,6 +73,18 @@ services:
             - { name: hg_setting.setting_type }
         public: false
 
+    hg_settings.setting_type_text:
+        class:  Hgabka\SettingsBundle\Model\TextSettingType
+        tags:
+            - { name: hg_setting.setting_type }
+        public: false
+
+    hg_settings.setting_type_wysiwyg:
+        class:  Hgabka\SettingsBundle\Model\WysiwygSettingType
+        tags:
+            - { name: hg_setting.setting_type }
+        public: false
+
     hg_settings.form_type_subscriber:
         class: Hgabka\SettingsBundle\EventListener\GeneralSettingFormTypeSubscriber
         arguments: ['@hg_settings.settings_manager']
