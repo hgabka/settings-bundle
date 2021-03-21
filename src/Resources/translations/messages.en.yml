@@ -29,6 +29,8 @@ hg_settings:
         bool: Yes/No
         integer: Whole number
         number: Number
+        text: Multiline text
+        wysiwyg: HTML text
     group: Settings
     admin:
         model_name: Setting
