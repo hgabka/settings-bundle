@@ -2,12 +2,13 @@
 
 namespace Hgabka\SettingsBundle\Model;
 
+use Hgabka\UtilsBundle\Form\WysiwygType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class WysiwygSettingType extends AbstractSettingType
 {
     /**
-     * @return mixed|string
+     * @return string
      */
     public function getId()
     {
@@ -27,16 +28,6 @@ class WysiwygSettingType extends AbstractSettingType
      */
     public function getFormType()
     {
-        return TextareaType::class;
-    }
-
-    /**
-     * @return array
-     */
-    public function getFormTypeOptions()
-    {
-        return ['attr' => [
-            'class' => 'form-control',
-        ]];
+        return WysiwygType::class;
     }
 }
