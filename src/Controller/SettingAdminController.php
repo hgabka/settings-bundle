@@ -26,6 +26,8 @@ class SettingAdminController extends Controller
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                
                 foreach ($form->getData() as $settingId => $values) {
                     $setting = $this->getDoctrine()->getManager()->getRepository(Setting::class)->findOneBy(['id' => $settingId]);
 
@@ -43,13 +45,10 @@ class SettingAdminController extends Controller
                     } else {
                         $manager->setValuesByCultures($setting, $values);
                     }
-
-                    $em = $this->getDoctrine()->getManager();
-
+                    
                     $em->persist($setting);
-                    $em->flush();
                 }
-
+                $em->flush();
                 $manager->clearCache();
                 $this->addFlash('sonata_flash_success', $this->get('translator')->trans('hg_settings.message.settings_saved'));
 
