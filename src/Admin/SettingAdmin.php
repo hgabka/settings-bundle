@@ -151,8 +151,13 @@ class SettingAdmin extends AbstractAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('saveCategory', '/saveCategory');
-        $collection->remove('batch');
     }
+    
+    protected function configureBatchActions(array $actions): array
+    {
+        return [];
+    }
+
 
     protected function configureFormFields(FormMapper $formMapper)
     {
