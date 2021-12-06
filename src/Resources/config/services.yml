@@ -19,7 +19,7 @@ services:
         class: Hgabka\SettingsBundle\Admin\SettingAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: hg_settings.group, icon: '<i class="fa fa-cog"></i>', label: hg_settings.admin.label, label_catalogue: 'HgabkaSettingsBundle', label_translator_strategy: 'sonata.admin.label.strategy.underscore' }
-        arguments: [null, Hgabka\SettingsBundle\Entity\Setting, HgabkaSettingsBundle:SettingAdmin]
+        arguments: [null, Hgabka\SettingsBundle\Entity\Setting, Hgabka\SettingsBundle\Controller\SettingAdminController]
         calls:
           - [setManager, ["@hg_settings.settings_manager"]]
           - [setDoctrine, ['@doctrine']]
@@ -104,3 +104,7 @@ services:
     Hgabka\SettingsBundle\EventListener\BaseSettingFormTypeSubscriber:
         alias: 'hg_settings.form_type_subscriber'
         public: true
+        
+    Hgabka\SettingsBundle\Controller\SettingAdminController:
+        autowire: true
+        autoconfigure: true        
