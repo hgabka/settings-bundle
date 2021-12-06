@@ -38,3 +38,5 @@ hg_settings:
     message:
         settings_saved: Settings saved successfully
         settings_save_failed: Save failed
+form:
+    group_hg_settings_admin_label: Settings
