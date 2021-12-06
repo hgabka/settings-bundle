@@ -4,8 +4,10 @@ namespace Hgabka\SettingsBundle\Twig;
 
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class HgabkaSettingsTwigExtension extends \Twig_Extension
+class HgabkaSettingsTwigExtension extends AbstractExtension
 {
     /**
      * @var SettingsManager
@@ -26,8 +28,8 @@ class HgabkaSettingsTwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('get_setting', [$this, 'getSetting']),
-            new \Twig_SimpleFunction('is_setting_visible', [$this, 'isSettingVisible']),
+            new TwigFunction('get_setting', [$this, 'getSetting']),
+            new TwigFunction('is_setting_visible', [$this, 'isSettingVisible']),
         ];
     }
 
