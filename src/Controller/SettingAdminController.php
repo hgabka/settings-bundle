@@ -70,7 +70,7 @@ class SettingAdminController extends Controller
         $settings = $creator ? $repo->findAll() : $repo->getVisibleSettings();
 
         return
-            $this->render('@HgabkaSettings/SettingAdmin/list.html.twig', [
+            $this->renderWithExtraParams('@HgabkaSettings/SettingAdmin/list.html.twig', [
                 'settings' => $settings,
                 'form' => $form->createView(),
                 'action' => 'list',
