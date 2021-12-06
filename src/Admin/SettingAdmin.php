@@ -67,12 +67,13 @@ class SettingAdmin extends AbstractAdmin
         return 'hg_settings.admin.model_name';
     }
 
+    
     /**
-     * Get the list of actions that can be accessed directly from the dashboard.
+     * @param array<string, array<string, mixed>> $actions
      *
-     * @return array
+     * @return array<string, array<string, mixed>>
      */
-    public function getDashboardActions()
+    protected function configureDashboardActions(array $actions): array
     {
         $actions = [];
         $container = $this->getConfigurationPool()->getContainer();
