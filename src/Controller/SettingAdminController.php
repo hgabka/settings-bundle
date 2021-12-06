@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class SettingAdminController extends Controller
 {
-    public function listAction(Request $request = null)
+    public function listAction(Request $request): Response
     {
         if (!$this->isGranted($this->getParameter('hg_settings.editor_role'))) {
             throw new AccessDeniedException();
@@ -70,7 +70,7 @@ class SettingAdminController extends Controller
             ]);
     }
 
-    public function saveCategoryAction()
+    public function saveCategoryAction(Request $request): Response
     {
         if ($this->admin->hasAccess('list')) {
             $session = $this->getRequest()->getSession();
