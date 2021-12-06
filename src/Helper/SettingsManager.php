@@ -48,7 +48,7 @@ class SettingsManager
      * @param Registry $doctrine
      * @param $cacheDir
      */
-    public function __construct(ManagerRegistry $doctrine, HgabkaUtils $utils, $cacheDir)
+    public function __construct(Registry $doctrine, HgabkaUtils $utils, $cacheDir)
     {
         $this->doctrine = $doctrine;
         $this->cacheDir = $cacheDir;
