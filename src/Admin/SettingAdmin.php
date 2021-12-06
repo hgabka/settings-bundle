@@ -125,7 +125,7 @@ class SettingAdmin extends AbstractAdmin
                 'translation_domain' => 'SonataAdminBundle',
                 'template' => $this->getTemplateRegistry()->getTemplate('action_create'),
                 'url' => $this->generateUrl('create'),
-                'icon' => 'plus-circle',
+                'icon' => 'fas fa-plus-circle',
             ];
         }
 
