@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SettingAdmin extends AbstractAdmin
@@ -25,6 +26,15 @@ class SettingAdmin extends AbstractAdmin
 
     /** @var null|ArrayCollection|SettingCategory[] */
     protected $categories;
+    
+    /** @var Security */
+    protected $security;
+    
+    /** @var string **/
+    protected $editorRole;
+    
+    /** @var string **/
+    protected $creatorRole;
 
     /** @var SettingsManager */
     private $manager;
@@ -41,6 +51,43 @@ class SettingAdmin extends AbstractAdmin
     {
         $this->doctrine = $doctrine;
     }
+    
+    /**
+     * @param Security $security
+     *
+     * @return LabelAdmin
+     */
+    public function setSecurity(Security $security): self
+    {
+        $this->security = $security;
+
+        return $this;
+    }
+    
+    /**
+     * @param string $editorRole
+     *
+     * @return LabelAdmin
+     */
+    public function setEditorRole(?string $editorRole): self
+    {
+        $this->editorRole = $editorRole;
+
+        return $this;
+    }
+    
+    /**
+     * @param string $creatorRole
+     *
+     * @return LabelAdmin
+     */
+    public function setCreatorRole(?string $creatorRole): self
+    {
+        $this->creatorRole = $creatorRole;
+
+        return $this;
+    }
+
 
     public function postUpdate(object $object): void
     {
@@ -72,9 +119,8 @@ class SettingAdmin extends AbstractAdmin
     {
         $actions = [];
         $container = $this->getConfigurationPool()->getContainer();
-        $authChecker = $container->get('security.authorization_checker');
 
-        if ($authChecker->isGranted($container->getParameter('hg_settings.creator_role'))) {
+        if ($this->security->isGranted($this->creatorRole)) {
             $actions['create'] = [
                 'label' => 'link_add',
                 'translation_domain' => 'SonataAdminBundle',
@@ -84,7 +130,7 @@ class SettingAdmin extends AbstractAdmin
             ];
         }
 
-        if ($authChecker->isGranted($container->getParameter('hg_settings.editor_role'))) {
+        if ($this->security->isGranted($this->editorRole)) {
             $actions['list'] = [
                 'label' => 'link_list',
                 'translation_domain' => 'SonataAdminBundle',
