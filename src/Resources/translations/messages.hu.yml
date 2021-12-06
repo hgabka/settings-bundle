@@ -40,3 +40,5 @@ hg_settings:
     message:
         settings_saved: A beállítások mentése sikeresen megtörtént.
         settings_save_failed: A beállításokat nem sikerült menteni, mert az űrlap hibákat tartalmaz.
+form:
+    group_hg_settings_admin_label: Beállítások
