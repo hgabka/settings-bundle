@@ -47,11 +47,6 @@ class SettingAdmin extends AbstractAdmin
             ->end();
     }
 
-    public function getBatchActions()
-    {
-        return [];
-    }
-
     public function postUpdate($object)
     {
         $this->manager->clearCache();
@@ -156,6 +151,7 @@ class SettingAdmin extends AbstractAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('saveCategory', '/saveCategory');
+        $collection->remove('batch');
     }
 
     protected function configureFormFields(FormMapper $formMapper)
