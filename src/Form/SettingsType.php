@@ -56,7 +56,7 @@ class SettingsType extends AbstractType
             $oneForm = $builder->create($setting->getId(), FormType::class, ['label' => false]);
 
             $event = new SettingFormTypeEvent($setting, $oneForm);
-            $this->dispatcher->dispatch(SettingFormTypeEvent::EVENT_FORM_ADD, $event);
+            $this->dispatcher->dispatch($event, SettingFormTypeEvent::EVENT_FORM_ADD);
 
             if (empty($oneForm)) {
                 continue;
