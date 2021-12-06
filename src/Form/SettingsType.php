@@ -2,7 +2,7 @@
 
 namespace Hgabka\SettingsBundle\Form;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Event\SettingFormTypeEvent;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
@@ -40,7 +40,7 @@ class SettingsType extends AbstractType
     /**
      * SettingsType constructor.
      */
-    public function __construct(SettingsManager $settingsManager, ManagerRegistry $entityManager, EventDispatcherInterface $dispatcher)
+    public function __construct(SettingsManager $settingsManager, Registry $entityManager, EventDispatcherInterface $dispatcher)
     {
         $this->settings = $entityManager->getRepository(Setting::class)->findAll();
         $this->locales = $settingsManager->getLocales();
