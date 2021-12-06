@@ -118,8 +118,7 @@ class SettingAdmin extends AbstractAdmin
     protected function configureDashboardActions(array $actions): array
     {
         $actions = [];
-        $container = $this->getConfigurationPool()->getContainer();
-
+        
         if ($this->security->isGranted($this->creatorRole)) {
             $actions['create'] = [
                 'label' => 'link_add',
