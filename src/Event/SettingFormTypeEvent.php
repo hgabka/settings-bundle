@@ -3,7 +3,7 @@
 namespace Hgabka\SettingsBundle\Event;
 
 use Hgabka\SettingsBundle\Entity\Setting;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class SettingFormTypeEvent extends Event
