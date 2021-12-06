@@ -10,6 +10,7 @@ use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\Form\Validator\ErrorElement;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -41,23 +42,17 @@ class SettingAdmin extends AbstractAdmin
         $this->doctrine = $doctrine;
     }
 
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        $errorElement
-            ->end();
-    }
-
-    public function postUpdate($object)
+    public function postUpdate(object $object): void
     {
         $this->manager->clearCache();
     }
 
-    public function postPersist($object)
+    public function postPersist(object $object): void
     {
         $this->manager->clearCache();
     }
 
-    public function postRemove($object)
+    public function postRemove(object $object): void
     {
         $this->manager->clearCache();
     }
@@ -149,7 +144,7 @@ class SettingAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('saveCategory', '/saveCategory');
     }
@@ -160,7 +155,7 @@ class SettingAdmin extends AbstractAdmin
     }
 
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('name', null, ['label' => 'hg_settings.label.name'])
