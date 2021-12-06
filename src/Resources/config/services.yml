@@ -23,6 +23,9 @@ services:
         calls:
           - [setManager, ["@hg_settings.settings_manager"]]
           - [setDoctrine, ['@doctrine']]
+          - [setSecurity, [ '@security.helper' ]]
+          - [setCreatorRole, ['%hg_settings.creator_role%']]
+          - [setEditorRole, ['%hg_settings.editor_role%']]
 
     hg_settings.form.settings:
         class: Hgabka\SettingsBundle\Form\SettingsType
