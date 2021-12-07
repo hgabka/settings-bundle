@@ -18,7 +18,7 @@ services:
     hg_settings.admin.settings:
         class: Hgabka\SettingsBundle\Admin\SettingAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: hg_settings.group, icon: '<i class="fa fa-cog"></i>', label: hg_settings.admin.label, label_catalogue: 'HgabkaSettingsBundle', label_translator_strategy: 'sonata.admin.label.strategy.underscore' }
+            - { name: sonata.admin, manager_type: orm, group: hg_settings.group, icon: '<i class="fa fa-cog"></i>', label: hg_settings.admin.label, label_catalogue: 'HgabkaSettingsBundle', label_translator_strategy: 'sonata.admin.label.strategy.underscore', on_top: true }
         arguments: [null, Hgabka\SettingsBundle\Entity\Setting, Hgabka\SettingsBundle\Controller\SettingAdminController]
         calls:
           - [setManager, ["@hg_settings.settings_manager"]]
