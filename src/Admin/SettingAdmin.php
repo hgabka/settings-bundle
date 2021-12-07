@@ -134,7 +134,7 @@ class SettingAdmin extends AbstractAdmin
                 'label' => 'link_list',
                 'translation_domain' => 'SonataAdminBundle',
                 'url' => $this->generateUrl('list'),
-                'icon' => 'list',
+                'icon' => 'fas fa-list',
             ];
         }
 
