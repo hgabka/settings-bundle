@@ -3,7 +3,6 @@
 namespace Hgabka\SettingsBundle\Model;
 
 use Hgabka\UtilsBundle\Form\WysiwygType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class WysiwygSettingType extends AbstractSettingType
 {

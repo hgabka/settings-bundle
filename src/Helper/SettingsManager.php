@@ -4,7 +4,6 @@ namespace Hgabka\SettingsBundle\Helper;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Inflector\Inflector;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Model\SettingTypeInterface;
 use Hgabka\UtilsBundle\Helper\HgabkaUtils;
@@ -16,7 +15,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class SettingsManager
 {
-    const CACHE_KEY = 'systemsettings';
+    public const CACHE_KEY = 'systemsettings';
     /**
      * @var Registry
      */
@@ -68,7 +67,7 @@ class SettingsManager
     public function __call($method, $arguments)
     {
         if ('get' !== ($verb = substr($method, 0, 3))) {
-            throw new \Exception('Ismeretlen, vagy nem elerheto metodus: '.self::class.'::'.$method);
+            throw new \Exception('Ismeretlen, vagy nem elerheto metodus: ' . self::class . '::' . $method);
         }
         $property = substr($method, 3);
         $setting = Inflector::tableize($property);

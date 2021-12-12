@@ -3,12 +3,12 @@
 namespace Hgabka\SettingsBundle\Event;
 
 use Hgabka\SettingsBundle\Entity\Setting;
-use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class SettingFormTypeEvent extends Event
 {
-    const EVENT_FORM_ADD = 'hg_settings.form_add';
+    public const EVENT_FORM_ADD = 'hg_settings.form_add';
 
     /** @var Setting */
     protected $setting;

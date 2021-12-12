@@ -85,7 +85,7 @@ class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
             }
         } else {
             foreach ($this->settingsManager->getLocales() as $culture) {
-                $options['label'] = 'hg_settings.label.'.$culture;
+                $options['label'] = 'hg_settings.label.' . $culture;
                 $options['data'] = $type->reverseTransformValue($setting->getValue($culture));
                 if (!$setting->isEditable() || !$type->isEditable()) {
                     $options['html'] = $type->getHtml($options['data']);

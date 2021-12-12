@@ -10,9 +10,9 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class SettingVoter extends Voter
 {
-    const EDIT = 'EDIT';
-    const CREATE = 'CREATE';
-    const DELETE = 'DELETE';
+    public const EDIT = 'EDIT';
+    public const CREATE = 'CREATE';
+    public const DELETE = 'DELETE';
 
     /** @var string */
     protected $editorRole;

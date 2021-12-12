@@ -13,14 +13,14 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class SettingAdminController extends Controller
 {
-	/** @var SettingsManager **/
-	protected $settingsManager;
-	
-	public function __construct(SettingsManager $settingsManager)
-	{
-		$this->settingsManager = $settingsManager;
-	}
-	
+    /** @var SettingsManager * */
+    protected $settingsManager;
+
+    public function __construct(SettingsManager $settingsManager)
+    {
+        $this->settingsManager = $settingsManager;
+    }
+
     public function listAction(Request $request): Response
     {
         if (!$this->isGranted($this->getParameter('hg_settings.editor_role'))) {
@@ -35,7 +35,7 @@ class SettingAdminController extends Controller
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                
+
                 foreach ($form->getData() as $settingId => $values) {
                     $setting = $this->getDoctrine()->getManager()->getRepository(Setting::class)->findOneBy(['id' => $settingId]);
 
@@ -53,7 +53,7 @@ class SettingAdminController extends Controller
                     } else {
                         $manager->setValuesByCultures($setting, $values);
                     }
-                    
+
                     $em->persist($setting);
                 }
                 $em->flush();

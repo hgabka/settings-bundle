@@ -14,7 +14,7 @@ abstract class AbstractSettingType implements SettingTypeInterface
      */
     public function getName()
     {
-        return 'hg_settings.types.'.$this->getId();
+        return 'hg_settings.types.' . $this->getId();
     }
 
     public function getPriority()

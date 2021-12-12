@@ -1,0 +1,70 @@
+<?php
+$srcDir = __DIR__ . DIRECTORY_SEPARATOR . 'src';
+$finder = PhpCsFixer\Finder::create()
+    ->in([$srcDir])
+    // Skip auto generated migration files.
+    ->exclude('Migrations')
+;
+$config = new PhpCsFixer\Config();
+return $config
+    ->setRules([
+        '@PHP73Migration' => true,
+        'psr_autoloading' => ['dir' => $srcDir],
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
+                'align_multiline_comment' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'blank_line_before_statement' => true,
+        'combine_consecutive_unsets' => true,
+        'concat_space' => ['spacing' => 'one'],
+                'general_phpdoc_annotation_remove' => ['annotations' => ['expectedException', 'expectedExceptionMessage', 'expectedExceptionMessageRegExp']],
+        'header_comment' => ['header' => ''],
+        'heredoc_to_nowdoc' => true,
+        'list_syntax' => ['syntax' => 'short'],
+        'method_argument_space' => ['after_heredoc' => true],
+        'no_extra_blank_lines' => ['tokens' => ['break', 'continue', 'extra', 'return', 'throw', 'use', 'parenthesis_brace_block', 'square_brace_block', 'curly_brace_block']],
+        'no_null_property_initialization' => true,
+        'echo_tag_syntax' => ['format' => 'long'],
+        'no_unreachable_default_argument_value' => true,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+        'ordered_class_elements' => true,
+        'ordered_imports' => true,
+        'php_unit_strict' => true,
+        'php_unit_test_class_requires_covers' => true,
+        'phpdoc_add_missing_param_annotation' => true,
+        'phpdoc_order' => true,
+        'phpdoc_types_order' => true,
+        'phpdoc_to_comment' => false,
+        'semicolon_after_instruction' => true,
+        'single_line_comment_style' => ['comment_types' => ['hash']],
+        'strict_comparison' => true,
+        'strict_param' => true,
+        'no_php4_constructor' => true,
+        'ordered_imports' => true,
+        'no_unreachable_default_argument_value' => true,
+        'braces' => ['allow_single_line_closure' => true],
+        'phpdoc_order' => true,
+        // Problémát okozhat, ha törli nevet, pláne, ha többet szeretnénk megadni pl egy for ciklus előtt.
+        'phpdoc_var_without_name' => false,
+        // Nem szeretnénk '.'-ot minden doccomment végére
+        'phpdoc_summary' => false,
+        // Erre azért van szükség, mert pl a JMSTranslationBundle miatt elhelyezhetünk a kódon belül pl /** @Ignore */ -t
+        'phpdoc_to_comment' => false,
+        // Néha bizony van értelme behúzni a tömböknél az értéket, ezért kikapcsoljuk, hogy levágja a "szóközöket" a => operátor körül.
+        'binary_operator_spaces' => ['operators' => [
+            "=>" => null,
+            "=" => null,
+        ]],
+        'heredoc_to_nowdoc' => false,
+        'method_argument_space' => ['after_heredoc' => true],
+        'no_superfluous_phpdoc_tags' => false,
+        'native_function_invocation' => [
+            'include' => [],
+            'scope' => 'namespaced',
+            'strict' => false,
+        ],
+    ])
+    ->setRiskyAllowed(true)
+    ->setFinder($finder)
+;

@@ -6,11 +6,11 @@ use Hgabka\UtilsBundle\Enums\ConstantsChoiceLoader;
 
 class SettingTypes extends ConstantsChoiceLoader
 {
-    const STR = 'str';
-    const INT = 'int';
-    const BOOL = 'bool';
-    const EMAIL = 'email';
-    const FLOAT = 'float';
+    public const STR = 'str';
+    public const INT = 'int';
+    public const BOOL = 'bool';
+    public const EMAIL = 'email';
+    public const FLOAT = 'float';
 
     public static function getI18nPrefix()
     {

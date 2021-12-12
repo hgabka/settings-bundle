@@ -9,9 +9,7 @@ use Hgabka\SettingsBundle\Entity\SettingCategory;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\Form\Validator\ErrorElement;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -22,18 +20,18 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SettingAdmin extends AbstractAdmin
 {
-    const CATEGORY_SESSION_KEY = 'hg_settings.category';
+    public const CATEGORY_SESSION_KEY = 'hg_settings.category';
 
     /** @var null|ArrayCollection|SettingCategory[] */
     protected $categories;
-    
+
     /** @var Security */
     protected $security;
-    
-    /** @var string **/
+
+    /** @var string * */
     protected $editorRole;
-    
-    /** @var string **/
+
+    /** @var string * */
     protected $creatorRole;
 
     /** @var SettingsManager */
@@ -51,7 +49,7 @@ class SettingAdmin extends AbstractAdmin
     {
         $this->doctrine = $doctrine;
     }
-    
+
     /**
      * @param Security $security
      *
@@ -63,7 +61,7 @@ class SettingAdmin extends AbstractAdmin
 
         return $this;
     }
-    
+
     /**
      * @param string $editorRole
      *
@@ -75,7 +73,7 @@ class SettingAdmin extends AbstractAdmin
 
         return $this;
     }
-    
+
     /**
      * @param string $creatorRole
      *
@@ -87,7 +85,6 @@ class SettingAdmin extends AbstractAdmin
 
         return $this;
     }
-
 
     public function postUpdate(object $object): void
     {
@@ -107,38 +104,6 @@ class SettingAdmin extends AbstractAdmin
     public function getModelName()
     {
         return 'hg_settings.admin.model_name';
-    }
-
-    
-    /**
-     * @param array<string, array<string, mixed>> $actions
-     *
-     * @return array<string, array<string, mixed>>
-     */
-    protected function configureDashboardActions(array $actions): array
-    {
-        $actions = [];
-        
-        if ($this->security->isGranted($this->creatorRole)) {
-            $actions['create'] = [
-                'label' => 'link_add',
-                'translation_domain' => 'SonataAdminBundle',
-                'template' => $this->getTemplateRegistry()->getTemplate('action_create'),
-                'url' => $this->generateUrl('create'),
-                'icon' => 'fas fa-plus-circle',
-            ];
-        }
-
-        if ($this->security->isGranted($this->editorRole)) {
-            $actions['list'] = [
-                'label' => 'link_list',
-                'translation_domain' => 'SonataAdminBundle',
-                'url' => $this->generateUrl('list'),
-                'icon' => 'fas fa-list',
-            ];
-        }
-
-        return $actions;
     }
 
     public function getCategories()
@@ -189,16 +154,46 @@ class SettingAdmin extends AbstractAdmin
         }
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $actions
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    protected function configureDashboardActions(array $actions): array
+    {
+        $actions = [];
+
+        if ($this->security->isGranted($this->creatorRole)) {
+            $actions['create'] = [
+                'label' => 'link_add',
+                'translation_domain' => 'SonataAdminBundle',
+                'template' => $this->getTemplateRegistry()->getTemplate('action_create'),
+                'url' => $this->generateUrl('create'),
+                'icon' => 'fas fa-plus-circle',
+            ];
+        }
+
+        if ($this->security->isGranted($this->editorRole)) {
+            $actions['list'] = [
+                'label' => 'link_list',
+                'translation_domain' => 'SonataAdminBundle',
+                'url' => $this->generateUrl('list'),
+                'icon' => 'fas fa-list',
+            ];
+        }
+
+        return $actions;
+    }
+
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('saveCategory', '/saveCategory');
     }
-    
+
     protected function configureBatchActions(array $actions): array
     {
         return [];
     }
-
 
     protected function configureFormFields(FormMapper $formMapper): void
     {
