@@ -81,7 +81,7 @@ class SettingAdminController extends Controller
     public function saveCategoryAction(Request $request): Response
     {
         if ($this->admin->hasAccess('list')) {
-            $session = $this->getRequest()->getSession();
+            $session = $request->getSession();
 
             $key = SettingAdmin::CATEGORY_SESSION_KEY;
 
