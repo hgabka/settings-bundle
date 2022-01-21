@@ -85,7 +85,7 @@ class SettingAdminController extends Controller
 
             $key = SettingAdmin::CATEGORY_SESSION_KEY;
 
-            $queryCategory = $this->getRequest()->query->get('category');
+            $queryCategory = $request->query->get('category');
             $this->admin->setCategoryId($queryCategory);
         }
 
