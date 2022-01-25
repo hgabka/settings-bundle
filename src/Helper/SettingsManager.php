@@ -41,6 +41,8 @@ class SettingsManager
      */
     protected $types = [];
 
+    protected $cachedValues;
+
     /**
      * SettingsManager constructor.
      *
@@ -337,5 +339,25 @@ class SettingsManager
         }
 
         return $res;
+    }
+
+    public function getValues()
+    {
+        if (null === $this->cachedValues) {
+            $this->cachedValues = [];
+            $cacheData = $this->getCacheData();
+
+            if (!empty($cacheData)) {
+                $locale = $this->utils->getCurrentLocale($locale);
+
+                foreach ($cacheData as $name => $data) {
+                    $type = $this->getType($data['type']);
+
+                    $this->cachedValues[$name] = $type->reverseTransformValue($data['value'][$locale]);
+                }
+            }
+        }
+
+        return $this->cachedValues;
     }
 }
