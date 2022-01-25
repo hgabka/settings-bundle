@@ -311,6 +311,41 @@ class SettingsManager
         }
     }
 
+    public function getValues(?string $locale = null)
+    {
+        $locale = $this->utils->getCurrentLocale($locale);
+        if (!array_key_exists($locale, $this->cachedValues)) {
+            $this->cachedValues[$locale] = [];
+            $cacheData = $this->getCacheData();
+
+            if (!empty($cacheData)) {
+                foreach ($cacheData as $name => $data) {
+                    $type = $this->getType($data['type']);
+
+                    $this->cachedValues[$locale][$name] = $type->reverseTransformValue($data['value'][$locale]);
+                }
+            }
+        }
+
+        return $this->cachedValues[$locale];
+    }
+
+    public function replaceSettings(string $target, string $prefix = '', string $postfix = '', ?callable $callable = null, ?string $locale = null): string
+    {
+        $pairs = [];
+        foreach ($this->getValues($locale) as $name => $value) {
+            if (is_callable($callable)) {
+                $value = $callable($value, $name);
+            }
+
+            if (is_scalar($value) && !is_bool($value)) {
+                $pairs[$prefix . $name . $postfix] = (string) $value;
+            }
+        }
+
+        return strtr($target, $pairs);
+    }
+
     /**
      * @return FilesystemAdapter
      */
@@ -339,41 +374,5 @@ class SettingsManager
         }
 
         return $res;
-    }
-
-    public function getValues(?string $locale = null)
-    {
-        $locale = $this->utils->getCurrentLocale($locale);
-        if (!array_key_exists($locale, $this->cachedValues)) {
-            $this->cachedValues[$locale] = [];
-            $cacheData = $this->getCacheData();
-
-            if (!empty($cacheData)) {
-
-                foreach ($cacheData as $name => $data) {
-                    $type = $this->getType($data['type']);
-
-                    $this->cachedValues[$locale][$name] = $type->reverseTransformValue($data['value'][$locale]);
-                }
-            }
-        }
-
-        return $this->cachedValues[$locale];
-    }
-
-    public function replaceSettings(string $target, string $prefix = '', string $postfix = '', ?callable $callable = null, ?string $locale = null): string
-    {
-        $pairs = [];
-        foreach ($this->getValues($locale) as $name => $value) {
-            if (is_callable($callable)) {
-                $value = $callable($value, $name);
-            }
-
-            if (is_scalar($value) && !is_bool($value)) {
-                $pairs[$prefix.$name.$postfix] = (string)$value;
-            }
-        }
-
-        return strtr($target, $pairs);
     }
 }
