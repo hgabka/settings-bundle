@@ -366,7 +366,7 @@ class SettingsManager
         $pairs = [];
         foreach ($this->getValues($locale) as $name => $value) {
             if (is_callable($callable)) {
-                $value = $callable($value);
+                $value = $callable($value, $name);
             }
 
             if (is_scalar($value) && !is_bool($value)) {
