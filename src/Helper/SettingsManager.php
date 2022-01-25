@@ -360,4 +360,20 @@ class SettingsManager
 
         return $this->cachedValues[$locale];
     }
+
+    public function replaceSettings(string $target, string $prefix = '', string $postfix = '', ?callable $callable = null, ?string $locale = null): string
+    {
+        $pairs = [];
+        foreach ($this->getValues($locale) as $name => $value) {
+            if (is_callable($callable)) {
+                $value = $callable($value);
+            }
+
+            if (is_scalar($value) && !is_bool($value)) {
+                $pairs[$prefix.$name.$postfix] = (string)$value;
+            }
+        }
+
+        return strtr($target, $pairs);
+    }
 }
