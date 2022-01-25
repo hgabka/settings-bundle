@@ -57,7 +57,7 @@ class HgabkaSettingsTwigExtension extends AbstractExtension
 
         return $type && $type->isVisible();
     }
-    
+
     public function replaceSettings(string $target, string $prefix = '', string $postfix = ''): string
     {
         $pairs = [];
@@ -66,7 +66,7 @@ class HgabkaSettingsTwigExtension extends AbstractExtension
                 $pairs[$prefix.$name.$postfix] = (string)$value;
             }
         }
-        
+
         return strtr($target, $pairs);
     }
 
