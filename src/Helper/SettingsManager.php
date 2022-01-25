@@ -341,7 +341,7 @@ class SettingsManager
         return $res;
     }
 
-    public function getValues($locale = null)
+    public function getValues(?string $locale = null)
     {
         $locale = $this->utils->getCurrentLocale($locale);
         if (!array_key_exists($locale, $this->cachedValues)) {
