@@ -58,10 +58,10 @@ class HgabkaSettingsTwigExtension extends AbstractExtension
         return $type && $type->isVisible();
     }
 
-    public function replaceSettings(string $target, string $prefix = '', string $postfix = ''): string
+    public function replaceSettings(string $target, string $prefix = '', string $postfix = '', ?string $locale = null): string
     {
         $pairs = [];
-        foreach ($this->settingManager->getValues() as $name => $value) {
+        foreach ($this->settingManager->getValues($locale) as $name => $value) {
             if (is_scalar($value) && !is_bool($value)) {
                 $pairs[$prefix.$name.$postfix] = (string)$value;
             }
