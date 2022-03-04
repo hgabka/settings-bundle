@@ -63,7 +63,7 @@ class HgabkaSettingsTwigExtension extends AbstractExtension
         if (empty($target)) {
             return $target;
         }
-        
+
         return $this->settingManager->replaceSettings($target, $prefix, $postfix, null, $locale);
     }
 
