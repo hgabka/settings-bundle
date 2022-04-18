@@ -28,13 +28,29 @@ class SettingRepository extends EntityRepository
     /**
      * @return array
      */
-    public function getVisibleSettings()
+    public function getVisibleSettings(string $locale)
     {
         return $this
             ->createQueryBuilder('s')
+            ->leftJoin('s.translations', 't', 'WITH', 't.locale = :loc')
+            ->setParameter('loc', $locale)
+            ->orderBy('t.description')
             ->where('s.visible = 1')
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    public function getSettingsOrdered(string $locale)
+    {
+        return
+            $this
+            ->createQueryBuilder('s')
+            ->leftJoin('s.translations', 't', 'WITH', 't.locale = :loc')
+            ->setParameter('loc', $locale)
+            ->orderBy('t.description')
+            ->getQuery()
+            ->execute()
         ;
     }
 }

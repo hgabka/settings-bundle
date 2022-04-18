@@ -31,7 +31,7 @@ services:
         class: Hgabka\SettingsBundle\Form\SettingsType
         tags:
             - { name: form.type }
-        arguments: ['@hg_settings.settings_manager', '@doctrine', '@event_dispatcher']
+        arguments: ['@hg_settings.settings_manager', '@doctrine', '@event_dispatcher','@hgabka_utils.hgabka_utils']
         public: true
 
     hg_settings.settings_manager:

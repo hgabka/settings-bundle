@@ -6,6 +6,7 @@ use Hgabka\SettingsBundle\Admin\SettingAdmin;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Form\SettingsType;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
+use Hgabka\UtilsBundle\Helper\HgabkaUtils;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,9 +17,13 @@ class SettingAdminController extends Controller
     /** @var SettingsManager * */
     protected $settingsManager;
 
-    public function __construct(SettingsManager $settingsManager)
+    /** @var HgabkaUtils */
+    protected $hgabkaUtils;
+
+    public function __construct(SettingsManager $settingsManager, HgabkaUtils $hgabkaUtils)
     {
         $this->settingsManager = $settingsManager;
+        $this->hgabkaUtils = $hgabkaUtils;
     }
 
     public function listAction(Request $request): Response
@@ -67,7 +72,7 @@ class SettingAdminController extends Controller
 
         $repo = $this->getDoctrine()->getRepository(Setting::class);
         $creator = $this->isGranted($this->getParameter('hg_settings.creator_role'));
-        $settings = $creator ? $repo->findAll() : $repo->getVisibleSettings();
+        $settings = $creator ? $repo->getSettingsOrdered($this->hgabkaUtils->getCurrentLocale()) : $repo->getVisibleSettings($this->hgabkaUtils->getCurrentLocale());
 
         return
             $this->renderWithExtraParams('@HgabkaSettings/SettingAdmin/list.html.twig', [

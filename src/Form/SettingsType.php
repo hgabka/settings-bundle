@@ -6,6 +6,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Event\SettingFormTypeEvent;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
+use Hgabka\UtilsBundle\Helper\HgabkaUtils;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -37,12 +38,16 @@ class SettingsType extends AbstractType
     /** @var EventDispatcherInterface */
     private $dispatcher;
 
+    /** @var HgabkaUtils */
+    private $hgabkaUtils;
+
     /**
      * SettingsType constructor.
      */
-    public function __construct(SettingsManager $settingsManager, Registry $entityManager, EventDispatcherInterface $dispatcher)
+    public function __construct(SettingsManager $settingsManager, Registry $entityManager, EventDispatcherInterface $dispatcher, HgabkaUtils $hgabkaUtils)
     {
-        $this->settings = $entityManager->getRepository(Setting::class)->findAll();
+        $this->hgabkaUtils = $hgabkaUtils;
+        $this->settings = $entityManager->getRepository(Setting::class)->getSettingsOrdered($this->hgabkaUtils->getCurrentLocale());
         $this->locales = $settingsManager->getLocales();
         $this->types = $settingsManager->getTypes();
         $this->manager = $settingsManager;
