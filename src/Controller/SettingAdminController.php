@@ -2,6 +2,7 @@
 
 namespace Hgabka\SettingsBundle\Controller;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Hgabka\SettingsBundle\Admin\SettingAdmin;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Form\SettingsType;
@@ -20,10 +21,11 @@ class SettingAdminController extends Controller
     /** @var HgabkaUtils */
     protected $hgabkaUtils;
 
-    public function __construct(SettingsManager $settingsManager, HgabkaUtils $hgabkaUtils)
+    public function __construct(SettingsManager $settingsManager, HgabkaUtils $hgabkaUtils, ManagerRegistry $doctrine)
     {
         $this->settingsManager = $settingsManager;
         $this->hgabkaUtils = $hgabkaUtils;
+        $this->doctrine = $doctrine;
     }
 
     public function listAction(Request $request): Response
@@ -39,10 +41,10 @@ class SettingAdminController extends Controller
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
+                $em = $this->doctrine->getManager();
 
                 foreach ($form->getData() as $settingId => $values) {
-                    $setting = $this->getDoctrine()->getManager()->getRepository(Setting::class)->findOneBy(['id' => $settingId]);
+                    $setting = $this->doctrine->getManager()->getRepository(Setting::class)->findOneBy(['id' => $settingId]);
 
                     if (!$setting->getId()) {
                         continue;
@@ -70,7 +72,7 @@ class SettingAdminController extends Controller
             $this->addFlash('sonata_flash_error', $this->get('translator')->trans('hg_settings.message.settings_save_failed'));
         }
 
-        $repo = $this->getDoctrine()->getRepository(Setting::class);
+        $repo = $this->doctrine->getRepository(Setting::class);
         $creator = $this->isGranted($this->getParameter('hg_settings.creator_role'));
         $settings = $creator ? $repo->getSettingsOrdered($this->hgabkaUtils->getCurrentLocale()) : $repo->getVisibleSettings($this->hgabkaUtils->getCurrentLocale());
 
