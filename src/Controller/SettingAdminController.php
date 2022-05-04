@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SettingAdminController extends Controller
 {
@@ -21,11 +22,18 @@ class SettingAdminController extends Controller
     /** @var HgabkaUtils */
     protected $hgabkaUtils;
 
-    public function __construct(SettingsManager $settingsManager, HgabkaUtils $hgabkaUtils, ManagerRegistry $doctrine)
+    /** @var ManagerRegistry  */
+    protected $doctrine;
+
+    /** @var TranslatorInterface */
+    protected $translator;
+
+    public function __construct(SettingsManager $settingsManager, HgabkaUtils $hgabkaUtils, ManagerRegistry $doctrine, TranslatorInterface $translator)
     {
         $this->settingsManager = $settingsManager;
         $this->hgabkaUtils = $hgabkaUtils;
         $this->doctrine = $doctrine;
+        $this->translator = $translator;
     }
 
     public function listAction(Request $request): Response
@@ -65,11 +73,11 @@ class SettingAdminController extends Controller
                 }
                 $em->flush();
                 $manager->clearCache();
-                $this->addFlash('sonata_flash_success', $this->get('translator')->trans('hg_settings.message.settings_saved'));
+                $this->addFlash('sonata_flash_success', $this->translator->trans('hg_settings.message.settings_saved'));
 
                 return $this->redirectToList();
             }
-            $this->addFlash('sonata_flash_error', $this->get('translator')->trans('hg_settings.message.settings_save_failed'));
+            $this->addFlash('sonata_flash_error', $this->translator->trans('hg_settings.message.settings_save_failed'));
         }
 
         $repo = $this->doctrine->getRepository(Setting::class);
