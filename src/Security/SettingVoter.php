@@ -36,7 +36,7 @@ class SettingVoter extends Voter
         $this->creatorRole = $creatorRole;
     }
 
-    protected function supports($attribute, $subject)
+    protected function supports(string $attribute, mixed $subject): bool
     {
         if (!\in_array($attribute, [self::EDIT, self::CREATE, self::DELETE], true)) {
             return false;
@@ -48,7 +48,7 @@ class SettingVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
         if (!$user instanceof User) {
@@ -66,17 +66,17 @@ class SettingVoter extends Voter
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canEdit(Setting $setting, TokenInterface $token)
+    private function canEdit(Setting $setting, TokenInterface $token): bool
     {
         return $this->decisionManager->decide($token, [$this->editorRole]);
     }
 
-    private function canCreate(Setting $setting, TokenInterface $token)
+    private function canCreate(Setting $setting, TokenInterface $token): bool
     {
         return $this->decisionManager->decide($token, $this->creatorRole);
     }
 
-    private function canDelete(Setting $setting, TokenInterface $token)
+    private function canDelete(Setting $setting, TokenInterface $token): bool
     {
         return $this->decisionManager->decide($token, $this->creatorRole);
     }
