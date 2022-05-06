@@ -22,7 +22,7 @@ class SettingAdminController extends Controller
     /** @var HgabkaUtils */
     protected $hgabkaUtils;
 
-    /** @var ManagerRegistry  */
+    /** @var ManagerRegistry */
     protected $doctrine;
 
     /** @var TranslatorInterface */
