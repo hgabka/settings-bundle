@@ -8,42 +8,32 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Hgabka\Doctrine\Translatable\Annotation as Hgabka;
 use Hgabka\Doctrine\Translatable\TranslatableInterface;
+use Hgabka\SettingsBundle\Repository\SettingCategoryRepository;
 use Hgabka\UtilsBundle\Traits\TranslatableTrait;
 
-/**
- * Setting.
- *
- * @ORM\Table(name="hg_settings_setting_category")
- * @ORM\Entity(repositoryClass="Hgabka\SettingsBundle\Repository\SettingCategoryRepository")
- */
+#[ORM\Entity(repositoryClass: SettingCategoryRepository::class)]
+#[ORM\Table(name: 'hg_settings_setting_category')]
 class SettingCategory implements TranslatableInterface
 {
     use TranslatableTrait;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
 
-    /**
-     * @var null|int
-     *
-     * @Gedmo\SortablePosition
-     * @ORM\Column(name="position", type="integer")
-     */
-    private $position;
+    #[ORM\Column(name: 'position', type: 'integer')]
+    #[Gedmo\SortablePosition]
+    private ?int $position = null;
 
     /**
      * @Hgabka\Translations(targetEntity="Hgabka\SettingsBundle\Entity\SettingCategoryTranslation")
      */
-    private $translations;
+    #[Hgabka\Translations(targetEntity: SettingCategoryTranslation::class)]
+    private Collection|array|null $translations;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Setting::class, mappedBy="category")
-     */
-    private $settings;
+    #[ORM\OneToMany(targetEntity: Setting::class, mappedBy: 'category')]
+    private Collection|array|null $settings;
 
     /**
      * constructor.
@@ -54,20 +44,12 @@ class SettingCategory implements TranslatableInterface
         $this->settings = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return SettingCategory
-     */
-    public function setId($id)
+    public function setId(?int $id): self
     {
         $this->id = $id;
 
@@ -79,9 +61,6 @@ class SettingCategory implements TranslatableInterface
         return $this->position;
     }
 
-    /**
-     * @return SettingCategory
-     */
     public function setPosition(?int $position): self
     {
         $this->position = $position;
@@ -89,20 +68,17 @@ class SettingCategory implements TranslatableInterface
         return $this;
     }
 
-    public function getName($locale = null)
+    public function getName(?string $locale = null): ?string
     {
         return $this->translate($locale)->getName();
     }
 
-    public static function getTranslationEntityClass()
+    public static function getTranslationEntityClass(): string
     {
         return SettingCategoryTranslation::class;
     }
 
-    /**
-     * @return Collection|CouponLog[]
-     */
-    public function getSettings(): Collection
+    public function getSettings(): Collection|array|null
     {
         return $this->settings;
     }
@@ -120,7 +96,6 @@ class SettingCategory implements TranslatableInterface
     public function removeSetting(Setting $setting): self
     {
         if ($this->settings->removeElement($setting)) {
-            // set the owning side to null (unless already changed)
             if ($setting->getCategory() === $this) {
                 $setting->setCategory(null);
             }
