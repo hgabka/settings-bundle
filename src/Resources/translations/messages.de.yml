@@ -1,0 +1,43 @@
+breadcrumb:
+    link_setting_list: Einstellungen
+    link_setting_create: Add new setting
+hg_settings:
+    list:
+        title: Einstellungen
+    header:
+        name: Name
+        description: Description
+        value: Value
+        actions: Actions
+    label:
+        hu: auf ungarisch
+        en: auf Englisch
+        de: auf Deutsch
+        save: Save settings
+        nyelvfuggetlen: false
+        culture_aware: Culture aware
+        name: Name
+        type: Type
+        description: Description
+        required: Filling this field is mandatory
+        visible: Visible
+        editable: Editable
+        category: Category
+        all_category: All settings
+    types:
+        string: String
+        email: Email address
+        bool: Yes/No
+        integer: Whole number
+        number: Number
+        text: Multiline text
+        wysiwyg: HTML text
+    group: Einstellungen
+    admin:
+        model_name: Einstellung
+        label: Einstellungen
+    message:
+        settings_saved: Settings saved successfully
+        settings_save_failed: Save failed
+form:
+    group_hg_settings_admin_label: Einstellungen
