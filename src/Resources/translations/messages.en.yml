@@ -12,6 +12,7 @@ hg_settings:
     label:
         hu: In Hungarian
         en: In English
+        de: In German
         save: Save settings
         nyelvfuggetlen: false
         culture_aware: Culture aware
