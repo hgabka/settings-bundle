@@ -12,6 +12,7 @@ hg_settings:
     label:
         hu: Magyar nyelven
         en: Angol nyelven
+        de: Német nyelven
         save: Beállítások mentése
         nyelvfuggetlen: false
         culture_aware: Nyelvfüggő
