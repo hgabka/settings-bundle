@@ -19,7 +19,7 @@ class RedirectAdmin extends AbstractAdmin
                 'label' => 'hg_settings.redirect.label.target',
             ])
             ->add('permanent', null, [
-                'label' => 'hg_settings.redirect.label.origin',
+                'label' => 'hg_settings.redirect.label.permanent',
             ])
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
