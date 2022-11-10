@@ -1,7 +1,14 @@
 breadcrumb:
     link_setting_list: Beállítások
     link_setting_create: Beállítás felvitele
+    link_redirect_list: Átirányítások
+    link_redirect_create: Átirányítás felvitele
 hg_settings:
+    redirect:
+        label:
+            origin: Forrás
+            target: Cél
+            permanent: Állandó?
     list:
         title: Beállítások
     header:
@@ -43,3 +50,4 @@ hg_settings:
         settings_save_failed: A beállításokat nem sikerült menteni, mert az űrlap hibákat tartalmaz.
 form:
     group_hg_settings_admin_label: Beállítások
+    group_hg_settings_admin_redirect: Átirányítások

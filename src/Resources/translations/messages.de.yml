@@ -2,6 +2,11 @@ breadcrumb:
     link_setting_list: Einstellungen
     link_setting_create: Add new setting
 hg_settings:
+    redirect:
+        label:
+            origin: Origin
+            target: Target
+            permanent: Permanent?
     list:
         title: Einstellungen
     header:

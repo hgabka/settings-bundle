@@ -26,6 +26,11 @@ services:
           - [setCreatorRole, ['%hg_settings.creator_role%']]
           - [setEditorRole, ['%hg_settings.editor_role%']]
 
+    hg_settings.admin.redirect:
+        class: Hgabka\SettingsBundle\Admin\RedirectAdmin
+        tags:
+            - { name: sonata.admin, model_class: Hgabka\SettingsBundle\Entity\Redirect, controller: ~, manager_type: orm, group: hg_settings.redirect_group, icon: '<i class="fa fa-rotate-right"></i>', label: hg_settings.admin.redirect, label_translator_strategy: 'sonata.admin.label.strategy.underscore', translation_domain: 'messages' }
+
     hg_settings.form.settings:
         class: Hgabka\SettingsBundle\Form\SettingsType
         tags:

@@ -110,7 +110,7 @@ class RedirectRouter implements RouterInterface
     {
         $origin = $redirect->getOrigin();
         $matchSegment = substr($origin, 0, -1);
-        if (substr($origin, -2) === '/*') {
+        if ('/*' === substr($origin, -2)) {
             return $this->isPathInfoWildcardMatch($matchSegment);
         }
 
@@ -136,11 +136,15 @@ class RedirectRouter implements RouterInterface
         }
 
         return new Route(
-            $redirect->getOrigin(), [
-                '_controller' => RedirectController::class.'::urlRedirectAction',
+            $redirect->getOrigin(),
+            [
+                '_controller' => RedirectController::class . '::urlRedirectAction',
                 'path' => $redirect->getTarget(),
                 'permanent' => $redirect->isPermanent(),
-            ], [], ['utf8' => $needsUtf8]);
+            ],
+            [],
+            ['utf8' => $needsUtf8]
+        );
     }
 
     /**
@@ -160,7 +164,7 @@ class RedirectRouter implements RouterInterface
         $this->context->setPathInfo($targetPath);
 
         return new Route($url, [
-            '_controller' => RedirectController::class.'::urlRedirectAction',
+            '_controller' => RedirectController::class . '::urlRedirectAction',
             'path' => $targetPath,
             'permanent' => $redirect->isPermanent(),
         ], [], ['utf8' => $needsUtf8]);

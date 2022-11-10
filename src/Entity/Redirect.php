@@ -5,6 +5,7 @@ namespace Hgabka\SettingsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Hgabka\SettingsBundle\Repository\RedirectRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: RedirectRepository::class)]
 #[ORM\Table(name: 'hg_settings_redirect')]
@@ -28,6 +29,11 @@ class Redirect
 
     #[ORM\Column(name: 'permanent', type: 'boolean', nullable: true)]
     protected bool $permanent = true;
+
+    public function __toString()
+    {
+        return 'Átirányítás';
+    }
 
     /**
      * @return null|int
