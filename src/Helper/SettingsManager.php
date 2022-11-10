@@ -272,7 +272,7 @@ class SettingsManager
      * @param      $constraints
      * @param bool $setUnique
      */
-    public function addConstraints(array & $options, $constraints, $setUnique = true)
+    public function addConstraints(array &$options, $constraints, $setUnique = true)
     {
         if (empty($constraints)) {
             return;
@@ -298,7 +298,7 @@ class SettingsManager
         }
     }
 
-    public function removeConstraint(array & $options, Constraint $constraint)
+    public function removeConstraint(array &$options, Constraint $constraint)
     {
         if (empty($options['costraints'])) {
             return;

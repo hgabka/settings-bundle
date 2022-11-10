@@ -107,3 +107,14 @@ services:
     Hgabka\SettingsBundle\Controller\SettingAdminController:
         autowire: true
         autoconfigure: true        
+
+    hg_settings.repositories.redirect:
+        class:            Hgabka\SettingsBundle\Repository\RedirectRepository
+        factory:          ['@doctrine.orm.entity_manager', getRepository]
+        arguments:        [Hgabka\SettingsBundle\Entity\Redirect]
+
+    hg_settings.redirectrouter:
+        class: Hgabka\SettingsBundle\Router\RedirectRouter
+        arguments: ['@hg_settings.repositories.redirect']
+        tags:
+            - { name: router, priority: 1 }
