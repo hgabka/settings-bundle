@@ -38,9 +38,11 @@ hg_settings:
         text: Multiline text
         wysiwyg: HTML text
     group: Einstellungen
+    redirect_group: Redirects
     admin:
         model_name: Einstellung
         label: Einstellungen
+        redirect: Redirects
     message:
         settings_saved: Settings saved successfully
         settings_save_failed: Save failed
