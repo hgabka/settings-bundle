@@ -19,11 +19,6 @@ class DatetimeRangeSettingType extends AbstractSettingType
         return 'datetimerange';
     }
 
-    public function getName(): string
-    {
-        return 'Időintervallum';
-    }
-
     /**
      * @return null|int
      */
