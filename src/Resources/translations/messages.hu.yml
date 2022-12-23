@@ -1,14 +1,7 @@
 breadcrumb:
     link_setting_list: Beállítások
     link_setting_create: Beállítás felvitele
-    link_redirect_list: Átirányítások
-    link_redirect_create: Átirányítás felvitele
 hg_settings:
-    redirect:
-        label:
-            origin: Forrás
-            target: Cél
-            permanent: Állandó?
     list:
         title: Beállítások
     header:
@@ -19,7 +12,6 @@ hg_settings:
     label:
         hu: Magyar nyelven
         en: Angol nyelven
-        de: Német nyelven
         save: Beállítások mentése
         nyelvfuggetlen: false
         culture_aware: Nyelvfüggő
@@ -42,14 +34,11 @@ hg_settings:
         text: Többsoros szöveg
         wysiwyg: HTML szöveg
     group: Beállítások
-    redirect_group: Átirányítások
     admin:
         model_name: Beállítás
         label: Beállítások
-        redirect: Átirányítások
     message:
         settings_saved: A beállítások mentése sikeresen megtörtént.
         settings_save_failed: A beállításokat nem sikerült menteni, mert az űrlap hibákat tartalmaz.
 form:
     group_hg_settings_admin_label: Beállítások
-    group_hg_settings_admin_redirect: Átirányítások

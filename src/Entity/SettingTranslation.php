@@ -5,47 +5,67 @@ namespace Hgabka\SettingsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Hgabka\Doctrine\Translatable\Annotation as Hgabka;
 use Hgabka\Doctrine\Translatable\Entity\TranslationTrait;
-use Hgabka\Doctrine\Translatable\TranslatableInterface;
 use Hgabka\Doctrine\Translatable\TranslationInterface;
 
-#[ORM\Entity]
-#[ORM\Table(name: 'hg_settings_settings_translation')]
+/**
+ * @ORM\Table(name="hg_settings_settings_translation")
+ * @ORM\Entity
+ */
 class SettingTranslation implements TranslationInterface
 {
     use TranslationTrait;
 
-    #[ORM\Column(name: 'description', type: 'string', nullable: true)]
-    protected ?string $description = null;
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $description;
 
-    #[ORM\Column(name: 'value', type: 'text', nullable: true)]
-    protected ?string $value = null;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $value;
 
     /**
      * @var null|Setting
      *
      * @Hgabka\Translatable(targetEntity="Hgabka\SettingsBundle\Entity\Setting")
      */
-    #[Hgabka\Translatable(targetEntity: Setting::class)]
-    private ?TranslatableInterface $translatable = null;
+    private $translatable;
 
-    public function getDescription(): ?string
+    /**
+     * @return mixed
+     */
+    public function getDescription()
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    /**
+     * @param mixed $description
+     *
+     * @return SettingTranslation
+     */
+    public function setDescription($description)
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getValue(): ?string
+    /**
+     * @return mixed
+     */
+    public function getValue()
     {
         return $this->value;
     }
 
-    public function setValue(?string $value): self
+    /**
+     * @param mixed $value
+     *
+     * @return SettingTranslation
+     */
+    public function setValue($value)
     {
         $this->value = $value;
 

@@ -1,14 +1,7 @@
 breadcrumb:
     link_setting_list: Settings
     link_setting_create: Add new setting
-    link_redirect_list: Redirects
-    link_redirect_create: New redirect
 hg_settings:
-    redirect:
-        label:
-            origin: Origin
-            target: Target
-            permanent: Permanent?
     list:
         title: Settings
     header:
@@ -19,7 +12,6 @@ hg_settings:
     label:
         hu: In Hungarian
         en: In English
-        de: In German
         save: Save settings
         nyelvfuggetlen: false
         culture_aware: Culture aware
@@ -40,14 +32,11 @@ hg_settings:
         text: Multiline text
         wysiwyg: HTML text
     group: Settings
-    redirect_group: Redirects
     admin:
         model_name: Setting
         label: Settings
-        redirect: Redirects
     message:
         settings_saved: Settings saved successfully
         settings_save_failed: Save failed
 form:
     group_hg_settings_admin_label: Settings
-    group_hg_settings_admin_redirect: Redirects

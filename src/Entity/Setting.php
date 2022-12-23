@@ -3,56 +3,76 @@
 namespace Hgabka\SettingsBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Hgabka\Doctrine\Translatable\Annotation as Hgabka;
 use Hgabka\Doctrine\Translatable\TranslatableInterface;
-use Hgabka\SettingsBundle\Repository\SettingRepository;
 use Hgabka\UtilsBundle\Traits\TranslatableTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: SettingRepository::class)]
-#[ORM\Table(name: 'hg_settings_settings')]
-#[UniqueEntity(fields: ['name'], message: 'A megadott névvel már létezik beállítás', errorPath: 'name')]
+/**
+ * Setting.
+ *
+ * @ORM\Table(name="hg_settings_settings")
+ * @ORM\Entity(repositoryClass="Hgabka\SettingsBundle\Repository\SettingRepository")
+ * @UniqueEntity(fields={"name"}, message="A megadott névvel már létezik beállítás", errorPath="name")
+ */
 class Setting implements TranslatableInterface
 {
     use TranslatableTrait;
 
-    #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id = null;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-    #[ORM\ManyToOne(targetEntity: SettingCategory::class, inversedBy: 'settings')]
-    #[ORM\JoinColumn(onDelete: 'SET NULL', nullable: true)]
-    protected ?SettingCategory $category = null;
+    /**
+     * @var null|SettingCategory
+     *
+     * @ORM\ManyToOne(targetEntity=SettingCategory::class, inversedBy="settings")
+     * @ORM\JoinColumn(onDelete="SET NULL", nullable=true)
+     */
+    protected $category;
 
-    #[ORM\Column(name: 'name', type: 'string', nullable: false)]
-    protected ?string $name = null;
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    protected $name;
 
-    #[ORM\Column(name: 'editable', type: 'boolean', nullable: false)]
-    protected bool $editable = true;
+    /**
+     * @ORM\Column(name="editable", type="boolean", nullable=false)
+     */
+    protected $editable = true;
 
-    #[ORM\Column(name: 'visible', type: 'boolean', nullable: false)]
-    protected bool $visible = true;
+    /**
+     * @ORM\Column(name="visible", type="boolean", nullable=false)
+     */
+    protected $visible = true;
+    /**
+     * @ORM\Column(name="required", type="boolean", nullable=false)
+     */
+    protected $required = true;
 
-    #[ORM\Column(name: 'required', type: 'boolean', nullable: false)]
-    protected bool $required = true;
+    /**
+     * @ORM\Column(name="culture_aware", type="boolean", nullable=false)
+     */
+    protected $cultureAware = false;
 
-    #[ORM\Column(name: 'culture_aware', type: 'boolean', nullable: false)]
-    protected bool $cultureAware = false;
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false)
+     */
+    protected $type;
 
-    #[ORM\Column(name: 'type', type: 'string', length: 50, nullable: false)]
-    protected ?string $type = null;
-
-    #[ORM\Column(name: 'general_value', type: 'text', nullable: true)]
-    protected ?string $generalValue = null;
+    /**
+     * @ORM\Column(name="general_value", type="text", nullable=true)
+     */
+    protected $generalValue;
 
     /**
      * @Hgabka\Translations(targetEntity="Hgabka\SettingsBundle\Entity\SettingTranslation")
      */
-    #[Hgabka\Translations(targetEntity: SettingTranslation::class)]
-    private Collection|array|null $translations;
+    private $translations;
 
     /**
      * constructor.
@@ -62,17 +82,25 @@ class Setting implements TranslatableInterface
         $this->translations = new ArrayCollection();
     }
 
-    public function __toString(): string
+    public function __toString()
     {
         return $this->getName() ?: '';
     }
 
-    public function getId(): ?int
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
         return $this->id;
     }
 
-    public function setId(?int $id): self
+    /**
+     * @param mixed $id
+     *
+     * @return Setting
+     */
+    public function setId($id)
     {
         $this->id = $id;
 
@@ -91,114 +119,171 @@ class Setting implements TranslatableInterface
         return $this;
     }
 
-    public function getName(): ?string
+    /**
+     * @return string
+     */
+    public function getName()
     {
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    /**
+     * @param mixed $name
+     *
+     * @return Setting
+     */
+    public function setName($name)
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getType(): ?string
+    /**
+     * @return string
+     */
+    public function getType()
     {
         return $this->type;
     }
 
-    public function setType(?string $type): self
+    /**
+     * @param mixed $type
+     *
+     * @return Setting
+     */
+    public function setType($type)
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function getValue(?string $locale = null): ?string
+    public function getValue($locale = null)
     {
         return $this->translate($locale)->getValue();
     }
 
-    public static function getTranslationEntityClass(): string
+    public static function getTranslationEntityClass()
     {
         return SettingTranslation::class;
     }
 
     /**
      * Visszaadja a paraméterben kapott culture-höz tartozó értéket
+     * Ha checkbox típusú, akkor bool konverziót is végez.
      *
      * @param null|string $culture - ha nem nyelvfüggő, akkor a general_value-t adja a paramétertől függetlenül, egyébként ezen nyelvű i18n-es rekord value-ját
      * @param null|mixed  $locale
      *
-     * @return string - az érték
+     * @return mixed - az érték
      */
-    public function getValueByLocale(?string $locale = null): ?string
+    public function getValueByLocale($locale = null)
     {
         $value = $this->isCultureAware() ? $this->getValue($locale) : $this->getGeneralValue();
 
         return $value;
     }
 
-    public function isCultureAware(): bool
+    /**
+     * @return mixed
+     */
+    public function isCultureAware()
     {
         return $this->cultureAware;
     }
 
-    public function setCultureAware(bool $cultureAware): self
+    /**
+     * @param mixed $cultureAware
+     *
+     * @return Setting
+     */
+    public function setCultureAware($cultureAware)
     {
         $this->cultureAware = $cultureAware;
 
         return $this;
     }
 
-    public function getGeneralValue(): ?string
+    /**
+     * @return mixed
+     */
+    public function getGeneralValue()
     {
         return $this->generalValue;
     }
 
-    public function setGeneralValue(?string $generalValue): self
+    /**
+     * @param mixed $generalValue
+     *
+     * @return Setting
+     */
+    public function setGeneralValue($generalValue)
     {
         $this->generalValue = $generalValue;
 
         return $this;
     }
 
-    public function getDescription(?string $locale = null): ?string
+    public function getDescription($locale = null)
     {
         return $this->translate($locale)->getDescription();
     }
 
-    public function isEditable(): bool
+    /**
+     * @return bool
+     */
+    public function isEditable()
     {
         return $this->editable;
     }
 
-    public function setEditable(bool $editable): self
+    /**
+     * @param mixed $editable
+     *
+     * @return Setting
+     */
+    public function setEditable($editable)
     {
         $this->editable = $editable;
 
         return $this;
     }
 
-    public function isVisible(): bool
+    /**
+     * @return bool
+     */
+    public function isVisible()
     {
         return $this->visible;
     }
 
-    public function setVisible(bool $visible): self
+    /**
+     * @param mixed $visible
+     *
+     * @return Setting
+     */
+    public function setVisible($visible)
     {
         $this->visible = $visible;
 
         return $this;
     }
 
-    public function isRequired(): bool
+    /**
+     * @return bool
+     */
+    public function isRequired()
     {
         return $this->required;
     }
 
-    public function setRequired(bool $required): self
+    /**
+     * @param mixed $required
+     *
+     * @return Setting
+     */
+    public function setRequired($required)
     {
         $this->required = $required;
 

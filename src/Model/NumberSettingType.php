@@ -11,7 +11,7 @@ class NumberSettingType extends AbstractSettingType
      */
     public function getId()
     {
-        return 'integer';
+        return 'number';
     }
 
     /**

@@ -1,3 +1,0 @@
-errors:
-    redirect:
-        origin_same_as_target: Origin and target cannot be the same
