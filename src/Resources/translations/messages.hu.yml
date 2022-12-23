@@ -41,6 +41,7 @@ hg_settings:
         simple_media: Média feltöltés
         text: Többsoros szöveg
         wysiwyg: HTML szöveg
+        datetimerange: Időintervallum
     group: Beállítások
     redirect_group: Átirányítások
     admin:
