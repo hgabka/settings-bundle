@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Setting;
+namespace Hgaka\SettingsBundle\Model;
 
 use Hgabka\SettingsBundle\Model\AbstractSettingType;
 use Sonata\Form\Type\DateTimeRangePickerType;
