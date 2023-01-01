@@ -10,34 +10,22 @@ use Twig\TwigFunction;
 
 class HgabkaSettingsTwigExtension extends AbstractExtension
 {
-    /**
-     * @var SettingsManager
-     */
-    protected $settingManager;
-
-    /**
-     * PublicTwigExtension constructor.
-     */
-    public function __construct(SettingsManager $settingsManager)
+    public function __construct(protected readonly SettingsManager $settingsManager)
     {
-        $this->settingManager = $settingsManager;
     }
 
-    /**
-     * @return array
-     */
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_setting', [$this, 'getSetting']),
-            new TwigFunction('is_setting_visible', [$this, 'isSettingVisible']),
+            new TwigFunction('get_setting', $this->getSetting(...)),
+            new TwigFunction('is_setting_visible', $this->isSettingVisible(...)),
         ];
     }
 
     public function getFilters(): array
     {
         return [
-            new TwigFilter('replace_settings', [$this, 'replaceSettings'], ['is_safe' => ['html']]),
+            new TwigFilter('replace_settings', $this->replaceSettings(...), ['is_safe' => ['html']]),
         ];
     }
 
@@ -46,12 +34,12 @@ class HgabkaSettingsTwigExtension extends AbstractExtension
      *
      * @return mixed
      */
-    public function getSetting($slug)
+    public function getSetting(string $slug, ?string $locale = null)
     {
-        return $this->settingManager->get($slug);
+        return $this->settingManager->get($slug, $locale);
     }
 
-    public function isSettingVisible(Setting $setting)
+    public function isSettingVisible(Setting $setting): bool
     {
         $type = $this->settingManager->getType($setting->getType());
 
@@ -65,13 +53,5 @@ class HgabkaSettingsTwigExtension extends AbstractExtension
         }
 
         return $this->settingManager->replaceSettings($target, $prefix, $postfix, null, $locale);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'hgabka_settingsbundle_twig_extension';
     }
 }
