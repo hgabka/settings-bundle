@@ -17,9 +17,9 @@ class SettingsManager
 {
     public const CACHE_KEY = 'systemsettings';
 
-    protected array $settings = null;
+    protected ?array $settings = null;
     
-    protected FilesystemAdapter $cache = null;
+    protected ?FilesystemAdapter $cache = null;
 
     protected array $types = [];
 
