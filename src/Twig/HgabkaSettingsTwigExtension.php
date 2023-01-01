@@ -10,7 +10,7 @@ use Twig\TwigFunction;
 
 class HgabkaSettingsTwigExtension extends AbstractExtension
 {
-    public function __construct(protected readonly SettingsManager $settingsManager)
+    public function __construct(protected readonly SettingsManager $settingManager)
     {
     }
 
