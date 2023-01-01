@@ -16,32 +16,14 @@ use Symfony\Component\Validator\Constraint;
 class SettingsManager
 {
     public const CACHE_KEY = 'systemsettings';
-    /**
-     * @var Registry
-     */
-    protected $doctrine;
 
-    /** @var HgabkaUtils */
-    protected $utils;
-    /**
-     * @var string
-     */
-    protected $cacheDir;
-    /**
-     * @var array
-     */
-    protected $settings;
-    /**
-     * @var FilesystemAdapter
-     */
-    protected $cache;
+    protected array $settings = null;
+    
+    protected FilesystemAdapter $cache = null;
 
-    /**
-     * @var array
-     */
-    protected $types = [];
+    protected array $types = [];
 
-    protected $cachedValues = [];
+    protected array $cachedValues = [];
 
     /**
      * SettingsManager constructor.
@@ -49,11 +31,8 @@ class SettingsManager
      * @param Registry $doctrine
      * @param $cacheDir
      */
-    public function __construct(Registry $doctrine, HgabkaUtils $utils, $cacheDir)
+    public function __construct(protected readonly Registry $doctrine, protected readonly HgabkaUtils $utils, protected string $cacheDir)
     {
-        $this->doctrine = $doctrine;
-        $this->cacheDir = $cacheDir;
-        $this->utils = $utils;
     }
 
     /**
