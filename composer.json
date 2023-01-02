@@ -18,7 +18,7 @@
         "hgabka/utils-bundle": "^6.0",
         "a2lix/translation-form-bundle": "^3.0",
         "stof/doctrine-extensions-bundle": "^1.7",
-        "symfony/framework-bundle": "6.0.*"
+        "symfony/framework-bundle": "^6.0"
     },
     "require-dev": {
         "phpunit/phpunit" : "4.*",
