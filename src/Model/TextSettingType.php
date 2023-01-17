@@ -37,6 +37,7 @@ class TextSettingType extends AbstractSettingType
     {
         return ['attr' => [
             'class' => 'form-control',
+            'rows' => 10,
         ]];
     }
 }
