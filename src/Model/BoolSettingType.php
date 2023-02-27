@@ -12,7 +12,7 @@ class BoolSettingType extends AbstractSettingType
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return 'bool';
     }
@@ -20,7 +20,7 @@ class BoolSettingType extends AbstractSettingType
     /**
      * @return null|int
      */
-    public function getPriority()
+    public function getPriority(): ?int
     {
         return 3;
     }
@@ -28,7 +28,7 @@ class BoolSettingType extends AbstractSettingType
     /**
      * @return string
      */
-    public function getFormType()
+    public function getFormType(): string
     {
         return CheckboxType::class;
     }
@@ -38,7 +38,7 @@ class BoolSettingType extends AbstractSettingType
      *
      * @return bool|mixed
      */
-    public function transformValue($value)
+    public function transformValue(mixed $value): bool
     {
         return (bool) $value;
     }
@@ -48,7 +48,7 @@ class BoolSettingType extends AbstractSettingType
      *
      * @return bool|mixed
      */
-    public function reverseTransformValue($value)
+    public function reverseTransformValue(mixed $value): bool
     {
         return (bool) $value;
     }

@@ -9,7 +9,7 @@ class NumberSettingType extends AbstractSettingType
     /**
      * @return mixed|string
      */
-    public function getId()
+    public function getId(): string
     {
         return 'number';
     }
@@ -17,7 +17,7 @@ class NumberSettingType extends AbstractSettingType
     /**
      * @return null|int
      */
-    public function getPriority()
+    public function getPriority(): int
     {
         return 1;
     }
@@ -25,7 +25,7 @@ class NumberSettingType extends AbstractSettingType
     /**
      * @return mixed|string
      */
-    public function getFormType()
+    public function getFormType(): string
     {
         return NumberType::class;
     }
@@ -33,7 +33,7 @@ class NumberSettingType extends AbstractSettingType
     /**
      * @return array
      */
-    public function getFormTypeOptions()
+    public function getFormTypeOptions(): array
     {
         return ['attr' => [
             'class' => 'form-control',
@@ -45,7 +45,7 @@ class NumberSettingType extends AbstractSettingType
      *
      * @return bool|mixed
      */
-    public function transformValue($value)
+    public function transformValue(mixed $value): float
     {
         return (float) $value;
     }
@@ -55,7 +55,7 @@ class NumberSettingType extends AbstractSettingType
      *
      * @return bool|mixed
      */
-    public function reverseTransformValue($value)
+    public function reverseTransformValue(mixed $value): float
     {
         return (float) $value;
     }

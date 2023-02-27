@@ -73,7 +73,7 @@ class DatetimeRangeSettingType extends AbstractSettingType
      *
      * @return mixed
      */
-    public function transformValue($value)
+    public function transformValue(mixed $value): string
     {
         if (empty($value)) {
             return null;
@@ -87,7 +87,7 @@ class DatetimeRangeSettingType extends AbstractSettingType
      *
      * @return mixed
      */
-    public function reverseTransformValue($value)
+    public function reverseTransformValue(mixed $value): mixed
     {
         if (empty($value)) {
             return $value;

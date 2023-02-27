@@ -9,7 +9,7 @@ class TextSettingType extends AbstractSettingType
     /**
      * @return mixed|string
      */
-    public function getId()
+    public function getId(): string
     {
         return 'text';
     }
@@ -17,7 +17,7 @@ class TextSettingType extends AbstractSettingType
     /**
      * @return null|int
      */
-    public function getPriority()
+    public function getPriority(): int
     {
         return 1;
     }
@@ -25,7 +25,7 @@ class TextSettingType extends AbstractSettingType
     /**
      * @return mixed|string
      */
-    public function getFormType()
+    public function getFormType(): string
     {
         return TextareaType::class;
     }
@@ -33,7 +33,7 @@ class TextSettingType extends AbstractSettingType
     /**
      * @return array
      */
-    public function getFormTypeOptions()
+    public function getFormTypeOptions(): array
     {
         return ['attr' => [
             'class' => 'form-control',

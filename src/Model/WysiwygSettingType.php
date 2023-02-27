@@ -9,7 +9,7 @@ class WysiwygSettingType extends AbstractSettingType
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return 'wysiwyg';
     }
@@ -17,7 +17,7 @@ class WysiwygSettingType extends AbstractSettingType
     /**
      * @return null|int
      */
-    public function getPriority()
+    public function getPriority(): int
     {
         return 1;
     }
@@ -25,7 +25,7 @@ class WysiwygSettingType extends AbstractSettingType
     /**
      * @return mixed|string
      */
-    public function getFormType()
+    public function getFormType(): string
     {
         return WysiwygType::class;
     }
