@@ -9,8 +9,8 @@ services:
         tags:
             - { name: twig.extension }
 
-    hg_settings.setting_subscriber:
-        class: Hgabka\SettingsBundle\EventListener\SettingSubscriber
+    hg_settings.setting_listener:
+        class: Hgabka\SettingsBundle\EventListener\SettingListener
         arguments: ['@hg_settings.settings_manager']
         autowire: true
         autoconfigure: true
