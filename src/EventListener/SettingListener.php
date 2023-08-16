@@ -16,17 +16,13 @@ use Hgabka\SettingsBundle\Helper\SettingsManager;
 #[AsDoctrineListener(event: Events::postUpdate)]
 #[AsDoctrineListener(event: Events::postPersist)]
 #[AsDoctrineListener(event: Events::preRemove)]
-class SettingSubscriber
+class SettingListener
 {
-    /** @var SettingsManager */
-    private $settingsManager;
-
     /**
      * SettingListener constructor.
      */
-    public function __construct(SettingsManager $settingsManager)
+    public function __construct(private readonly SettingsManager $settingsManager)
     {
-        $this->settingsManager = $settingsManager;
     }
 
 
