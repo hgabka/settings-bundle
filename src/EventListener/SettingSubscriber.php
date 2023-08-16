@@ -2,15 +2,21 @@
 
 namespace Hgabka\SettingsBundle\EventListener;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
+use Doctrine\ORM\Event\PreRemoveEventArgs;
+use Doctrine\ORM\Events;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 
 /**
  * Class SettingSubscriber.
  */
-class SettingSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::postUpdate)]
+#[AsDoctrineListener(event: Events::postPersist)]
+#[AsDoctrineListener(event: Events::preRemove)]
+class SettingSubscriber
 {
     /** @var SettingsManager */
     private $settingsManager;
@@ -23,19 +29,8 @@ class SettingSubscriber implements EventSubscriber
         $this->settingsManager = $settingsManager;
     }
 
-    /**
-     * @return array
-     */
-    public function getSubscribedEvents()
-    {
-        return [
-            'postPersist',
-            'postUpdate',
-            'preRemove',
-        ];
-    }
 
-    public function postPersist(LifecycleEventArgs $args)
+    public function postPersist(PostPersistEventArgs $args)
     {
         $object = $args->getObject();
         if (!$object instanceof Setting) {
@@ -44,7 +39,7 @@ class SettingSubscriber implements EventSubscriber
         $this->settingsManager->addSettingToCache($object);
     }
 
-    public function preRemove(LifecycleEventArgs $args)
+    public function preRemove(PreRemoveEventArgs $args)
     {
         $object = $args->getObject();
         if (!$object instanceof Setting) {
@@ -53,7 +48,7 @@ class SettingSubscriber implements EventSubscriber
         $this->settingsManager->removeFromCache($object->getName());
     }
 
-    public function postUpdate(LifecycleEventArgs $args)
+    public function postUpdate(PostUpdateEventArgs $args)
     {
         $object = $args->getObject();
         if (!$object instanceof Setting) {
