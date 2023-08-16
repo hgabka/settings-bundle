@@ -12,8 +12,8 @@ services:
     hg_settings.setting_subscriber:
         class: Hgabka\SettingsBundle\EventListener\SettingSubscriber
         arguments: ['@hg_settings.settings_manager']
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
+        autowire: true
+        autoconfigure: true
 
     hg_settings.admin.settings:
         class: Hgabka\SettingsBundle\Admin\SettingAdmin
