@@ -79,6 +79,7 @@ class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
             if (!$setting->isEditable() || !$type->isEditable()) {
                 $options['html'] = $type->getHtml($options['data']);
             }
+
             $oneForm->add('general_value', $formType, $options);
             if (!empty($type->getFormTransformer())) {
                 $oneForm->get('general_value')->addModelTransformer($type->getFormTransformer());

@@ -58,7 +58,7 @@ class SettingsType extends AbstractType
     {
         foreach ($this->settings as $setting) {
             $type = $this->manager->getType($setting->getType());
-            $oneForm = $builder->create($setting->getId(), FormType::class, ['label' => false]);
+            $oneForm = $builder->create('s-' .$setting->getId(), FormType::class, ['label' => false]);
 
             $event = new SettingFormTypeEvent($setting, $oneForm);
             $this->dispatcher->dispatch($event, SettingFormTypeEvent::EVENT_FORM_ADD);
