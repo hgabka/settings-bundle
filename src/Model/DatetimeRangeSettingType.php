@@ -2,7 +2,6 @@
 
 namespace Hgabka\SettingsBundle\Model;
 
-use Hgabka\SettingsBundle\Model\AbstractSettingType;
 use Sonata\Form\Type\DateTimeRangePickerType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\DataTransformerInterface;
@@ -73,7 +72,7 @@ class DatetimeRangeSettingType extends AbstractSettingType
      *
      * @return mixed
      */
-    public function transformValue(mixed $value): string
+    public function transformValue(mixed $value): ?string
     {
         if (empty($value)) {
             return null;

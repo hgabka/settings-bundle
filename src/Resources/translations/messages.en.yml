@@ -40,6 +40,9 @@ hg_settings:
         text: Multiline text
         wysiwyg: HTML text
         datetimerange: Time interval
+        daterange: Date interval
+        datetime: Time
+        date: Date
     group: Settings
     redirect_group: Redirects
     admin:

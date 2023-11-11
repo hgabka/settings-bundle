@@ -42,6 +42,9 @@ hg_settings:
         text: Többsoros szöveg
         wysiwyg: HTML szöveg
         datetimerange: Időintervallum
+        daterange: Dátumintervallum
+        datetime: Idő
+        date: Dátum
     group: Beállítások
     redirect_group: Átirányítások
     admin:

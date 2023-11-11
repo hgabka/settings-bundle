@@ -98,6 +98,24 @@ services:
             - { name: hg_setting.setting_type }
         public: false
 
+    hg_settings.setting_type_daterange:
+        class:  Hgabka\SettingsBundle\Model\DateRangeSettingType
+        tags:
+            - { name: hg_setting.setting_type }
+        public: false
+
+    hg_settings.setting_type_datetime:
+        class:  Hgabka\SettingsBundle\Model\DateTimeSettingType
+        tags:
+            - { name: hg_setting.setting_type }
+        public: false
+
+    hg_settings.setting_type_date:
+        class:  Hgabka\SettingsBundle\Model\DateSettingType
+        tags:
+            - { name: hg_setting.setting_type }
+        public: false
+
     hg_settings.form_type_subscriber:
         class: Hgabka\SettingsBundle\EventListener\GeneralSettingFormTypeSubscriber
         arguments: ['@hg_settings.settings_manager']

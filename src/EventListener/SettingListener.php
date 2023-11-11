@@ -25,7 +25,6 @@ class SettingListener
     {
     }
 
-
     public function postPersist(PostPersistEventArgs $args)
     {
         $object = $args->getObject();

@@ -3,7 +3,6 @@
 namespace Hgabka\SettingsBundle\Model;
 
 use Hgabka\UtilsBundle\Form\Type\TranslatedEnumType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AbstractTranslatedEnumSettingType extends AbstractSettingType
 {
