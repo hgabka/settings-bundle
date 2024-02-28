@@ -146,4 +146,4 @@ services:
         class: Hgabka\SettingsBundle\Router\RedirectRouter
         arguments: ['@hg_settings.repositories.redirect']
         tags:
-            - { name: router, priority: 1 }
+            - { name: router, priority: 255 }
