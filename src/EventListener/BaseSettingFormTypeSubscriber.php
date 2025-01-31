@@ -23,7 +23,7 @@ abstract class BaseSettingFormTypeSubscriber implements EventSubscriberInterface
         $this->settingsManager = $settingsManager;
     }
 
-    protected function replaceChild(SettingFormTypeEvent $event, string $name, array $options, string $newType = null)
+    protected function replaceChild(SettingFormTypeEvent $event, string $name, array $options, ?string $newType = null)
     {
         $builder = $event->getFormBuilder();
         if (!empty($options) && \is_array($options) && $builder && $builder->has($name)) {
@@ -32,7 +32,7 @@ abstract class BaseSettingFormTypeSubscriber implements EventSubscriberInterface
         }
     }
 
-    protected function replaceChildren(SettingFormTypeEvent $event, array $options, string $newType = null)
+    protected function replaceChildren(SettingFormTypeEvent $event, array $options, ?string $newType = null)
     {
         $builder = $event->getFormBuilder();
         if (!empty($options) && \is_array($options) && $builder) {
