@@ -12,58 +12,58 @@ interface SettingTypeInterface
     /**
      * @return mixed
      */
-    public function getId();
+    public function getId(): string;
 
     /**
      * @return mixed
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * @return mixed
      */
-    public function getPriority();
+    public function getPriority(): ?int;
 
     /**
      * @return mixed
      */
-    public function getFormType();
+    public function getFormType(): string;
 
     /**
      * @return mixed
      */
-    public function getFormTypeOptions();
-
-    /**
-     * @param $value
-     *
-     * @return mixed
-     */
-    public function transformValue($value);
+    public function getFormTypeOptions(): ?array;
 
     /**
      * @param $value
      *
      * @return mixed
      */
-    public function reverseTransformValue($value);
+    public function transformValue(mixed $value): mixed;
 
     /**
      * @param $value
      *
      * @return mixed
      */
-    public function getHtml($value);
+    public function reverseTransformValue(mixed $value): mixed;
+
+    /**
+     * @param $value
+     *
+     * @return mixed
+     */
+    public function getHtml(mixed $value): mixed;
 
     /**
      * @return bool
      */
-    public function isEditable();
+    public function isEditable(): bool;
 
     /**
      * @return bool
      */
-    public function isVisible();
+    public function isVisible(): bool;
 
     public function getFormTransformer(): ?DataTransformerInterface;
 }

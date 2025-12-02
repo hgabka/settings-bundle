@@ -12,12 +12,12 @@ abstract class AbstractSettingType implements SettingTypeInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'hg_settings.types.' . $this->getId();
     }
 
-    public function getPriority()
+    public function getPriority(): ?int
     {
         return null;
     }
@@ -25,7 +25,7 @@ abstract class AbstractSettingType implements SettingTypeInterface
     /**
      * @return array
      */
-    public function getFormTypeOptions()
+    public function getFormTypeOptions(): array
     {
         return [];
     }
@@ -35,7 +35,7 @@ abstract class AbstractSettingType implements SettingTypeInterface
      *
      * @return mixed
      */
-    public function transformValue($value)
+    public function transformValue(mixed $value): mixed
     {
         return $value;
     }
@@ -45,7 +45,7 @@ abstract class AbstractSettingType implements SettingTypeInterface
      *
      * @return mixed
      */
-    public function reverseTransformValue($value)
+    public function reverseTransformValue(mixed $value): mixed
     {
         return $value;
     }
@@ -55,17 +55,17 @@ abstract class AbstractSettingType implements SettingTypeInterface
      *
      * @return mixed
      */
-    public function getHtml($value)
+    public function getHtml(mixed $value): mixed
     {
         return $value;
     }
 
-    public function isEditable()
+    public function isEditable(): bool
     {
         return true;
     }
 
-    public function isVisible()
+    public function isVisible(): bool
     {
         return true;
     }

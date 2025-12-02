@@ -12,7 +12,7 @@ class StringSettingType extends AbstractSettingType
     /**
      * @return mixed|string
      */
-    public function getId()
+    public function getId(): string
     {
         return 'string';
     }
@@ -20,7 +20,7 @@ class StringSettingType extends AbstractSettingType
     /**
      * @return null|int
      */
-    public function getPriority()
+    public function getPriority(): int
     {
         return 1;
     }
@@ -28,7 +28,7 @@ class StringSettingType extends AbstractSettingType
     /**
      * @return mixed|string
      */
-    public function getFormType()
+    public function getFormType(): string
     {
         return TextType::class;
     }
@@ -36,7 +36,7 @@ class StringSettingType extends AbstractSettingType
     /**
      * @return array
      */
-    public function getFormTypeOptions()
+    public function getFormTypeOptions(): array
     {
         return ['attr' => [
            'class' => 'form-control',

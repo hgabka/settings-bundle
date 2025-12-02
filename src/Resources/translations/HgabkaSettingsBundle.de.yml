@@ -1,0 +1,4 @@
+hg_settings:
+    group:  Einstellungen
+    admin:
+        model_name: Einstellung

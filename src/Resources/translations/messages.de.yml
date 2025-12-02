@@ -1,8 +1,6 @@
 breadcrumb:
-    link_setting_list: Settings
+    link_setting_list: Einstellungen
     link_setting_create: Add new setting
-    link_redirect_list: Redirects
-    link_redirect_create: New redirect
 hg_settings:
     redirect:
         label:
@@ -10,16 +8,16 @@ hg_settings:
             target: Target
             permanent: Permanent?
     list:
-        title: Settings
+        title: Einstellungen
     header:
         name: Name
         description: Description
         value: Value
         actions: Actions
     label:
-        hu: In Hungarian
-        en: In English
-        de: In German
+        hu: auf ungarisch
+        en: auf Englisch
+        de: auf Deutsch
         save: Save settings
         nyelvfuggetlen: false
         culture_aware: Culture aware
@@ -43,15 +41,14 @@ hg_settings:
         daterange: Date interval
         datetime: Time
         date: Date
-    group: Settings
+    group: Einstellungen
     redirect_group: Redirects
     admin:
-        model_name: Setting
-        label: Settings
+        model_name: Einstellung
+        label: Einstellungen
         redirect: Redirects
     message:
         settings_saved: Settings saved successfully
         settings_save_failed: Save failed
 form:
-    group_hg_settings_admin_label: Settings
-    group_hg_settings_admin_redirect: Redirects
+    group_hg_settings_admin_label: Einstellungen

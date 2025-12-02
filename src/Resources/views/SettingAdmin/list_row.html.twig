@@ -8,10 +8,10 @@
 
 </td>
 {% if not setting.cultureAware %}
-    {% set hasError = form[setting.id]['general_value'].vars.errors|length > 0 %}
+    {% set hasError = form['s-'~ setting.id]['general_value'].vars.errors|length > 0 %}
 {% else %}
     {% set hasError = false %}
-        {% for child in form[setting.id] %}
+        {% for child in form['s-'~ setting.id] %}
             {% if not hasError %}
                 {% set hasError = child.vars.errors|length > 0 %}
             {% endif %}
@@ -19,10 +19,10 @@
 {% endif %}
 <td{% if hasError %} class="has-error"{% endif %}>
     {% if not setting.cultureAware %}
-        {{ form_widget(form[setting.id]['general_value']) }}
-        {{ form_errors(form[setting.id]['general_value']) }}
+        {{ form_widget(form['s-' ~ setting.id]['general_value']) }}
+        {{ form_errors(form['s-'~ setting.id]['general_value']) }}
     {% else %}
-        {% for child in form[setting.id] %}
+        {% for child in form['s-'~ setting.id] %}
             {{ form_label(child) }}
             {{ form_widget(child) }}
             {{ form_errors(child) }}
@@ -45,4 +45,3 @@
         </div>
     </td>
 {% endif %}
-

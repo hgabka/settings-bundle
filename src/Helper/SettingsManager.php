@@ -16,32 +16,14 @@ use Symfony\Component\Validator\Constraint;
 class SettingsManager
 {
     public const CACHE_KEY = 'systemsettings';
-    /**
-     * @var Registry
-     */
-    protected $doctrine;
 
-    /** @var HgabkaUtils */
-    protected $utils;
-    /**
-     * @var string
-     */
-    protected $cacheDir;
-    /**
-     * @var array
-     */
-    protected $settings;
-    /**
-     * @var FilesystemAdapter
-     */
-    protected $cache;
+    protected ?array $settings = null;
 
-    /**
-     * @var array
-     */
-    protected $types = [];
+    protected ?FilesystemAdapter $cache = null;
 
-    protected $cachedValues = [];
+    protected array $types = [];
+
+    protected array $cachedValues = [];
 
     /**
      * SettingsManager constructor.
@@ -49,11 +31,8 @@ class SettingsManager
      * @param Registry $doctrine
      * @param $cacheDir
      */
-    public function __construct(Registry $doctrine, HgabkaUtils $utils, $cacheDir)
+    public function __construct(protected readonly Registry $doctrine, protected readonly HgabkaUtils $utils, protected string $cacheDir)
     {
-        $this->doctrine = $doctrine;
-        $this->cacheDir = $cacheDir;
-        $this->utils = $utils;
     }
 
     /**
@@ -272,7 +251,7 @@ class SettingsManager
      * @param      $constraints
      * @param bool $setUnique
      */
-    public function addConstraints(array & $options, $constraints, $setUnique = true)
+    public function addConstraints(array &$options, $constraints, $setUnique = true)
     {
         if (empty($constraints)) {
             return;
@@ -298,7 +277,7 @@ class SettingsManager
         }
     }
 
-    public function removeConstraint(array & $options, Constraint $constraint)
+    public function removeConstraint(array &$options, Constraint $constraint)
     {
         if (empty($options['costraints'])) {
             return;

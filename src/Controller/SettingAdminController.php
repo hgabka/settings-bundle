@@ -52,6 +52,7 @@ class SettingAdminController extends Controller
                 $em = $this->doctrine->getManager();
 
                 foreach ($form->getData() as $settingId => $values) {
+                    $settingId = str_replace('s-', '', $settingId);
                     $setting = $this->doctrine->getManager()->getRepository(Setting::class)->findOneBy(['id' => $settingId]);
 
                     if (!$setting->getId()) {

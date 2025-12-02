@@ -54,11 +54,11 @@ class SettingsType extends AbstractType
         $this->dispatcher = $dispatcher;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         foreach ($this->settings as $setting) {
             $type = $this->manager->getType($setting->getType());
-            $oneForm = $builder->create($setting->getId(), FormType::class, ['label' => false]);
+            $oneForm = $builder->create('s-' . $setting->getId(), FormType::class, ['label' => false]);
 
             $event = new SettingFormTypeEvent($setting, $oneForm);
             $this->dispatcher->dispatch($event, SettingFormTypeEvent::EVENT_FORM_ADD);
@@ -74,7 +74,7 @@ class SettingsType extends AbstractType
     /**
      * @return null|string
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'settings';
     }

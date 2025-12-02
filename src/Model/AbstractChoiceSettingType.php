@@ -7,9 +7,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 abstract class AbstractChoiceSettingType extends AbstractSettingType
 {
-    protected $choiceLoaderClass;
+    protected ?string $choiceLoaderClass = null;
 
-    protected $choices;
+    protected ?array $choices = null;
 
     public function getFormType(): string
     {

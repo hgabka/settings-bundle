@@ -13,7 +13,7 @@ class EmailSettingType extends AbstractSettingType
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return 'email';
     }
@@ -21,7 +21,7 @@ class EmailSettingType extends AbstractSettingType
     /**
      * @return null|int
      */
-    public function getPriority()
+    public function getPriority(): int
     {
         return 2;
     }
@@ -29,7 +29,7 @@ class EmailSettingType extends AbstractSettingType
     /**
      * @return string
      */
-    public function getFormType()
+    public function getFormType(): string
     {
         return EmailType::class;
     }
@@ -37,7 +37,7 @@ class EmailSettingType extends AbstractSettingType
     /**
      * @return array
      */
-    public function getFormTypeOptions()
+    public function getFormTypeOptions(): array
     {
         return [
             'constraints' => [

@@ -21,7 +21,7 @@ class HgabkaSettingsExtension extends Extension implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -42,7 +42,7 @@ class HgabkaSettingsExtension extends Extension implements CompilerPassInterface
         ;
     }
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         // always first check if the primary service is defined
         if (!$container->has(SettingsManager::class)) {
