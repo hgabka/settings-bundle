@@ -2,7 +2,7 @@
 
 namespace Hgabka\SettingsBundle\Router;
 
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Hgabka\SettingsBundle\Entity\Redirect;
 use Symfony\Bundle\FrameworkBundle\Controller\RedirectController;
