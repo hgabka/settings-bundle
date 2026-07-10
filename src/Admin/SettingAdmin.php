@@ -5,6 +5,7 @@ namespace Hgabka\SettingsBundle\Admin;
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
+use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Entity\SettingCategory;
 use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -235,16 +236,18 @@ class SettingAdmin extends AbstractAdmin
             ])
             ->add('translations', TranslationsType::class, [
                 'label' => false,
-                'locales' => $this->manager->getLocales(),
+                'translatable_class' => Setting::class,
+                'enabled_locales' => $this->manager->getLocales(),
                 'required' => false,
-                'fields' => [
+                'children_excluded' => '*',
+                'children' => [
                     'description' => [
                         'label' => 'hg_settings.label.description',
                         'required' => false,
-                        'field_type' => TextareaType::class,
+                        'child_type' => TextareaType::class,
                     ],
                     'value' => [
-                        'field_type' => HiddenType::class,
+                        'child_type' => HiddenType::class,
                         'required' => false,
                     ],
                 ],

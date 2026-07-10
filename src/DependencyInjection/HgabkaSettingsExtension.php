@@ -29,10 +29,6 @@ class HgabkaSettingsExtension extends Extension implements CompilerPassInterface
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
 
-        $voterDefinition = $container->getDefinition('hg_settings.setting_voter');
-        $voterDefinition->replaceArgument(1, $config['editor_role']);
-        $voterDefinition->replaceArgument(2, $config['creator_role']);
-
         $container->setParameter('hg_settings.editor_role', $config['editor_role']);
         $container->setParameter('hg_settings.creator_role', $config['creator_role']);
 

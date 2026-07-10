@@ -34,7 +34,7 @@ class GeneralSettingFormTypeSubscriber extends BaseSettingFormTypeSubscriber
     /**
      * @return array
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             SettingFormTypeEvent::EVENT_FORM_ADD => ['onFormAdd', \PHP_INT_MAX],

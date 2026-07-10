@@ -43,13 +43,6 @@ services:
         arguments: ["@doctrine", '@hgabka_utils.hgabka_utils', "%kernel.cache_dir%"]
         public: true
 
-    hg_settings.setting_voter:
-        class:  Hgabka\SettingsBundle\Security\SettingVoter
-        arguments: ['@security.access.decision_manager', '', '']
-        tags:
-            - { name: security.voter }
-        public: false
-
     hg_settings.setting_type_string:
         class:  Hgabka\SettingsBundle\Model\StringSettingType
         tags:

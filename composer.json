@@ -2,8 +2,7 @@
     "name": "hgabka/settings-bundle",
     "type": "symfony-bundle",
     "description": "Settings bundle",
-    "keywords": [
-    ],
+    "keywords": [],
     "homepage": "https://github.com/hgabka/settings-bundle",
     "license": "proprietary",
     "authors": [
@@ -14,14 +13,14 @@
         }
     ],
     "require": {
-        "php" : ">=8.0.2",
-        "hgabka/utils-bundle": "^7.1",
-        "a2lix/translation-form-bundle": "^3.0",
+        "php": ">=8.0.2",
+        "hgabka/utils-bundle": "^7.1|^8.0",
+        "a2lix/translation-form-bundle": "^3.0|^4.0",
         "stof/doctrine-extensions-bundle": "^1.7",
-        "symfony/framework-bundle": "^7.0"
+        "symfony/framework-bundle": "^7.0|^8.0"
     },
     "require-dev": {
-        "phpunit/phpunit" : "^9.6",
+        "phpunit/phpunit": "^9.6",
         "mockery/mockery": "^0.9.4"
     },
     "autoload": {
@@ -39,7 +38,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "1.0-dev",
+            "dev-v8": "8.0.x-dev"
         }
     }
 }
