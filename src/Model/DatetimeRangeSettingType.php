@@ -48,21 +48,20 @@ class DatetimeRangeSettingType extends AbstractSettingType
             ],
             'error_bubbling' => false,
             'constraints' => [
-                new Callback([
-                    'callback' => static function (array $values, ExecutionContextInterface $context) {
+                new Callback(callback: static function (array $values, ExecutionContextInterface $context) {
                         if (empty($values['from']) || empty($values['to'])) {
                             return;
                         }
 
                         if ($values['from'] > $values['to']) {
                             $context
-                                    ->buildViolation('A kezdődátum nem lehet korábbi a végdátumnál')
+                                    ->buildViolation('A kezdődátum nem lehet későbbi a végdátumnál')
                                     ->atPath('[general_value]')
                                     ->addViolation()
                                 ;
                         }
                     },
-                ]),
+                ),
             ],
         ];
     }

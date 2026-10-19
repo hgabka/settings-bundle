@@ -3,7 +3,7 @@
 namespace Hgabka\SettingsBundle\Helper;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use Hgabka\SettingsBundle\Entity\Setting;
 use Hgabka\SettingsBundle\Model\SettingTypeInterface;
 use Hgabka\UtilsBundle\Helper\HgabkaUtils;
@@ -51,7 +51,7 @@ class SettingsManager
             throw new \Exception('Ismeretlen, vagy nem elerheto metodus: ' . self::class . '::' . $method);
         }
         $property = substr($method, 3);
-        $setting = Inflector::tableize($property);
+        $setting = InflectorFactory::create()->build()->tableize($property);
 
         return $this->get($setting);
     }
@@ -279,7 +279,7 @@ class SettingsManager
 
     public function removeConstraint(array &$options, Constraint $constraint)
     {
-        if (empty($options['costraints'])) {
+        if (empty($options['constraints'])) {
             return;
         }
         $cc = \get_class($constraint);
@@ -288,6 +288,7 @@ class SettingsManager
                 unset($options['constraints'][$k]);
             }
         }
+        $options['constraints'] = array_values($options['constraints']);
     }
 
     public function getValues(?string $locale = null)

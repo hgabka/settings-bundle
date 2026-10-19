@@ -2,7 +2,7 @@
 
 namespace Hgabka\SettingsBundle\Validator;
 
-use Hgabka\KunstmaanSettingsBundle\Helper\SettingsManager;
+use Hgabka\SettingsBundle\Helper\SettingsManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -24,7 +24,7 @@ class SettingValidator extends ConstraintValidator
      *
      * @throws \Exception
      */
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         $val = $this->manager->get($constraint->name);
         switch (strtoupper($constraint->comparator)) {
@@ -48,8 +48,9 @@ class SettingValidator extends ConstraintValidator
         }
         if (!$check) {
             $this->context
-                ->buildViolation('asd')
+                ->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))
+                ->setParameter('{{ comparator }}', $constraint->comparator)
                 ->addViolation()
             ;
         }

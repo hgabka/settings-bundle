@@ -95,6 +95,31 @@ class SettingsManagerTest extends TestCase
         $this->assertSame('fallback', $manager->get('missing', null, 'fallback'));
     }
 
+    public function testMagicGetterConvertsCamelCaseToSnakeCase(): void
+    {
+        $this->setting('site_name', 'string', 'Acme');
+        $this->setting('per_page', 'integer', '25');
+        $manager = $this->manager();
+
+        $this->assertSame('Acme', $manager->getSiteName());
+        $this->assertSame(25, $manager->getPerPage());
+    }
+
+    public function testAddingAConstraintReplacesTheOneOfTheSameClass(): void
+    {
+        $manager = $this->manager();
+        $first = new NotBlank(message: 'first');
+        $second = new NotBlank(message: 'second');
+        $options = ['constraints' => [$first, new Email()]];
+
+        $manager->addConstraints($options, [$second]);
+
+        $this->assertCount(2, $options['constraints']);
+        $this->assertContains($second, $options['constraints']);
+        $this->assertNotContains($first, $options['constraints']);
+        $this->assertSame([0, 1], array_keys($options['constraints']));
+    }
+
     public function testMagicCallRejectsOtherVerbs(): void
     {
         $this->expectException(\Exception::class);

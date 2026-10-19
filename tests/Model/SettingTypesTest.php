@@ -17,7 +17,10 @@ use Hgabka\SettingsBundle\Model\TextSettingType;
 use Hgabka\SettingsBundle\Model\WysiwygSettingType;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 class SettingTypesTest extends TestCase
 {
@@ -54,10 +57,6 @@ class SettingTypesTest extends TestCase
     #[DataProvider('types')]
     public function testFormTypeOptions(string $class, string $id): void
     {
-        if (in_array($id, ['daterange', 'datetimerange'], true)) {
-            $this->markTestSkipped('The range types build Symfony\\Component\\Validator\\Constraints\\Callback with the array syntax that Symfony 7+ no longer accepts.');
-        }
-
         $this->assertIsArray((new $class())->getFormTypeOptions() ?? []);
     }
 
@@ -138,6 +137,34 @@ class SettingTypesTest extends TestCase
         $this->assertSame(['from' => 1, 'to' => 2], $transformer->reverseTransform(['start' => 1, 'end' => 2]));
         $this->assertNull($transformer->reverseTransform([]));
         $this->assertNull($transformer->transform(null));
+    }
+
+    private function rangeConstraint(DatetimeRangeSettingType $type): Callback
+    {
+        return $type->getFormTypeOptions()['constraints'][0];
+    }
+
+    public function testRangeValidationRejectsInvertedRange(): void
+    {
+        $constraint = $this->rangeConstraint(new DateRangeSettingType());
+        $builder = $this->createMock(ConstraintViolationBuilderInterface::class);
+        $builder->method('atPath')->willReturnSelf();
+        $builder->expects($this->once())->method('addViolation');
+        $context = $this->createMock(ExecutionContextInterface::class);
+        $context->expects($this->once())->method('buildViolation')->with('A kezdődátum nem lehet későbbi a végdátumnál')->willReturn($builder);
+
+        ($constraint->callback)(['from' => new \DateTime('2024-02-01'), 'to' => new \DateTime('2024-01-01')], $context);
+    }
+
+    public function testRangeValidationAcceptsValidAndIncompleteRanges(): void
+    {
+        $constraint = $this->rangeConstraint(new DatetimeRangeSettingType());
+        $context = $this->createMock(ExecutionContextInterface::class);
+        $context->expects($this->never())->method('buildViolation');
+
+        ($constraint->callback)(['from' => new \DateTime('2024-01-01'), 'to' => new \DateTime('2024-02-01')], $context);
+        ($constraint->callback)(['from' => new \DateTime('2024-01-01'), 'to' => null], $context);
+        ($constraint->callback)([], $context);
     }
 
     public function testEmailTypeValidatesAddresses(): void
