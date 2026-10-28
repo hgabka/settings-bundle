@@ -148,8 +148,8 @@ class SettingsManager
 
     /**
      * @param      $name
-     * @param null $locale
-     * @param null $defaultValue
+     * @param null|string $locale
+     * @param mixed $defaultValue
      *
      * @return null|mixed
      */
