@@ -4,12 +4,66 @@
     "description": "Settings bundle",
     "keywords": [],
     "homepage": "https://github.com/hgabka/settings-bundle",
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "Gabe",
             "email": "hgabka@gmail.com",
             "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/logger-bundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/node-bundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/media-bundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/utils-bundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/seo-bundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/doctrine-translatable.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/doctrine-translatable-bundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/email-bundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/simple-content-bundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/i18n-routing-bundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/acl-bundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/security-acl.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:hgabka/pagepart-bundle.git"
         }
     ],
     "require": {
@@ -21,7 +75,13 @@
         "symfony/framework-bundle": "^7.0|^8.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.5|^11.0|^12.0|^13.0"
+        "doctrine/doctrine-bundle": "^2.11|^3.0",
+        "hgabka/acl-bundle": "^7.1|^8.0",
+        "phpunit/phpunit": "^10.5|^11.0|^12.0|^13.0",
+        "sonata-project/form-extensions": "^2.0",
+        "symfony/security-acl": "^7.1|^8.0",
+        "symfony/validator": "^7.0|^8.0",
+        "symfony/yaml": "^7.0|^8.0"
     },
     "autoload": {
         "psr-4": {

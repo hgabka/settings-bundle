@@ -15,6 +15,21 @@ Hgabka\SettingsBundle\HgabkaSettingsBundle::class => ['all' => true],
 
 Függőségek: `hgabka/utils-bundle`, `a2lix/translation-form-bundle`, `stof/doctrine-extensions-bundle`, Sonata Admin. Táblák: `hg_settings_settings`, `hg_settings_setting_category` (+ fordítás táblák), `hg_settings_redirect`.
 
+### Repók
+
+A hgabka csomagok nem szerepelnek a Packagiten, ezért a projekt `composer.json`-jában fel kell venni a repóikat (a függőségek saját `repositories` mezőjét a Composer nem olvassa). A repók nyilvánosak, az `https` url-ekhez nem kell SSH kulcs. Aki GitHub SSH kulccsal dolgozik, használhatja a `git@github.com:hgabka/<név>.git` url-eket is. Kulcs nélkül az anonim GitHub API kérés-limit (60/óra) miatt a Composer előbb-utóbb tokent kérhet.
+
+```json
+"repositories": [
+    {"type": "vcs", "url": "https://github.com/hgabka/utils-bundle.git"},
+    {"type": "vcs", "url": "https://github.com/hgabka/doctrine-translatable.git"},
+    {"type": "vcs", "url": "https://github.com/hgabka/doctrine-translatable-bundle.git"},
+    {"type": "vcs", "url": "https://github.com/hgabka/acl-bundle.git"},
+    {"type": "vcs", "url": "https://github.com/hgabka/security-acl.git"},
+    {"type": "vcs", "url": "https://github.com/hgabka/settings-bundle.git"}
+]
+```
+
 ## Konfiguráció
 
 ```yaml
@@ -80,3 +95,16 @@ Saját típus: valósítsd meg a `Model\SettingTypeInterface`-t (`getId`, `getNa
 ## Átirányítások (Redirect)
 
 A `Redirect` entitás (`domain`, `origin`, `target`, `permanent`) az adminból (`RedirectAdmin`) szerkeszthető. A `Router\RedirectRouter` (`router` tag, prioritás: 255, tehát elsőként fut) a beérkező útvonalat a rögzített átirányításokhoz illeszti (jelenleg csak a `domain` nélküli rekordokat veszi figyelembe); a `/*`-ra végződő `origin` wildcardként működik (a `target` mögé másolja a maradék útvonalat). Az átirányítás a Symfony `RedirectController::urlRedirectAction`-jével történik (`permanent` → 301, különben 302).
+
+## Tesztek
+
+A `require-dev` tartalmazza a szükséges csomagokat, a hgabka bundle-ök repóit a `composer.json` `repositories` szekciója adja, így a bundle önmagában is telepíthető és tesztelhető (a `git@github.com:...` url-ekhez SSH kulcs kell, kulcs nélkül cseréld őket `https://github.com/...`-ra):
+
+```bash
+composer install
+vendor/bin/phpunit
+```
+
+## Licenc
+
+MIT, lásd: [LICENSE](LICENSE).
